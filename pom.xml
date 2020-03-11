@@ -23,7 +23,21 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	
+
+	<!-- Archiva deployment-->
+    <distributionManagement>
+         <repository>
+            <id>iadata-releases</id>
+            <name>Deployment Release Repository</name>
+            <url>http://iadata-mgr.applis.intra:8086/repository/iadata-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>iadata-snapshots</id>
+            <name>Deployment Snapshot Repository</name>
+            <url>http://iadata-mgr.applis.intra:8086/repository/iadata-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
