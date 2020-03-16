@@ -5,42 +5,29 @@
  */
 package fr.toulouse.iadata.datamodels.model;
 
-public class Property
-{
-    String _strName;
-    
-    String _strType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.net.URI;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
+@Data
+@Accessors( prefix = {"_"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Property extends Member
+{
+    private static final String TYPE = "Property";
+    
     Object _value;
     
-    String _strDateSetId;
+    private URI _datasetId;
     
-    String _strObservedAt;
-    
-    String _strCreatedAt;
-    
-    String _strModifiedAt;
-    
-    String _strInstanceId;
-    
-    String _strUnitCode;
-    
-    
+    private String _unitCode;
 
-    public Property()
-    {
-
+    @Override
+    public void setType() {
+       _type = TYPE;
     }
-
-
-    public Object getValue( )
-    {
-        return _value;
-    }
-
-    public void setValue( Object value )
-    {
-        _value = value;
-    }
-
+    
 }

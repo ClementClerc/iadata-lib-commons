@@ -9,59 +9,37 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.net.URI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
 
-/**
- * @author cu33443
- */
 @Data
-@Accessors( prefix = {"_","_str"})
-@JsonInclude(Include.NON_NULL)
-public class DataObject <T extends Member>
-{
+@Accessors( prefix = {"_", "_str"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Member<T extends Member>
+{ 
+    protected String _name;
     
-    @Id
-    @JsonIgnore
-    private String _idTech;
+    protected URI _datasetId;
     
-    @JsonProperty( "id")
-    private URI _uriId;
-    
-    private String _type;
+    protected String _observedAt;
+
+    protected String _type;
     
     // COMMON MEMBERS
-    private String _createdAt;
+    protected String _createdAt;
     
-    private String _modifiedAt;
-    
-    /////////////////////////////
-    // LOCATION FIELDS
-    private GeoProperty _location;
-
-    private GeoProperty _observationSpace;
-    
-    private GeoProperty _operationSpace;
+    protected String _modifiedAt;
     
     // NESTED FIELDS
-    private Map< String, T > _members = new HashMap<>();
+    protected Map< String, T > _members = new HashMap<>();
     
-    // CONTEXT
-    @JsonProperty( "@context")
-    @JsonDeserialize(using = ContextDeserializer.class)
-    @JsonSerialize(using = ContextSerializer.class)
-    private List<Context> _contexts;
+    protected void setType( ){};
     
     @JsonTypeInfo(  
     use = JsonTypeInfo.Id.NAME,  
@@ -83,5 +61,11 @@ public class DataObject <T extends Member>
     @JsonAnyGetter
     public Map<String,T> getMembers( ) {
         return _members;
+    }
+    
+    @JsonIgnore
+    public String getName( )
+    {
+        return _name;
     }
 }

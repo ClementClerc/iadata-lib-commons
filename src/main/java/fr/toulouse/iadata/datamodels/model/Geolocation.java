@@ -10,20 +10,14 @@ import lombok.experimental.Accessors;
 import mil.nga.sf.geojson.Geometry;
 
 /**
- * @author cu33443
+ *
+ * @author cu32980
  */
 @Data
 @Accessors( prefix = {"_"})
-public class GeoProperty extends Member
+public class Geolocation
 {
-    private static final String TYPE = "GeoProperty";
-
-    //Geolocation _value;
-    Geometry _value;
+    private String _type;
     
-    @Override
-    public void setType() {
-        _type = TYPE;
-    }
-
+    private Geometry _coordinates;
 }

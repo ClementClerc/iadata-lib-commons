@@ -5,41 +5,22 @@
  */
 package fr.toulouse.iadata.datamodels.model;
 
-public class Relationship
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.net.URI;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+@Data
+@Accessors( prefix = {"_"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Relationship extends Member
 {
-    String _key;
-
-    Object _value;
-
-    public Relationship()
-    {
-
+    private static final String TYPE = "Relationship";
+    
+    private URI _object;
+    
+    @Override
+    public void setType() {
+        _type = TYPE;
     }
-
-    public Relationship( String strKey, String strValue )
-    {
-        _key = strKey;
-        _value = strValue;
-    }
-
-    public String getKey( )
-    {
-        return _key;
-    }
-
-    public void setKey( String key )
-    {
-        _key = key;
-    }
-
-    public Object getValue( )
-    {
-        return _value;
-    }
-
-    public void setValue( Object value )
-    {
-        _value = value;
-    }
-
 }
