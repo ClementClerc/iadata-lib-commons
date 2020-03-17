@@ -8,8 +8,7 @@ package fr.toulouse.iadata.datamodels;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.toulouse.iadata.datamodels.model.DataObject;
-import org.assertj.core.api.Assertions;
+import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
 import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,9 +65,9 @@ public class NGSIDataModelTest
         ObjectMapper _objectMapper = new ObjectMapper();
         _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         
-        DataObject dataObject = _objectMapper.readValue(strNGSI, DataObject.class);
+        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
         
-        String strSerializedJson = _objectMapper.writeValueAsString( dataObject );
+        String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
         
     }
@@ -110,11 +109,11 @@ public class NGSIDataModelTest
         ObjectMapper _objectMapper = new ObjectMapper();
         _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         
-        DataObject dataObject = _objectMapper.readValue(strNGSI, DataObject.class);
+        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
         
-        String test = _objectMapper.writeValueAsString( dataObject.getContexts().get(1) );
+        String test = _objectMapper.writeValueAsString( entity.getContexts().get(1) );
         
-        String strSerializedJson = _objectMapper.writeValueAsString( dataObject );
+        String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
     
@@ -149,9 +148,9 @@ public class NGSIDataModelTest
         ObjectMapper _objectMapper = new ObjectMapper();
         _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         
-        DataObject dataObject = _objectMapper.readValue(strNGSI, DataObject.class);
+        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
         
-        String strSerializedJson = _objectMapper.writeValueAsString( dataObject );
+        String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
     
@@ -182,9 +181,9 @@ public class NGSIDataModelTest
         ObjectMapper _objectMapper = new ObjectMapper();
         _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         
-        DataObject dataObject = _objectMapper.readValue(strNGSI, DataObject.class);
+        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
         
-        String strSerializedJson = _objectMapper.writeValueAsString( dataObject );
+        String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
     
@@ -207,9 +206,9 @@ public class NGSIDataModelTest
         ObjectMapper _objectMapper = new ObjectMapper();
         _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         
-        DataObject dataObject = _objectMapper.readValue(strNGSI, DataObject.class);
+        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
         
-        String strSerializedJson = _objectMapper.writeValueAsString( dataObject );
+        String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
     
@@ -250,9 +249,9 @@ public class NGSIDataModelTest
         ObjectMapper _objectMapper = new ObjectMapper();
         _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         
-        DataObject dataObject = _objectMapper.readValue(strNGSI, DataObject.class);
+        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
         
-        String strSerializedJson = _objectMapper.writeValueAsString( dataObject );
+        String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
 }

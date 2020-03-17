@@ -8,9 +8,8 @@ package fr.toulouse.iadata.datamodels.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.toulouse.iadata.datamodels.model.DataObject;
-import fr.toulouse.iadata.datamodels.model.DataObjectGeoJson;
-import fr.toulouse.iadata.datamodels.model.Property;
+import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
+import fr.toulouse.iadata.datamodels.models.ngsi.Property;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,30 +24,9 @@ public class DataObjectUtils
 {
     private static ObjectMapper _objectMapper = new ObjectMapper( );
 
-    public static DataObjectGeoJson convertGeoJsonToDataObject( String strGeoJson ) throws JsonProcessingException
+    public static Entity convertJsonNodeToDataObject(JsonNode jsonNode ) throws JsonProcessingException
     {
-        DataObjectGeoJson dataObject = new DataObjectGeoJson( );
-        List< Property > listProperties = new ArrayList<>( );
-
-        // FeatureCollection featureCollection = FeatureConverter.toFeatureCollection( strGeoJson );
-        Feature feature = FeatureConverter.toFeature( strGeoJson );
-
-        for ( Entry< String, Object > prop : feature.getProperties( ).entrySet( ) )
-        {
-            Property property = new Property( );
-          //  property.setKey( prop.getKey( ) );
-            property.setValue( prop.getValue( ).toString( ) );
-            listProperties.add( property );
-        }
-        //dataObject.setProperties( listProperties );
-        dataObject.setGeometry( feature.getGeometry( ) );
-
-        return dataObject;
-    }
-
-    public static DataObject convertJsonNodeToDataObject( JsonNode jsonNode ) throws JsonProcessingException
-    {
-        DataObject dataObject = new DataObject( );
+        Entity entity = new Entity( );
         List< Property > listProperties = new ArrayList<>( );
 
         Map< String, String > mapProperties = JsonUtils.convertJsonToMap( jsonNode );
@@ -60,23 +38,14 @@ public class DataObjectUtils
             property.setValue( entry.getValue( ) );
             listProperties.add( property );
         }
-        //dataObject.setProperties( listProperties );
+        //entity.setProperties( listProperties );
 
-        return dataObject;
+        return entity;
     }
 
-    public static String convertDataObjectToGeoJsonString( DataObjectGeoJson dataObject ) throws JsonProcessingException
+    public static String convertDataObjectToJsonString( Entity entity) throws JsonProcessingException
     {
-        Feature feature = new Feature( );
-        //feature.setProperties( dataObject.getPropertiesAsMapObject( ) );
-        feature.setGeometry( dataObject.getGeometry( ) );
-
-        return _objectMapper.writeValueAsString( feature );
-    }
-
-    public static String convertDataObjectToJsonString( DataObject dataObject ) throws JsonProcessingException
-    {
-        return _objectMapper.writeValueAsString( dataObject );
+        return _objectMapper.writeValueAsString(entity);
     }
 
 }
