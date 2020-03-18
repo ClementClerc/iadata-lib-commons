@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import mil.nga.sf.geojson.Feature;
-import mil.nga.sf.geojson.FeatureConverter;
 
 /**
  * @author cu33443
@@ -24,7 +22,7 @@ public class DataObjectUtils
 {
     private static ObjectMapper _objectMapper = new ObjectMapper( );
 
-    public static Entity convertJsonNodeToDataObject(JsonNode jsonNode ) throws JsonProcessingException
+    public static Entity convertJsonNodeToDataObject(JsonNode jsonNode )
     {
         Entity entity = new Entity( );
         List< Property > listProperties = new ArrayList<>( );
@@ -47,5 +45,6 @@ public class DataObjectUtils
     {
         return _objectMapper.writeValueAsString(entity);
     }
+
 
 }

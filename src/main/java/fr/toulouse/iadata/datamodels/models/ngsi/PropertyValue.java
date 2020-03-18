@@ -6,13 +6,22 @@
 package fr.toulouse.iadata.datamodels.models.ngsi;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.net.URI;
+import java.util.Map;
 
 /**
  * This class represents NGSI Property Value described here
  * <a href = "https://www.etsi.org/deliver/etsi_gs/CIM/001_099/009/01.01.01_60/gs_CIM009v010101p.pdf"/>
  */
 @Data
+@EqualsAndHashCode(callSuper=true)
+@Accessors( prefix = {"_"})
 public class PropertyValue extends EntityMember
 {
     private static final String TYPE = "PropertyValue";
@@ -24,9 +33,15 @@ public class PropertyValue extends EntityMember
     public void setType() {
        _type = TYPE;
     }
-    
+
     public PropertyValue( String strValue )
     {
         value = strValue;
+    }
+
+    @Builder
+    public PropertyValue(String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String value) {
+        super(name, datasetId, observedAt, TYPE, members);
+        this.value = value;
     }
 }

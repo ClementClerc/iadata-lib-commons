@@ -15,34 +15,38 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import fr.toulouse.iadata.datamodels.models.serde.ContextDeserializer;
 import fr.toulouse.iadata.datamodels.models.serde.ContextSerializer;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.Accessors;
-import mil.nga.sf.geojson.Geometry;
 import org.springframework.data.annotation.Id;
 
-@Data
-@Accessors( prefix = {"_"})
-@JsonInclude(Include.NON_NULL)
 /**
  * This class represents NGSI Entity described here
  * <a href = "https://www.etsi.org/deliver/etsi_gs/CIM/001_099/009/01.01.01_60/gs_CIM009v010101p.pdf"/>
  */
-public class Entity<T extends EntityMember> extends NGSIElement
+@Data
+@EqualsAndHashCode(callSuper=true)
+@Accessors( prefix = {"_"})
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(Include.NON_NULL)
+public class Entity extends NGSIElement
 {
-    
+
     @Id
     @JsonIgnore
     private String _idTech;
-    
-    @JsonProperty( "id")
-    private URI _uriId;
+
+    private URI _id;
     
     private String _type;
     
@@ -55,15 +59,28 @@ public class Entity<T extends EntityMember> extends NGSIElement
     private GeoProperty _operationSpace;
     
     // NESTED FIELDS
-    private Map< String, T > _members = new HashMap<>();
+    private Map< String, EntityMember > _members = new HashMap<>();
     
     // CONTEXT
     @JsonProperty( "@context")
     @JsonDeserialize(using = ContextDeserializer.class)
     @JsonSerialize(using = ContextSerializer.class)
     private List<Context> _contexts;
-    
-    @JsonTypeInfo(  
+
+    @Builder
+    public Entity( String idTech, String id, String type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
+    {
+        this._idTech = idTech;
+        this._id = new URI( id );
+        this._type = type;
+        this._location = location;
+        this._observationSpace = observationSpace;
+        this._operationSpace = operationSpace;
+        this._members = members;
+        this._contexts = contexts;
+    }
+
+    @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,  
     include = JsonTypeInfo.As.EXISTING_PROPERTY,  
     property = "type",
@@ -75,14 +92,54 @@ public class Entity<T extends EntityMember> extends NGSIElement
         @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),  
         @JsonSubTypes.Type(value = GeoProperty.class, name = "GeoProperty")}) 
     @JsonAnySetter
-    public void setMember( String name, T value) {
+    public void setMember( String name, EntityMember value) {
         value.setName( name );
-	_members.put(name, value);
+	    _members.put(name, value);
     }
     
     @JsonAnyGetter
-    public Map<String,T> getMembers( ) {
+    public Map<String,EntityMember > getMembers( ) {
         return _members;
+    }
+
+    public void setId(String id ) throws URISyntaxException
+    {
+            _id = new URI(id);
+    }
+
+    public static class EntityBuilder
+    {
+
+        public EntityBuilder addMember( EntityMember member) {
+            if ( members == null )
+            {
+                members = new HashMap<>();
+            }
+            members.put( member.getName( ), member );
+            return this;
+        }
+
+        public EntityBuilder addSimpleProperty( String strPropertyName, String strPropertyValue ) {
+            if ( members == null )
+            {
+                members = new HashMap<>();
+            }
+            PropertyValue propertyValue = PropertyValue.builder()
+                    .value( strPropertyValue)
+                    .name( strPropertyName )
+                    .build();
+            members.put( propertyValue.getName( ), propertyValue );
+            return this;
+        }
+
+        public EntityBuilder addContext( Context context) {
+            if ( contexts == null )
+            {
+                contexts = new ArrayList<>();
+            }
+            contexts.add( context );
+            return this;
+        }
     }
 
 }

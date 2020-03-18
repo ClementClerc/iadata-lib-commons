@@ -8,8 +8,11 @@ package fr.toulouse.iadata.datamodels.models.ngsi;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -17,10 +20,19 @@ import lombok.experimental.Accessors;
  * <a href = "https://www.etsi.org/deliver/etsi_gs/CIM/001_099/009/01.01.01_60/gs_CIM009v010101p.pdf"/>
  */
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class Property extends EntityMember
 {
+    @Builder
+    public Property( String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object value, String unitCode) {
+        super(name, datasetId, observedAt, TYPE, members);
+        _value = value;
+        _datasetId = datasetId;
+        _unitCode = unitCode;
+    }
+
     private static final String TYPE = "Property";
     
     Object _value;
@@ -32,6 +44,20 @@ public class Property extends EntityMember
     @Override
     public void setType() {
        _type = TYPE;
+    }
+
+    public static class PropertyBuilder
+    {
+        public PropertyBuilder addMember( EntityMember member) {
+            if (members == null) {
+                members = new HashMap<>();
+            }
+            if ( member != null )
+            {
+                members.put( member.getName(), member);
+            }
+            return this;
+        }
     }
     
 }

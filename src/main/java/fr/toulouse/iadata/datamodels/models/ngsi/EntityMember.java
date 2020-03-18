@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -24,9 +24,12 @@ import lombok.experimental.Accessors;
  * This abstraction isn't listed in the ref.
  */
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EntityMember<T extends EntityMember> extends NGSIElement
+@NoArgsConstructor
+@AllArgsConstructor
+public class EntityMember extends NGSIElement
 { 
     protected String _name;
     
@@ -37,9 +40,9 @@ public class EntityMember<T extends EntityMember> extends NGSIElement
     protected String _type;
     
     // NESTED FIELDS
-    protected Map< String, T > _members = new HashMap<>();
+    protected Map< String, EntityMember > _members = new HashMap<>();
     
-    protected void setType( ){};
+    protected void setType( ){}
     
     @JsonTypeInfo(  
     use = JsonTypeInfo.Id.NAME,  
@@ -53,13 +56,13 @@ public class EntityMember<T extends EntityMember> extends NGSIElement
         @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),
         @JsonSubTypes.Type(value = GeoProperty.class, name = "GeoProperty")})
     @JsonAnySetter
-    public void setMember( String name, T value) {
+    public void setMember( String name, EntityMember value) {
         value.setName( name );
 	_members.put(name, value);
     }
     
     @JsonAnyGetter
-    public Map<String,T> getMembers( ) {
+    public Map<String,EntityMember> getMembers( ) {
         return _members;
     }
     
@@ -68,4 +71,6 @@ public class EntityMember<T extends EntityMember> extends NGSIElement
     {
         return _name;
     }
+
+
 }
