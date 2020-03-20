@@ -42,7 +42,13 @@ public class PropertyValue extends EntityMember
 
     @Builder
     public PropertyValue(String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String value) {
-        super(createdAt, modifiedAt, name, datasetId, observedAt, TYPE, members);
+        _createdAt = createdAt;
+        _modifiedAt = modifiedAt;
+        _name = name;
+        _datasetId = datasetId;
+        _observedAt = observedAt;
+        _type = TYPE;
+        _members = members;
         _value = value;
     }
 }

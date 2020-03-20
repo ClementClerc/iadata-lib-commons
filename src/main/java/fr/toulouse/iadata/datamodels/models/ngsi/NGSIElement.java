@@ -11,12 +11,10 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors( prefix = {"_"})
-@AllArgsConstructor
-@NoArgsConstructor
-class NGSIElement
+abstract class NGSIElement
 {
     // COMMON MEMBERS
-    private String _createdAt;
+    protected String _createdAt;
 
-    private String _modifiedAt;
+    protected String _modifiedAt;
 }

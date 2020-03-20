@@ -27,9 +27,14 @@ public class Property extends EntityMember
 {
     @Builder
     public Property( String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object value, String unitCode) {
-        super(createdAt, modifiedAt, name, datasetId, observedAt, TYPE, members);
-        _value = value;
+        _createdAt = createdAt;
+        _modifiedAt = modifiedAt;
+        _name = name;
         _datasetId = datasetId;
+        _observedAt = observedAt;
+        _type = TYPE;
+        _members = members;
+        _value = value;
         _unitCode = unitCode;
     }
 

@@ -70,15 +70,16 @@ public class Entity extends NGSIElement
     @Builder
     public Entity( String idTech, String id, String type, String createdAt, String modifiedAt, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
     {
-        super( createdAt, modifiedAt);
-        this._idTech = idTech;
-        this._id = new URI( id );
-        this._type = type;
-        this._location = location;
-        this._observationSpace = observationSpace;
-        this._operationSpace = operationSpace;
-        this._members = members;
-        this._contexts = contexts;
+        _createdAt = createdAt;
+        _modifiedAt = modifiedAt;
+        _idTech = idTech;
+        _id = new URI( id );
+        _type = type;
+        _location = location;
+        _observationSpace = observationSpace;
+        _operationSpace = operationSpace;
+        _members = members;
+        _contexts = contexts;
 
     }
 

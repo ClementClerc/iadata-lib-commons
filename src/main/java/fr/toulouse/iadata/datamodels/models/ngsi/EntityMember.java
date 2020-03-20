@@ -27,8 +27,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@NoArgsConstructor
-public class EntityMember extends NGSIElement
+public abstract class EntityMember extends NGSIElement
 { 
     protected String _name;
     
@@ -40,16 +39,6 @@ public class EntityMember extends NGSIElement
     
     // NESTED FIELDS
     protected Map< String, EntityMember > _members = new HashMap<>();
-
-
-    EntityMember(String createdAt, String modifiedAt, String _name, URI _datasetId, String _observedAt, String _type, Map<String, EntityMember> _members) {
-        super(createdAt, modifiedAt);
-        this._name = _name;
-        this._datasetId = _datasetId;
-        this._observedAt = _observedAt;
-        this._type = _type;
-        this._members = _members;
-    }
 
     protected void setType( ){}
     
