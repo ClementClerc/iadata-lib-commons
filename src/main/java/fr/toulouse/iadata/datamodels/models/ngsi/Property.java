@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
 @NoArgsConstructor
-public class Property extends EntityMember
+public class Property extends AbstractProperty
 {
     @Builder
     public Property( String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object value, String unitCode) {

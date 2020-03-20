@@ -21,7 +21,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
 @NoArgsConstructor
-public class GeoProperty extends EntityMember
+public class GeoProperty extends AbstractProperty
 {
     private static final String TYPE = "GeoProperty";
 
