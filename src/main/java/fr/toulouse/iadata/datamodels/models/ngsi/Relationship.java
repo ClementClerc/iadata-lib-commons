@@ -26,9 +26,9 @@ public class Relationship extends EntityMember
     private static final String TYPE = "Relationship";
 
     @Builder
-    public Relationship( String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String object) throws URISyntaxException
+    public Relationship( String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String object) throws URISyntaxException
     {
-        super(name, datasetId, observedAt, TYPE, members);
+        super( createdAt, modifiedAt, name, datasetId, observedAt, TYPE, members);
         _object = new URI(object);
     }
 

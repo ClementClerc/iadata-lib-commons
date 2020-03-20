@@ -68,8 +68,9 @@ public class Entity extends NGSIElement
     private List<Context> _contexts;
 
     @Builder
-    public Entity( String idTech, String id, String type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
+    public Entity( String idTech, String id, String type, String createdAt, String modifiedAt, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
     {
+        super( createdAt, modifiedAt);
         this._idTech = idTech;
         this._id = new URI( id );
         this._type = type;
@@ -78,6 +79,7 @@ public class Entity extends NGSIElement
         this._operationSpace = operationSpace;
         this._members = members;
         this._contexts = contexts;
+
     }
 
     @JsonTypeInfo(

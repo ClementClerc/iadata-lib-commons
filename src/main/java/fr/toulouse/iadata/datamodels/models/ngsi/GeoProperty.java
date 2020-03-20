@@ -28,8 +28,8 @@ public class GeoProperty extends EntityMember
     GeoJsonObject _value;
 
     @Builder
-    public GeoProperty(String name, URI datasetId, String observedAt, Map<String, EntityMember> members, GeoJsonObject value) {
-        super(name, datasetId, observedAt, TYPE, members);
+    public GeoProperty(String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, GeoJsonObject value) {
+        super(createdAt, modifiedAt, name, datasetId, observedAt, TYPE, members);
         _value = value;
     }
 

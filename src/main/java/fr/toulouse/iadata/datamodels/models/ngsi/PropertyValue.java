@@ -22,12 +22,13 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
+@NoArgsConstructor
 public class PropertyValue extends EntityMember
 {
     private static final String TYPE = "PropertyValue";
     
     @JsonValue
-    private String value;
+    private String _value;
     
     @Override
     public void setType() {
@@ -36,12 +37,12 @@ public class PropertyValue extends EntityMember
 
     public PropertyValue( String strValue )
     {
-        value = strValue;
+        _value = strValue;
     }
 
     @Builder
-    public PropertyValue(String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String value) {
-        super(name, datasetId, observedAt, TYPE, members);
-        this.value = value;
+    public PropertyValue(String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String value) {
+        super(createdAt, modifiedAt, name, datasetId, observedAt, TYPE, members);
+        _value = value;
     }
 }

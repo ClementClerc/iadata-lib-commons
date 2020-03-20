@@ -266,7 +266,6 @@ public class NGSIBuildingEntityTest
                         .addFieldURI("source", "http://example.org/hasSource" )
                         .build())
                 .build();
-
         String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, JSONCompareMode.LENIENT);
     }
