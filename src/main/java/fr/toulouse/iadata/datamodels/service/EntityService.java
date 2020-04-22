@@ -1,5 +1,7 @@
 package fr.toulouse.iadata.datamodels.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.toulouse.iadata.datamodels.models.ngsi.AbstractProperty;
 import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
 import fr.toulouse.iadata.datamodels.models.ngsi.EntityMember;
@@ -12,29 +14,19 @@ import java.util.stream.Stream;
 @Component
 public class EntityService
 {
-    public EntityMember getEntityMemberByPath( Entity entity, String strPath )
+
+    private ObjectMapper _objectMapper = new ObjectMapper( );
+
+
+    public <T extends EntityMember> T getEntityMemberByPath( Entity entity, String strPath, Class<T> className )
     {
-        String[] keyPath = strPath.split("[.]");
-        if ((keyPath.length == 1))
-        {
-            return entity.getMembers().get( keyPath[0]);
-        }
-        else
-        {
-            EntityMember member = entity.getMembers().get( keyPath[0] );
-            for (int i=1;i< keyPath.length; i++){
-                if ( member.getMembers().containsKey( keyPath[i])){
+        EntityMember member = getEntityMemberByPath( entity, strPath );
 
-                    member= member.getMembers().get( keyPath[i] );
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            return member;
+        if ( className.isInstance( member ) )
+        {
+            return (T)member;
         }
-
+        return null;
     }
 
     public void replaceEntityMemberName( Entity entity, String oldKey, String newKey )
@@ -59,12 +51,23 @@ public class EntityService
             }
     }
 
-    public void consumeOnNamedProperties(Entity entity, String strPropertyName, Consumer<AbstractProperty> consumer )
+
+
+    public void addEntityMember( Entity entity, String[] parentPath, EntityMember member)
     {
-        Stream<AbstractProperty> streamProperties = flatten( entity );
-        streamProperties
-                .filter( property -> property.getName().equals( strPropertyName ))
-                .forEach( consumer );
+        if ( parentPath.length == 0 )
+        {
+            entity.addMember( member );
+        }
+        else
+        {
+            EntityMember currentMember = entity.getMember( parentPath[0]);
+            for ( int i = 1; i < parentPath.length ; i++)
+            {
+                currentMember = currentMember.getMember( parentPath[i]);
+            }
+            currentMember.addMember( member );
+        }
     }
 
 
@@ -88,5 +91,43 @@ public class EntityService
                         .filter( member -> member instanceof AbstractProperty)
                         .map( obj -> (AbstractProperty) obj)
                         .flatMap( this::flatten ) );
+    }
+
+    private EntityMember getEntityMemberByPath( Entity entity, String strPath )
+    {
+        String[] keyPath = strPath.split("[.]");
+        if ((keyPath.length == 1))
+        {
+            return entity.getMembers().get( keyPath[0]);
+        }
+        else
+        {
+            EntityMember member = entity.getMembers().get( keyPath[0] );
+            for (int i=1;i< keyPath.length; i++){
+                if ( member.getMembers().containsKey( keyPath[i])){
+
+                    member= member.getMembers().get( keyPath[i] );
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return member;
+        }
+
+    }
+
+
+    public String convertEntityToJsonString( Entity entity) throws JsonProcessingException
+    {
+        return _objectMapper.writeValueAsString(entity);
+    }
+
+    public Entity convertJsonToEntity( String strData ) throws JsonProcessingException
+    {
+        return _objectMapper
+                .readerFor(Entity.class)
+                .readValue(strData);
     }
 }

@@ -99,6 +99,18 @@ public class Entity extends NGSIElement
         value.setName( name );
 	    _members.put(name, value);
     }
+
+    @JsonIgnore
+    public void addMember( EntityMember member )
+    {
+        _members.put( member.getName( ), member);
+    }
+
+    @JsonIgnore
+    public EntityMember getMember( String strMemberName )
+    {
+        return _members.get( strMemberName);
+    }
     
     @JsonAnyGetter
     public Map<String,EntityMember > getMembers( ) {
