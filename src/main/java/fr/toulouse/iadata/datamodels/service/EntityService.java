@@ -12,6 +12,30 @@ import java.util.stream.Stream;
 @Component
 public class EntityService
 {
+    public void addEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey )
+    {
+        String[] strKeyContainingValuePath = strKeyContainingValue.split("[.]");
+
+        String[] strAddedKeyPath= strAddedKey.split("[.]");
+        if ((strKeyContainingValuePath.length == 1) || (!strKeyContainingValuePath[0].equals(strAddedKeyPath[0]))){
+            entity.getMembers().get( strKeyContainingValuePath[0]);
+            entity.getMembers().put( strAddedKeyPath[0],entity.getMembers( ).get( strKeyContainingValuePath[0] ));
+
+            strKeyContainingValuePath[0]=strAddedKeyPath[0];
+        }
+            EntityMember member = entity.getMembers().get( strKeyContainingValuePath[0] );
+            for (int i=1;i< strKeyContainingValuePath.length; i++){
+                if ( member.getMembers().containsKey( strKeyContainingValuePath[i]) && !strKeyContainingValuePath[i].equals(strAddedKeyPath[i])){
+
+                    member.getMembers().get(strKeyContainingValuePath[i]);
+                    member.getMembers().put(strAddedKeyPath[i],member.getMembers( ).get( strKeyContainingValuePath[i] ));
+
+                }
+                member=member.getMembers().get(strAddedKeyPath[i]);
+            }
+    }
+
+        
     public EntityMember getEntityMemberByPath( Entity entity, String strPath )
     {
         String[] keyPath = strPath.split("[.]");
@@ -36,6 +60,7 @@ public class EntityService
         }
 
     }
+        
 
     public void replaceEntityMemberName( Entity entity, String oldKey, String newKey )
     {
