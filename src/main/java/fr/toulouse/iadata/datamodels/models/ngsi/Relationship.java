@@ -44,4 +44,10 @@ public class Relationship extends EntityMember
     public void setType() {
         _type = TYPE;
     }
+
+    @Override
+    public EntityMember clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }

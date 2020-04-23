@@ -7,6 +7,7 @@ import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
 import fr.toulouse.iadata.datamodels.models.ngsi.EntityMember;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -18,25 +19,22 @@ public class EntityService
     
     public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey )
     {
-        String[] strKeyContainingValuePath = strKeyContainingValue.split("[.]");
-
-        String[] strAddedKeyPath= strAddedKey.split("[.]");
-        if ((strKeyContainingValuePath.length == 1) || (!strKeyContainingValuePath[0].equals(strAddedKeyPath[0]))){
-            entity.getMembers().get( strKeyContainingValuePath[0]);
-            entity.getMembers().put( strAddedKeyPath[0],entity.getMembers( ).get( strKeyContainingValuePath[0] ));
-
-            strKeyContainingValuePath[0]=strAddedKeyPath[0];
+        EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue);
+        try
+        {
+            EntityMember memberCopied = memberToCopy.clone();
+            String strNewPath[] = strAddedKey.split("[.]");
+            String[] parentPath = Arrays.copyOf( strNewPath, strNewPath.length - 1);
+            String strNewName = strNewPath[ strNewPath.length - 1];
+            memberCopied.setName( strNewName );
+            addEntityMember( entity, parentPath, memberCopied );
         }
-            EntityMember member = entity.getMembers().get( strKeyContainingValuePath[0] );
-            for (int i=1;i< strKeyContainingValuePath.length; i++){
-                if ( member.getMembers().containsKey( strKeyContainingValuePath[i]) && !strKeyContainingValuePath[i].equals(strAddedKeyPath[i])){
+        catch ( CloneNotSupportedException e )
+        {
 
-                    member.getMembers().get(strKeyContainingValuePath[i]);
-                    member.getMembers().put(strAddedKeyPath[i],member.getMembers( ).get( strKeyContainingValuePath[i] ));
+        }
 
-                }
-                member=member.getMembers().get(strAddedKeyPath[i]);
-            }
+
     }
 
     public <T extends EntityMember> T getEntityMemberByPath( Entity entity, String strPath, Class<T> className )
@@ -50,6 +48,8 @@ public class EntityService
         }
         return null;
     }
+
+
         
 
     public void replaceEntityMemberName( Entity entity, String oldKey, String newKey )

@@ -44,4 +44,10 @@ public class GeoProperty extends AbstractProperty
         _type = TYPE;
     }
 
+    @Override
+    public EntityMember clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
+
 }

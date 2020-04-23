@@ -51,4 +51,10 @@ public class PropertyValue extends EntityMember
         _members = members;
         _value = value;
     }
+
+    @Override
+    public EntityMember clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }

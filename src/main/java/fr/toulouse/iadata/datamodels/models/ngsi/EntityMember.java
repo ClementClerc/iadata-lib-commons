@@ -27,7 +27,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class EntityMember extends NGSIElement
+public abstract class EntityMember extends NGSIElement implements Cloneable
 { 
     protected String _name;
     
@@ -82,5 +82,9 @@ public abstract class EntityMember extends NGSIElement
         return _name;
     }
 
-
+    @Override
+    public EntityMember clone( ) throws CloneNotSupportedException
+    {
+        return (EntityMember)super.clone();
+    }
 }
