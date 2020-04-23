@@ -16,8 +16,9 @@ import java.util.stream.Stream;
 public class EntityService
 {
     private ObjectMapper _objectMapper = new ObjectMapper( );
-    
+
     public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey )
+
     {
         EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue);
         try
@@ -33,9 +34,42 @@ public class EntityService
         {
 
         }
-
-
     }
+    
+//    public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey )
+//    {
+//        String[] strKeyContainingValuePath = strKeyContainingValue.split("[.]");
+//
+//        String[] strAddedKeyPath= strAddedKey.split("[.]");
+//        if ((strKeyContainingValuePath.length == 1) || (!strKeyContainingValuePath[0].equals(strAddedKeyPath[0]))){
+//
+//            entity.getMembers().get( strKeyContainingValuePath[0]);
+//            entity.setMember( strAddedKeyPath[0],entity.getMembers( ).get( strKeyContainingValuePath[0] ));
+//            
+//            strKeyContainingValuePath[0]=strAddedKeyPath[0];
+//        }
+//            EntityMember member = entity.getMembers().get( strKeyContainingValuePath[0] );
+//            EntityMember newMember = entity.getMembers().get( strKeyContainingValuePath[0] );
+//
+//            for (int i=1;i< strKeyContainingValuePath.length; i++){
+//                if ( member.getMembers().containsKey( strKeyContainingValuePath[i]) && !strKeyContainingValuePath[i].equals(strAddedKeyPath[i])){
+//
+//                    
+//                    
+//
+//                    newMember.addMember(member.getMembers( ).get( strKeyContainingValuePath[i] ));
+//                    newMember.setName(strAddedKeyPath[i]);
+//                    
+//
+//                    newMember=member.getMembers().get(strAddedKeyPath[i]);
+//                }else{
+//                    newMember=member.getMembers().get(strKeyContainingValuePath[i]);
+//                }
+//                member=member.getMembers().get(strKeyContainingValuePath[i]);
+//                
+//            
+//            }
+//    }
 
     public <T extends EntityMember> T getEntityMemberByPath( Entity entity, String strPath, Class<T> className )
 
