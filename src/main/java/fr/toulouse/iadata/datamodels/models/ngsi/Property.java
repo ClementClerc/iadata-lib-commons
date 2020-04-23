@@ -65,9 +65,11 @@ public class Property extends AbstractProperty
         }
     }
 
+
     @Override
     public EntityMember clone() throws CloneNotSupportedException
     {
         return super.clone();
     }
+
 }

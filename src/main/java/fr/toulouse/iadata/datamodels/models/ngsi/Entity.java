@@ -156,5 +156,10 @@ public class Entity extends NGSIElement
             return this;
         }
     }
+//    
+//        public Entity clone() throws CloneNotSupportedException {
+//        Entity entity = (Entity)super.clone();
+//        return entity;
+//    }
 
 }

@@ -65,7 +65,6 @@ public abstract class EntityMember extends NGSIElement implements Cloneable
         _members.put( member.getName( ), member);
     }
 
-    @JsonIgnore
     public EntityMember getMember( String strMemberName )
     {
         return _members.get( strMemberName);
@@ -82,9 +81,11 @@ public abstract class EntityMember extends NGSIElement implements Cloneable
         return _name;
     }
 
+
     @Override
     public EntityMember clone( ) throws CloneNotSupportedException
     {
         return (EntityMember)super.clone();
+
     }
 }

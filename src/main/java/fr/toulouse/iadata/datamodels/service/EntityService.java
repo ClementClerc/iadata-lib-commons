@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 @Component
@@ -18,8 +20,8 @@ public class EntityService
     private ObjectMapper _objectMapper = new ObjectMapper( );
 
     public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey )
-
     {
+
         EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue);
         try
         {
@@ -34,6 +36,7 @@ public class EntityService
         {
 
         }
+
     }
     
 //    public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey )
@@ -59,7 +62,7 @@ public class EntityService
 //
 //                    newMember.addMember(member.getMembers( ).get( strKeyContainingValuePath[i] ));
 //                    newMember.setName(strAddedKeyPath[i]);
-//                    
+//                    newMember.getMember(strAddedKeyPath[i]).setName(strAddedKeyPath[i]);
 //
 //                    newMember=member.getMembers().get(strAddedKeyPath[i]);
 //                }else{
