@@ -15,8 +15,8 @@ public class DataModelsConstants
             " \"observedAt\": \"2017-07-29T12:05:02Z\"," +
             " \"reliability\": {" +
             " \"type\": \"Property\"," +
-            " \"value\": 0.7" +
-            "trueReliability\": {\n" +
+            " \"value\": 0.7,\n" +
+            " \"trueReliability\": {\n" +
             "        \"value\": \"0.3\",\n" +
             "        \"type\": \"Property\"\n" +
             "      }\n" +
@@ -197,6 +197,54 @@ public class DataModelsConstants
             "    \"providedBy\": {\n" +
             "      \"object\": \"urn:ngsi-ld:Camera:C1\",\n" +
             "      \"type\": \"Relationship\"\n" +
+            "    },\n" +
+            "    \"reliability\": {\n" +
+            "      \"value\": 0.7,\n" +
+            "      \"type\": \"Property\",\n" +
+            "      \"trueReliability\": {\n" +
+            "        \"value\": \"0.3\",\n" +
+            "        \"type\": \"Property\"\n" +
+            "      }\n" +
+            "    }\n" +
+            "  }\n" +
+            "} ";
+    
+        public static final String NGSI_PAYLOAD_SPEC_8 = "{\n" +
+            "  \"location\": {\n" +
+            "    \"value\": {\n" +
+            "      \"type\": \"Point\",\n" +
+            "      \"coordinates\": [\n" +
+            "        -8.5,\n" +
+            "        4\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    \"type\": \"GeoProperty\"\n" +
+            "  },\n" +
+            "  \"id\": \"urn:ngsi-ld:OffStreetParking:Downtown1\",\n" +
+            "  \"type\": \"OffStreetParking\",\n" +
+            "  \"@context\": [\n" +
+            "    \"http://example.org/ngsi-ld/latest/parking.jsonld\",\n" +
+            "    \"https://uri.etsi.org/gsi-ld/v1/ngsi-ld-core-context.jsonld\"\n" +
+            "  ],\n" +
+            "  \"name\": {\n" +
+            "    \"value\": \"Downtown One\",\n" +
+            "    \"type\": \"Property\"\n" +
+            "  },\n" +
+            "  \"totalSpotNumber\": {\n" +
+            "    \"value\": \"200\",\n" +
+            "    \"type\": \"Property\"\n" +
+            "  },\n" +
+            "  \"availableSpotNumber\": {\n" +
+            "    \"value\": 121,\n" +
+            "    \"type\": \"Property\",\n" +
+            "    \"observedAt\": \"2020-07-29T12:05:00Z\",\n" +
+            "    \"providedBy\": {\n" +
+            "      \"object\": \"urn:ngsi-ld:Camera:C1\",\n" +
+            "      \"type\": \"Relationship\"\n" +
+            "    },\n" +
+            "    \"dateTime\": {\n" +
+            "      \"value\": \"29/07/2020 12:05\",\n" +
+            "      \"type\": \"Property\"\n" +
             "    },\n" +
             "    \"reliability\": {\n" +
             "      \"value\": 0.7,\n" +
