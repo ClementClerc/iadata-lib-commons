@@ -256,6 +256,23 @@ public class DataModelsConstants
             "    }\n" +
             "  }\n" +
             "} ";
+        
+    public static final String NGSI_PAYLOAD_SPEC_9 = "{\n" +
+            " \"id\": \"urn:ngsi-ld:Vehicle:A4567\",\n" +
+            " \"type\": \"Vehicle\",\n" +
+            " \"brandName\": \"Mercedes\",\n" +
+            " \"isParked\": \"urn:ngsi-ld:OffStreetParking:Downtown1\",\n" +
+            " \"location\": {\n" +
+            "    \"lng\": -8.5,\n" +
+            "    \"lat\": 4.0\n" +
+            " }\n" +
+            " \"@context\": [\n" +
+            " \"http://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\",\n" +
+            " \"http://example.org/ngsi-ld/commonTerms.jsonld\",\n" +
+            " \"http://example.org/ngsi-ld/vehicle.jsonld\",\n" +
+            " \"http://example.org/ngsi-ld/parking.jsonld\"\n" +
+            " ]\n" +
+            "} ";    
 
     public static final String NGSI_PAYLOAD_SPECIAL_CHAR = "{\n" +
             "  \"location\": {\n" +
