@@ -262,10 +262,18 @@ public class DataModelsConstants
             " \"type\": \"Vehicle\",\n" +
             " \"brandName\": \"Mercedes\",\n" +
             " \"isParked\": \"urn:ngsi-ld:OffStreetParking:Downtown1\",\n" +
-            " \"location\": {\n" +
-            "    \"lng\": -8.5,\n" +
-            "    \"lat\": 4.0\n" +
-            " }\n" +
+            " \"position\": {\n" +
+            "    \"type\": \"Property\",\n" +
+            "     \"value\": \"position\",\n" +
+            "      \"lng\": {\n" +
+            "        \"value\": 0.3,\n" +
+            "        \"type\": \"Property\"\n" +
+            "      },\n" +
+            "      \"lat\": {\n" +
+            "        \"value\": 0.5,\n" +
+            "        \"type\": \"Property\"\n" +
+            "      }\n" +
+            " },\n" +
             " \"@context\": [\n" +
             " \"http://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\",\n" +
             " \"http://example.org/ngsi-ld/commonTerms.jsonld\",\n" +
