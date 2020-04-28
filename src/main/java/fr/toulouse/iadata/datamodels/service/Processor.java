@@ -1,15 +1,14 @@
-package fr.toulouse.iadata.kafkaprocessors.service;
+package fr.toulouse.iadata.datamodels.service;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 
 import java.util.List;
 
 @Data
-@Accessors( prefix = {"_str","_"})
+@Accessors( prefix = {"_str","_n","_"})
 public class Processor
 {
     @Id
@@ -20,4 +19,6 @@ public class Processor
     List<String> _customArgs;
     @Field( name = "activatedKeys")
     List<String> _activatedKeys;
+    @Field( name = "order")
+    int _nOrder;
 }

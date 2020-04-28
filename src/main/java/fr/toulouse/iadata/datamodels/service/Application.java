@@ -1,4 +1,4 @@
-package fr.toulouse.iadata.kafkaprocessors.service;
+package fr.toulouse.iadata.datamodels.service;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -37,10 +37,5 @@ public class Application
     private List<String> _newKeyNames = new ArrayList<>();;
     @Field( name="processors", type= FieldType.Nested )
     private List<Processor> _processors = new ArrayList<>();
-
-    public void addProcessor( Processor processor)
-    {
-        _processors.add( processor );
-    }
 
 }
