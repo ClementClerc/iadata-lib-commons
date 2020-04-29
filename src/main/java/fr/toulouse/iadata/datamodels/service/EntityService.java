@@ -74,14 +74,14 @@ public class EntityService
 //            }
 //    }
 
-    public <T extends EntityMember> T getEntityMemberByPath( Entity entity, String strPath, Class<T> className )
+    public <T extends AbstractProperty> T getPropertyMemberByPath( Entity entity, String strPath )
 
     {
         EntityMember member = getEntityMemberByPath( entity, strPath );
 
-        if ( className.isInstance( member ) )
+        if ( member instanceof AbstractProperty )
         {
-            return (T)member;
+            return (T) member;
         }
         return null;
     }

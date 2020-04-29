@@ -23,12 +23,12 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
 @NoArgsConstructor
-public class PropertyValue extends EntityMember
+public class PropertyValue extends AbstractProperty
 {
     private static final String TYPE = "PropertyValue";
     
     @JsonValue
-    private String _value;
+    private Object _value;
     
     @Override
     public void setType() {
@@ -40,15 +40,14 @@ public class PropertyValue extends EntityMember
         _value = strValue;
     }
 
+    public PropertyValue( Double strValue )
+    {
+        _value = strValue;
+    }
+
     @Builder
-    public PropertyValue(String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String value) {
-        _createdAt = createdAt;
-        _modifiedAt = modifiedAt;
+    public PropertyValue(String name, String value) {
         _name = name;
-        _datasetId = datasetId;
-        _observedAt = observedAt;
-        _type = TYPE;
-        _members = members;
         _value = value;
     }
 
@@ -56,5 +55,10 @@ public class PropertyValue extends EntityMember
     public EntityMember clone() throws CloneNotSupportedException
     {
         return super.clone();
+    }
+
+    @Override
+    public void modifyValue(Object value) {
+        _value = value;
     }
 }

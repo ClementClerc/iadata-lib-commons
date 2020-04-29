@@ -51,6 +51,11 @@ public class Property extends AbstractProperty
        _type = TYPE;
     }
 
+    @Override
+    public void modifyValue(Object value) {
+        _value = value;
+    }
+
     public static class PropertyBuilder
     {
         public PropertyBuilder addMember( EntityMember member) {

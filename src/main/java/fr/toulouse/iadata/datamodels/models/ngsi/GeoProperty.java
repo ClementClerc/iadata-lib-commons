@@ -5,10 +5,10 @@
  */
 package fr.toulouse.iadata.datamodels.models.ngsi;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.geojson.GeoJsonObject;
-import org.geojson.Geometry;
 
 import java.net.URI;
 import java.util.Map;
@@ -50,4 +50,8 @@ public class GeoProperty extends AbstractProperty
         return super.clone();
     }
 
+    @Override
+    public void modifyValue(Object value) {
+        _value = (GeoJsonObject) value;
+    }
 }

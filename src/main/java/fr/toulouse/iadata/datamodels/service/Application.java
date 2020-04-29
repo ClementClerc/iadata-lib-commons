@@ -26,8 +26,6 @@ public class Application
     private String _strDirection;
     @Field( name = "serdeClassName")
     private String _serdeClassName;
-    @Field( name = "mapKeyNames")
-    private Map<String,String> _mapKeyNames = new HashMap<>();
     @Field( name = "oldKeyNames")
     private List<String> _oldKeyNames = new ArrayList<>();
     @Field( name = "newKeyNames")
