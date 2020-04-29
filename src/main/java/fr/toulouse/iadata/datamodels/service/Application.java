@@ -1,5 +1,6 @@
 package fr.toulouse.iadata.datamodels.service;
 
+import fr.toulouse.iadata.datamodels.utils.DataModelsConstants;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
@@ -19,10 +20,6 @@ public class Application
 {
     @Id
     private String _id;
-    @Field( name = "topicIn")
-    private String _strTopicIn;
-    @Field( name = "topicOut")
-    private String _strTopicOut;
     @Field( name = "name")
     private String _strName;
     @Field( name = "direction")
