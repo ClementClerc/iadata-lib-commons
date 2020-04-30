@@ -24,6 +24,8 @@ public class Application
     private String _strName;
     @Field( name = "direction")
     private String _strDirection;
+    @Field( name = "entityType")
+    private String _entityType;
     @Field( name = "serdeClassName")
     private String _serdeClassName;
     @Field( name = "oldKeyNames")
@@ -32,7 +34,7 @@ public class Application
     private List<String> _newKeyNames = new ArrayList<>();
     @Field( name="processors", type= FieldType.Nested )
     private List<Processor> _processors = new ArrayList<>();
-    @Field( name="processors", type= FieldType.Nested )
-    private List<Transformer> _transformers = new ArrayList<>();
+    @Field( name="transformer", type= FieldType.Nested )
+    private Transformer _transformers;
 
 }

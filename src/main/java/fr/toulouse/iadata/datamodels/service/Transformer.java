@@ -15,6 +15,8 @@ public class Transformer
     private String _id;
     @Field( name = "key")
     String _strKey;
+    @Field( name = "activatedKeys")
+    List<String> _activatedKeys;
     @Field( name = "customArgs")
     List<String> _customArgs;
 }
