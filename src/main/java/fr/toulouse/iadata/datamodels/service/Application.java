@@ -35,6 +35,6 @@ public class Application
     @Field( name="processors", type= FieldType.Nested )
     private List<Processor> _processors = new ArrayList<>();
     @Field( name="transformer", type= FieldType.Nested )
-    private Transformer _transformers;
+    private Transformer _transformer;
 
 }
