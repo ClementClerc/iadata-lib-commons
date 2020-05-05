@@ -27,8 +27,6 @@ public class Application
     private String _strDirection;
     @Field( name = "entityType")
     private String _entityType;
-    @Field( name = "serdeClassName")
-    private String _serdeClassName;
     @Field( name = "oldKeyNames")
     private List<String> _oldKeyNames = new ArrayList<>();
     @Field( name = "newKeyNames")
