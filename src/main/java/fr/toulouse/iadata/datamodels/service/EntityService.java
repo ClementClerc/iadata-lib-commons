@@ -2,25 +2,34 @@ package fr.toulouse.iadata.datamodels.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.toulouse.iadata.datamodels.exceptions.AbstractEntityException;
+import fr.toulouse.iadata.datamodels.exceptions.UnrecognizedEntityMemberException;
 import fr.toulouse.iadata.datamodels.models.ngsi.AbstractProperty;
 import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
 import fr.toulouse.iadata.datamodels.models.ngsi.EntityMember;
+import fr.toulouse.iadata.datamodels.models.ngsi.Property;
+import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class EntityService
 {
+    private static final Logger _logger = LoggerFactory.getLogger(EntityService.class);
+
     private ObjectMapper _objectMapper = new ObjectMapper( );
 
-    public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey )
+    public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey ) throws UnrecognizedEntityMemberException
     {
+        if(getEntityMemberByPath( entity, strKeyContainingValue ).equals(null))
+        {
+            throw new UnrecognizedEntityMemberException(strKeyContainingValue);
+        }
 
         EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue);
         try
@@ -74,9 +83,13 @@ public class EntityService
 //            }
 //    }
 
-    public <T extends AbstractProperty> T getPropertyMemberByPath( Entity entity, String strPath )
+    public <T extends AbstractProperty> T getPropertyMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException
 
     {
+        if(getEntityMemberByPath( entity, strPath ).equals(null))
+        {
+            throw new UnrecognizedEntityMemberException(strPath);
+        }
         EntityMember member = getEntityMemberByPath( entity, strPath );
 
         if ( member instanceof AbstractProperty )
@@ -89,29 +102,39 @@ public class EntityService
 
         
 
-    public void replaceEntityMemberName( Entity entity, String oldKey, String newKey )
+    public void replaceEntityMemberName( Entity entity, String oldKey, String newKey ) throws UnrecognizedEntityMemberException
     {
         String[] oldKeyPath = oldKey.split("[.]");
         String[] newKeyPath= newKey.split("[.]");
+        EntityMember memberReturn = null;
+
         if ((oldKeyPath.length == 1) || (!oldKeyPath[0].equals(newKeyPath[0]))){
             entity.getMembers().get( oldKeyPath[0]).setName(newKeyPath[0] );
             entity.getMembers().put( newKeyPath[0],entity.getMembers( ).get( oldKeyPath[0] ));
             entity.getMembers().remove(oldKeyPath[0]);
             oldKeyPath[0]=newKeyPath[0];
+        }else {
+            throw new UnrecognizedEntityMemberException(oldKey) ;
+
         }
-            EntityMember member = entity.getMembers().get( oldKeyPath[0] );
-            for (int i=1;i< oldKeyPath.length; i++){
-                if ( member.getMembers().containsKey( oldKeyPath[i]) && !oldKeyPath[i].equals(newKeyPath[i])){
+        EntityMember member = entity.getMembers().get( oldKeyPath[0] );
+        for (int i=1;i< oldKeyPath.length; i++){
+            if ( member.getMembers().containsKey( oldKeyPath[i]) && !oldKeyPath[i].equals(newKeyPath[i])){
 
-                    member.getMembers().get(oldKeyPath[i]).setName(newKeyPath[i]);
-                    member.getMembers().put(newKeyPath[i],member.getMembers( ).get( oldKeyPath[i] ));
-                    member.getMembers().remove(oldKeyPath[i]);
-                }
+                member.getMembers().get(oldKeyPath[i]).setName(newKeyPath[i]);
+                member.getMembers().put(newKeyPath[i],member.getMembers( ).get( oldKeyPath[i] ));
+                member.getMembers().remove(oldKeyPath[i]);
+            }else if(member.getMembers().containsKey( oldKeyPath[i])){
                 member=member.getMembers().get(newKeyPath[i]);
+            }else
+            {
+                member = null;
+                throw new UnrecognizedEntityMemberException(oldKey);
             }
-    }
-
-
+        }
+        
+}
+        
 
     public void addEntityMember( Entity entity, String[] parentPath, EntityMember member)
     {
@@ -153,12 +176,13 @@ public class EntityService
                         .flatMap( this::flatten ) );
     }
 
-    private EntityMember getEntityMemberByPath( Entity entity, String strPath )
+    private EntityMember getEntityMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException
     {
         String[] keyPath = strPath.split("[.]");
+        EntityMember memberReturn = null;
         if ((keyPath.length == 1))
         {
-            return entity.getMembers().get( keyPath[0]);
+            memberReturn = entity.getMembers().get( keyPath[0]);
         }
         else
         {
@@ -170,12 +194,17 @@ public class EntityService
                 }
                 else
                 {
-                    return null;
+                    member = null;
+                    break;
                 }
             }
-            return member;
+            memberReturn = member;
         }
-
+        if (memberReturn == null){
+            throw new UnrecognizedEntityMemberException(strPath);
+            
+        }
+        return memberReturn;
     }
 
 
@@ -190,4 +219,26 @@ public class EntityService
                 .readerFor(Entity.class)
                 .readValue(strData);
     }
+    
+    public void entityLogErrorAdder (AbstractEntityException e, Entity entity) {
+        
+        _logger.error(e.getMessage());
+        try {
+            Property property = getPropertyMemberByPath(entity,"errorLog");
+            List<String> errorLog = (List<String>)property.getValue();
+            errorLog.add(e.getErrorMessage());
+            property.setValue(errorLog);
+            
+        } catch (UnrecognizedEntityMemberException ex) {
+            List<String> errorList = new ArrayList();
+            errorList.add(e.getErrorMessage());
+            addEntityMember(entity,null,Property.builder()
+                            .name("errorLog")
+                            .value(e.getErrorMessage())
+                            .build());
+        }
+        
+    }
+    
+    
 }
