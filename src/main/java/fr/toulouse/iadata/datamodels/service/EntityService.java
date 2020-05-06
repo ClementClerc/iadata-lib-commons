@@ -109,7 +109,7 @@ public class EntityService
         String[] newKeyPath= newKey.split("[.]");
         EntityMember memberReturn = null;
 
-        if ((oldKeyPath.length == 1) && (!oldKeyPath[0].equals(newKeyPath[0]))){
+        if ((oldKeyPath.length == 1) || (!oldKeyPath[0].equals(newKeyPath[0]))){
             if(entity.getMembers().get( oldKeyPath[0]) == null){
                 throw new UnrecognizedEntityMemberException(oldKey) ;
             }
@@ -117,7 +117,7 @@ public class EntityService
             entity.getMembers().put( newKeyPath[0],entity.getMembers( ).get( oldKeyPath[0] ));
             entity.getMembers().remove(oldKeyPath[0]);
             oldKeyPath[0]=newKeyPath[0];
-        }else if(oldKeyPath.length > 1){
+        
 
             EntityMember member = entity.getMembers().get( oldKeyPath[0] );
             for (int i=1;i< oldKeyPath.length; i++){
@@ -126,6 +126,8 @@ public class EntityService
                     member.getMembers().get(oldKeyPath[i]).setName(newKeyPath[i]);
                     member.getMembers().put(newKeyPath[i],member.getMembers( ).get( oldKeyPath[i] ));
                     member.getMembers().remove(oldKeyPath[i]);
+                    member=member.getMembers().get(newKeyPath[i]);
+
                 }else if(member.getMembers().containsKey( oldKeyPath[i])){
                     member=member.getMembers().get(newKeyPath[i]);
                 }else
