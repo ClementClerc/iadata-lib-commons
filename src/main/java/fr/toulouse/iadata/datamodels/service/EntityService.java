@@ -242,7 +242,7 @@ public class EntityService
             errorList.add(e.getErrorMessage());
             addEntityMember(entity,new String[]{},Property.builder()
                                         .name("errorLog")
-                                        .value(e.getErrorMessage())
+                                        .value(errorList)
                                         .build());
         }
         
