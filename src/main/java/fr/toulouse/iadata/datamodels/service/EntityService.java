@@ -240,10 +240,10 @@ public class EntityService
         } catch (UnrecognizedEntityMemberException ex) {
             List<String> errorList = new ArrayList();
             errorList.add(e.getErrorMessage());
-            addEntityMember(entity,null,Property.builder()
-                            .name("errorLog")
-                            .value(e.getErrorMessage())
-                            .build());
+            addEntityMember(entity,new String[]{},Property.builder()
+                                        .name("errorLog")
+                                        .value(e.getErrorMessage())
+                                        .build());
         }
         
     }
