@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.GeneratedValue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.stream.IntStream;
 public class Application
 {
     @Id
-    private String _id;
+    private String id;
     @Field( name = "name")
     private String _strName;
     @Field( name = "direction")
@@ -36,4 +37,11 @@ public class Application
     @Field( name="transformer", type= FieldType.Nested )
     private Transformer _transformer;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
