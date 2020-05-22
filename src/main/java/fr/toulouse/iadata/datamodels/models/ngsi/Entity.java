@@ -103,6 +103,10 @@ public class Entity extends NGSIElement
     @JsonIgnore
     public void addMember( EntityMember member )
     {
+        if ( _members == null )
+        {
+            _members = new HashMap<>();
+        }
         _members.put( member.getName( ), member);
     }
 

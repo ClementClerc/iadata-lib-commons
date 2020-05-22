@@ -190,21 +190,28 @@ public class EntityService
         EntityMember memberReturn = null;
         if ((keyPath.length == 1))
         {
-            memberReturn = entity.getMembers().get( keyPath[0]);
+            if ( entity.getMembers()!= null )
+            {
+                memberReturn = entity.getMembers().get( keyPath[0]);
+            }
         }
         else
         {
             EntityMember member = entity.getMembers().get( keyPath[0] );
             for (int i=1;i< keyPath.length; i++){
-                if ( member.getMembers().containsKey( keyPath[i])){
-
-                    member= member.getMembers().get( keyPath[i] );
-                }
-                else
+                if ( member != null )
                 {
-                    member = null;
-                    break;
+                    if ( member.getMembers().containsKey( keyPath[i])){
+
+                        member= member.getMembers().get( keyPath[i] );
+                    }
+                    else
+                    {
+                        member = null;
+                        break;
+                    }
                 }
+
             }
             memberReturn = member;
         }
@@ -232,16 +239,16 @@ public class EntityService
         
         _logger.error(e.getMessage());
         try {
-            Property property = getPropertyMemberByPath(entity,"errorLog");
-            List<String> errorLog = (List<String>)property.getValue();
-            errorLog.add(e.getErrorMessage());
-            property.setValue(errorLog);
+            Property property = getPropertyMemberByPath(entity,"errors");
+            List<String> errors = (List<String>)property.getValue();
+            errors.add(e.getErrorMessage());
+            property.setValue(errors);
             
         } catch (UnrecognizedEntityMemberException ex) {
             List<String> errorList = new ArrayList();
             errorList.add(e.getErrorMessage());
             addEntityMember(entity,new String[]{},Property.builder()
-                                        .name("errorLog")
+                                        .name("errors")
                                         .value(errorList)
                                         .build());
         }
