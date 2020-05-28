@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 
 @Data
 @Accessors( prefix = {"_str","_"})
-@Document( indexName = "kafka-streams-applications")
+@Document( indexName = "iadata-conf-kafka-streams-applications")
 public class Application
 {
     @Id
