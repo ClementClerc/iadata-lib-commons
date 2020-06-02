@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.GeneratedValue;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.stream.IntStream;
 @Data
 @Accessors( prefix = {"_str","_"})
 @Document( indexName = "iadata-conf-kafka-streams-applications")
+@RestResource( rel = "applications" )
 public class Application
 {
     @Id
