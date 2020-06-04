@@ -34,7 +34,7 @@ public class Application
     private List<String> _oldKeyNames = new ArrayList<>();
     @Field( name = "newKeyNames")
     private List<String> _newKeyNames = new ArrayList<>();
-    @Field( name="processor", type= FieldType.Nested )
+    @Field( name="processors", type= FieldType.Nested )
     private List<Processor> _processors = new ArrayList<>();
     @Field( name="transformer", type= FieldType.Nested )
     private Transformer _transformer;

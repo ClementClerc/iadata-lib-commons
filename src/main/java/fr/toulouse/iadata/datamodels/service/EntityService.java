@@ -111,45 +111,34 @@ public class EntityService
             {
                 List<String> paths = new ArrayList<>();
                 String newKey=member.getName();
-                List<String> recursiveResult = testRecursive(member, paths, newKey );
+                List<String> recursiveResult = fetchMemberRecursive (member, paths, newKey );
                 if (recursiveResult.size() != 0){
                     pathList.addAll( recursiveResult );
                 }
         }
         return pathList;
     }
-    public  List<String> testRecursive ( EntityMember entityMember, List<String> paths,String oldKey )
+
+    private List<String> fetchMemberRecursive ( EntityMember entityMember, List<String> paths,String oldKey )
     {
 
         Map<String,EntityMember> memberList  =  entityMember.getMembers();
         paths.add(oldKey);
         if (memberList != null) {
-
-
             for (EntityMember member : memberList.values()) {
-
-//                if (member.getType().equals("Property")) {
-                    String newkey = oldKey + "." + member.getName();
-                    paths.remove(oldKey);
-                    if ((member.getMembers() != null) && member.getMembers().size() != 0) {
-                        testRecursive(member, paths, newkey);
-                    }else {
-//                        oldKey=newkey;
-                        paths.add(newkey);
-
-                    }
-//                }else if (!member.getType().equals("Property") && paths.size() != 0) {
-//                    paths.remove(oldKey);
-//
-//                }
+                String newkey = oldKey + "." + member.getName();
+                paths.remove(oldKey);
+                if ((member.getMembers() != null) && member.getMembers().size() != 0) {
+                    fetchMemberRecursive (member, paths, newkey);
+                }else {
+                    paths.add(newkey);
+                }
             }
         }
         return paths;
     }
 
 
-
-        
 
     public void replaceEntityMemberName( Entity entity, String oldKey, String newKey ) throws UnrecognizedEntityMemberException, MalformedKeyPathException
     {
@@ -287,7 +276,7 @@ public class EntityService
     
     public void entityLogErrorAdder (AbstractEntityException e, Entity entity) {
         
-        _logger.error(e.getMessage());
+        _logger.debug(e.getErrorMessage());
         try {
             Property property = getPropertyMemberByPath(entity,"errors");
             List<String> errors = (List<String>)property.getValue();
