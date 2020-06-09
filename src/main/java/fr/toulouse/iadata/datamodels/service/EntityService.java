@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +102,53 @@ public class EntityService
     }
 
 
+
+    public List<String> getPaths( Entity entity )
+    {
+        Map<String,EntityMember> listMember = entity.getMembers();
+        List<String> pathList = new ArrayList<>();
+            for ( EntityMember member : listMember.values() )
+            {
+                List<String> paths = new ArrayList<>();
+                String newKey=member.getName();
+                List<String> recursiveResult = testRecursive(member, paths, newKey );
+                if (recursiveResult.size() != 0){
+                    pathList.addAll( recursiveResult );
+                }
+        }
+        return pathList;
+    }
+    public  List<String> testRecursive ( EntityMember entityMember, List<String> paths,String oldKey )
+    {
+
+        Map<String,EntityMember> memberList  =  entityMember.getMembers();
+        paths.add(oldKey);
+        if (memberList != null) {
+
+
+            for (EntityMember member : memberList.values()) {
+
+//                if (member.getType().equals("Property")) {
+                    String newkey = oldKey + "." + member.getName();
+                    paths.remove(oldKey);
+                    if ((member.getMembers() != null) && member.getMembers().size() != 0) {
+                        testRecursive(member, paths, newkey);
+                    }else {
+//                        oldKey=newkey;
+                        paths.add(newkey);
+
+                    }
+//                }else if (!member.getType().equals("Property") && paths.size() != 0) {
+//                    paths.remove(oldKey);
+//
+//                }
+            }
+        }
+        return paths;
+    }
+
+
+
         
 
     public void replaceEntityMemberName( Entity entity, String oldKey, String newKey ) throws UnrecognizedEntityMemberException, MalformedKeyPathException
@@ -115,30 +163,32 @@ public class EntityService
             }
             entity.getMembers().get( oldKeyPath[0]).setName(newKeyPath[0] );
             entity.getMembers().put( newKeyPath[0],entity.getMembers( ).get( oldKeyPath[0] ));
-            entity.getMembers().remove(oldKeyPath[0]);
-            oldKeyPath[0]=newKeyPath[0];
+            if (!oldKeyPath[0].equals(newKeyPath[0])) {
+                entity.getMembers().remove(oldKeyPath[0]);
+            }
+            oldKeyPath[0] = newKeyPath[0];
         
+            if (entity.getMembers().get( oldKeyPath[0] ) != null) {
+                EntityMember member = entity.getMembers().get(oldKeyPath[0]);
+                for (int i = 1; i < oldKeyPath.length; i++) {
+                    if (member.getMembers().containsKey(oldKeyPath[i]) && !oldKeyPath[i].equals(newKeyPath[i])) {
 
-            EntityMember member = entity.getMembers().get( oldKeyPath[0] );
-            for (int i=1;i< oldKeyPath.length; i++){
-                if ( member.getMembers().containsKey( oldKeyPath[i]) && !oldKeyPath[i].equals(newKeyPath[i])){
+                        member.getMembers().get(oldKeyPath[i]).setName(newKeyPath[i]);
+                        member.getMembers().put(newKeyPath[i], member.getMembers().get(oldKeyPath[i]));
+                        member.getMembers().remove(oldKeyPath[i]);
+                        member = member.getMembers().get(newKeyPath[i]);
 
-                    member.getMembers().get(oldKeyPath[i]).setName(newKeyPath[i]);
-                    member.getMembers().put(newKeyPath[i],member.getMembers( ).get( oldKeyPath[i] ));
-                    member.getMembers().remove(oldKeyPath[i]);
-                    member=member.getMembers().get(newKeyPath[i]);
-
-                }else if(member.getMembers().containsKey( oldKeyPath[i])){
-                    member=member.getMembers().get(newKeyPath[i]);
-                }else
-                {
-                    member = null;
-                    throw new UnrecognizedEntityMemberException(oldKey);
+                    } else if (member.getMembers().containsKey(oldKeyPath[i])) {
+                        member = member.getMembers().get(newKeyPath[i]);
+                    } else {
+                        member = null;
+//                    throw new UnrecognizedEntityMemberException(oldKey);
+                    }
                 }
             }
-        }else {
+        }/*else {
             throw new MalformedKeyPathException("Malformed keyPath for oldKey "+oldKey+" or new keyPath "+newKey);
-        }
+        }*/
     
         
 }
