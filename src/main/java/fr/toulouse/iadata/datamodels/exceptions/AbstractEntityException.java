@@ -14,6 +14,6 @@ import java.util.List;
  *
  * @author loulo
  */
-public abstract class AbstractEntityException extends Exception {
+public abstract class AbstractEntityException extends RuntimeException {
         public abstract String getErrorMessage();
 }

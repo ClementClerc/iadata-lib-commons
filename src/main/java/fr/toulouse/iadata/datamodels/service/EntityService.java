@@ -88,7 +88,7 @@ public class EntityService
     public <T extends AbstractProperty> T getPropertyMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException
 
     {
-        if(getEntityMemberByPath( entity, strPath ).equals(null))
+        if(getEntityMemberByPath( entity, strPath ) == null)
         {
             throw new UnrecognizedEntityMemberException(strPath);
         }
@@ -227,8 +227,7 @@ public class EntityService
                         .flatMap( this::flatten ) );
     }
 
-    private EntityMember getEntityMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException
-    {
+    private EntityMember getEntityMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException {
         String[] keyPath = strPath.split("[.]");
         EntityMember memberReturn = null;
         if ((keyPath.length == 1))
