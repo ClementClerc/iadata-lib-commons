@@ -106,7 +106,9 @@ public class EntityService
     public List<String> getPaths( Entity entity )
     {
         Map<String,EntityMember> listMember = entity.getMembers();
-        List<String> pathList = new ArrayList<>();
+        if ( listMember != null )
+        {
+            List<String> pathList = new ArrayList<>();
             for ( EntityMember member : listMember.values() )
             {
                 List<String> paths = new ArrayList<>();
@@ -115,8 +117,10 @@ public class EntityService
                 if (recursiveResult.size() != 0){
                     pathList.addAll( recursiveResult );
                 }
+            }
+            return pathList;
         }
-        return pathList;
+        return null;
     }
 
     private List<String> fetchMemberRecursive ( EntityMember entityMember, List<String> paths,String oldKey )
