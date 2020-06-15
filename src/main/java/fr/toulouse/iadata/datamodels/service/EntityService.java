@@ -243,7 +243,7 @@ public class EntityService
             for (int i=1;i< keyPath.length; i++){
                 if ( member != null )
                 {
-                    if ( member.getMembers().containsKey( keyPath[i])){
+                    if ( member.getMembers() != null && member.getMembers().containsKey( keyPath[i])){
 
                         member= member.getMembers().get( keyPath[i] );
                     }
