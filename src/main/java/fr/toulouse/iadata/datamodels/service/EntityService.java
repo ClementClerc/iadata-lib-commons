@@ -283,12 +283,12 @@ public class EntityService
         try {
             Property property = getPropertyMemberByPath(entity,"errors");
             List<String> errors = (List<String>)property.getValue();
-            errors.add(e.getErrorMessage() + " stack " + e.getStackTrace( ) ) ;
+            errors.add( e.getErrorMessage() ) ;
             property.setValue(errors);
             
         } catch (UnrecognizedEntityMemberException ex) {
             List<String> errorList = new ArrayList();
-            errorList.add(e.getErrorMessage() + " stack " + e.getStackTrace( ));
+            errorList.add(e.getErrorMessage( ) );
             addEntityMember(entity,new String[]{},Property.builder()
                                         .name("errors")
                                         .value(errorList)
