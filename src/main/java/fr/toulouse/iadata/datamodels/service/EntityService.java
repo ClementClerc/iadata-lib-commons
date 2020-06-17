@@ -28,12 +28,12 @@ public class EntityService
 
     public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey ) throws UnrecognizedEntityMemberException
     {
-        if(getEntityMemberByPath( entity, strKeyContainingValue ).equals(null))
+        EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue );
+        if(memberToCopy == null )
         {
             throw new UnrecognizedEntityMemberException(strKeyContainingValue);
         }
 
-        EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue);
         try
         {
             EntityMember memberCopied = memberToCopy.clone();
@@ -88,15 +88,17 @@ public class EntityService
     public <T extends AbstractProperty> T getPropertyMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException
 
     {
-        if(getEntityMemberByPath( entity, strPath ) == null)
+        EntityMember member = getEntityMemberByPath( entity, strPath );
+        if( member == null)
         {
             throw new UnrecognizedEntityMemberException(strPath);
         }
-        EntityMember member = getEntityMemberByPath( entity, strPath );
-
-        if ( member instanceof AbstractProperty )
+        else
         {
-            return (T) member;
+            if ( member instanceof AbstractProperty )
+            {
+                return (T) member;
+            }
         }
         return null;
     }
@@ -152,7 +154,7 @@ public class EntityService
 
         if ((oldKeyPath.length == 1) || (!oldKeyPath[0].equals(newKeyPath[0]))){
             if(entity.getMembers().get( oldKeyPath[0]) == null){
-                throw new UnrecognizedEntityMemberException(oldKey) ;
+                return;
             }
             entity.getMembers().get( oldKeyPath[0]).setName(newKeyPath[0] );
             entity.getMembers().put( newKeyPath[0],entity.getMembers( ).get( oldKeyPath[0] ));
@@ -234,7 +236,7 @@ public class EntityService
         {
             if ( entity.getMembers()!= null )
             {
-                memberReturn = entity.getMembers().get( keyPath[0]);
+                return entity.getMembers().get( keyPath[0]);
             }
         }
         else
