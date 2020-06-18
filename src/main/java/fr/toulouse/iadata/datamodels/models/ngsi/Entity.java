@@ -118,6 +118,7 @@ public class Entity extends NGSIElement
     
     @JsonAnyGetter
     public Map<String,EntityMember > getMembers( ) {
+        if ( _members == null ) { _members = new HashMap<>();}
         return _members;
     }
 
@@ -130,6 +131,7 @@ public class Entity extends NGSIElement
     {
 
         public EntityBuilder addMember( EntityMember member) {
+
             if ( members == null )
             {
                 members = new HashMap<>();
