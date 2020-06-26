@@ -38,6 +38,8 @@ public class Application
     private List<Processor> _processors = new ArrayList<>();
     @Field( name="transformer", type= FieldType.Nested )
     private Transformer _transformer;
+    @Field( name="dataType")
+    private String _dataType;
 
     public String getId() {
         return id;
