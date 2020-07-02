@@ -5,7 +5,10 @@
  */
 package fr.toulouse.iadata.datamodels.models.ngsi;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.geojson.GeoJsonObject;
@@ -28,7 +31,7 @@ public class GeoProperty extends AbstractProperty
     GeoJsonObject _value;
 
     @Builder
-    public GeoProperty(String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, GeoJsonObject value) {
+    public GeoProperty(EntityMember createdAt, EntityMember modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, GeoJsonObject value) {
         _createdAt = createdAt;
         _modifiedAt = modifiedAt;
         _name = name;

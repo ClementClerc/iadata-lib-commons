@@ -27,6 +27,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper=true)
 @Accessors( prefix = {"_"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class EntityMember extends NGSIElement implements Cloneable
 { 
     protected String _name;

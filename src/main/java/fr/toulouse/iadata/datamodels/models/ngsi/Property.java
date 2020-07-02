@@ -26,7 +26,7 @@ import lombok.experimental.Accessors;
 public class Property extends AbstractProperty
 {
     @Builder
-    public Property( String createdAt, String modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object value, String unitCode) {
+    public Property( EntityMember createdAt, EntityMember modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object value, String unitCode) {
         _createdAt = createdAt;
         _modifiedAt = modifiedAt;
         _name = name;

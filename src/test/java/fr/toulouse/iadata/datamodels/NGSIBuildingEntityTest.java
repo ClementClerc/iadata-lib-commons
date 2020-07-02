@@ -269,4 +269,25 @@ public class NGSIBuildingEntityTest
         String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, JSONCompareMode.LENIENT);
     }
+
+    @Test
+    public void buildNGSIEntity4Test( ) throws URISyntaxException, JSONException, JsonProcessingException
+    {
+        String strNGSI = "{" +
+                " \"id\": \"urn:ngsi-ld:OffStreetParking:Downtown1\"," +
+                " \"type\": \"OffStreetParking\"," +
+                " \"name\": [\"Downtown One\"]," +
+                " \"createdAt\": \"test\"" +
+
+                "} ";
+
+        Entity entity = Entity.builder()
+                .id("urn:ngsi-ld:OffStreetParking:Downtown1")
+                .type("OffStreetParking")
+                .addSimpleProperty( "name", new String[]{"Downtown One"})
+                .addSimpleProperty( "createdAt","test")
+                .build();
+        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        JSONAssert.assertEquals(strNGSI, strSerializedJson, JSONCompareMode.LENIENT);
+    }
 }

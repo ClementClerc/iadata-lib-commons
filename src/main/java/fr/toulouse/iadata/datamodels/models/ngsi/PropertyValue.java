@@ -35,18 +35,17 @@ public class PropertyValue extends AbstractProperty
        _type = TYPE;
     }
 
+    public PropertyValue( Object strValue )
+    {
+        _value = strValue;
+    }
     public PropertyValue( String strValue )
     {
         _value = strValue;
     }
 
-    public PropertyValue( Double strValue )
-    {
-        _value = strValue;
-    }
-
     @Builder
-    public PropertyValue(String name, String value) {
+    public PropertyValue(String name, Object value) {
         _name = name;
         _value = value;
     }

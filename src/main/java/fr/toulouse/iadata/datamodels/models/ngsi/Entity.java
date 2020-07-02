@@ -68,10 +68,8 @@ public class Entity extends NGSIElement
     private List<Context> _contexts;
 
     @Builder
-    public Entity( String idTech, String id, String type, String createdAt, String modifiedAt, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
+    public Entity( String idTech, String id, String type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
     {
-        _createdAt = createdAt;
-        _modifiedAt = modifiedAt;
         _idTech = idTech;
         _id = new URI( id );
         _type = type;
@@ -140,13 +138,13 @@ public class Entity extends NGSIElement
             return this;
         }
 
-        public EntityBuilder addSimpleProperty( String strPropertyName, String strPropertyValue ) {
+        public EntityBuilder addSimpleProperty( String strPropertyName, Object value ) {
             if ( members == null )
             {
                 members = new HashMap<>();
             }
             PropertyValue propertyValue = PropertyValue.builder()
-                    .value( strPropertyValue)
+                    .value( value )
                     .name( strPropertyName )
                     .build();
             members.put( propertyValue.getName( ), propertyValue );
