@@ -40,6 +40,8 @@ public class Application
     private Transformer _transformer;
     @Field( name="dataType")
     private String _dataType;
+    @Field( name="isModified", type= FieldType.Boolean)
+    private Boolean _isModified;
 
     public String getId() {
         return id;
@@ -47,5 +49,14 @@ public class Application
 
     public void setId(String id) {
         this.id = id;
+    }
+    
+    public String getDataType( )
+    {
+        if ( _dataType == null )
+        {
+            return "data";
+        }
+        return _dataType;
     }
 }
