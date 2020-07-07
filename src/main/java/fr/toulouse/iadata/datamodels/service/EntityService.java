@@ -103,6 +103,20 @@ public class EntityService
         return null;
     }
 
+    public EntityMember getMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException
+
+    {
+        EntityMember member = getEntityMemberByPath( entity, strPath );
+        if( member == null)
+        {
+            throw new UnrecognizedEntityMemberException(strPath);
+        }
+        else
+        {
+            return member;
+        }
+    }
+
 
 
     public List<String> getPaths( Entity entity )

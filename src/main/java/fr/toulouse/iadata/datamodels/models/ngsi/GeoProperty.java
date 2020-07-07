@@ -31,7 +31,7 @@ public class GeoProperty extends AbstractProperty
     GeoJsonObject _value;
 
     @Builder
-    public GeoProperty(EntityMember createdAt, EntityMember modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, GeoJsonObject value) {
+    public GeoProperty( AbstractProperty createdAt, AbstractProperty modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, GeoJsonObject value) {
         _createdAt = createdAt;
         _modifiedAt = modifiedAt;
         _name = name;

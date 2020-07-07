@@ -17,38 +17,16 @@ import lombok.experimental.Accessors;
 abstract class NGSIElement
 {
 
-    protected EntityMember _createdAt;
+    protected AbstractProperty _createdAt;
 
-    protected EntityMember _modifiedAt;
+    protected AbstractProperty _modifiedAt;
 
-    @JsonTypeInfo(
-            use = JsonTypeInfo.Id.NAME,
-            include = JsonTypeInfo.As.EXISTING_PROPERTY,
-            property = "type",
-            visible = true,
-            defaultImpl = PropertyValue.class )
-    @JsonSubTypes({
-            @JsonSubTypes.Type(value = Property.class, name = "Property"),
-            @JsonSubTypes.Type(value = PropertyValue.class, name = "PropertyValue"),
-            @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),
-            @JsonSubTypes.Type(value = GeoProperty.class, name = "GeoProperty")})
-    public void setCreatedAt( EntityMember value)
+    public void setCreatedAt( AbstractProperty value)
     {
         _createdAt = value;
     }
 
-    @JsonTypeInfo(
-            use = JsonTypeInfo.Id.NAME,
-            include = JsonTypeInfo.As.EXISTING_PROPERTY,
-            property = "type",
-            visible = true,
-            defaultImpl = PropertyValue.class )
-    @JsonSubTypes({
-            @JsonSubTypes.Type(value = Property.class, name = "Property"),
-            @JsonSubTypes.Type(value = PropertyValue.class, name = "PropertyValue"),
-            @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),
-            @JsonSubTypes.Type(value = GeoProperty.class, name = "GeoProperty")})
-    public void setModifiedAt( EntityMember value)
+    public void setModifiedAt( AbstractProperty value)
     {
         _modifiedAt = value;
     }

@@ -26,7 +26,7 @@ public class Relationship extends EntityMember
     private static final String TYPE = "Relationship";
 
     @Builder
-    public Relationship( EntityMember createdAt, EntityMember modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String object) throws URISyntaxException
+    public Relationship( AbstractProperty createdAt, AbstractProperty modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String object) throws URISyntaxException
     {
         _createdAt = createdAt;
         _modifiedAt = modifiedAt;

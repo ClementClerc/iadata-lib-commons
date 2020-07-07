@@ -35,10 +35,6 @@ public class PropertyValue extends AbstractProperty
        _type = TYPE;
     }
 
-    public PropertyValue( Object strValue )
-    {
-        _value = strValue;
-    }
     public PropertyValue( String strValue )
     {
         _value = strValue;
@@ -49,6 +45,7 @@ public class PropertyValue extends AbstractProperty
         _name = name;
         _value = value;
     }
+
 
     @Override
     public EntityMember clone() throws CloneNotSupportedException

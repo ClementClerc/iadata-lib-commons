@@ -44,7 +44,7 @@ public class SearchMemberTest
 
         Entity entity = Entity.builder()
                 .id("urn:ngsi-ld:OffStreetParking:Downtown1")
-                .type("OffStreetParking")
+                .addSimpleProperty( "type", "OffStreetParking")
                 .addMember(Property.builder()
                         .name("a")
                         .value(0)

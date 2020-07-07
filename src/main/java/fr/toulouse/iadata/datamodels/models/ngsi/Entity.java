@@ -47,8 +47,8 @@ public class Entity extends NGSIElement
     private String _idTech;
 
     private URI _id;
-    
-    private String _type;
+
+    private AbstractProperty _type;
     
     /////////////////////////////
     // LOCATION FIELDS
@@ -68,7 +68,7 @@ public class Entity extends NGSIElement
     private List<Context> _contexts;
 
     @Builder
-    public Entity( String idTech, String id, String type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
+    public Entity( String idTech, String id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
     {
         _idTech = idTech;
         _id = new URI( id );
@@ -81,17 +81,6 @@ public class Entity extends NGSIElement
 
     }
 
-    @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,  
-    include = JsonTypeInfo.As.EXISTING_PROPERTY,  
-    property = "type",
-    visible = true, 
-    defaultImpl = PropertyValue.class )  
-    @JsonSubTypes({
-        @JsonSubTypes.Type(value = Property.class, name = "Property"),  
-        @JsonSubTypes.Type(value = PropertyValue.class, name = "PropertyValue"),  
-        @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),  
-        @JsonSubTypes.Type(value = GeoProperty.class, name = "GeoProperty")}) 
     @JsonAnySetter
     public void setMember( String name, EntityMember value) {
         value.setName( name );
@@ -160,7 +149,11 @@ public class Entity extends NGSIElement
             return this;
         }
     }
-//    
+
+    public void setType(AbstractProperty type) {
+            _type = type;
+        }
+    //
 //        public Entity clone() throws CloneNotSupportedException {
 //        Entity entity = (Entity)super.clone();
 //        return entity;

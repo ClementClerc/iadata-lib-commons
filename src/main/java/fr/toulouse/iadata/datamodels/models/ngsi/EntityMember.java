@@ -29,6 +29,18 @@ import lombok.experimental.Accessors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type",
+        visible = true,
+        defaultImpl = PropertyValue.class )
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Property.class, name = "Property"),
+        @JsonSubTypes.Type(value = PropertyValue.class, name = "PropertyValue"),
+        @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),
+        @JsonSubTypes.Type(value = GeoProperty.class, name = "GeoProperty")})
+
 public abstract class EntityMember extends NGSIElement implements Cloneable
 { 
     protected String _name;
@@ -43,18 +55,7 @@ public abstract class EntityMember extends NGSIElement implements Cloneable
     protected Map< String, EntityMember > _members = new HashMap<>();
 
     protected void setType( ){}
-    
-    @JsonTypeInfo(  
-    use = JsonTypeInfo.Id.NAME,  
-    include = JsonTypeInfo.As.EXISTING_PROPERTY,  
-    property = "type",
-    visible = true, 
-    defaultImpl = PropertyValue.class )
-    @JsonSubTypes({
-        @JsonSubTypes.Type(value = Property.class, name = "Property"),
-        @JsonSubTypes.Type(value = PropertyValue.class, name = "PropertyValue"),  
-        @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),
-        @JsonSubTypes.Type(value = GeoProperty.class, name = "GeoProperty")})
+
     @JsonAnySetter
     public void setMember( String name, EntityMember value) {
         value.setName( name );

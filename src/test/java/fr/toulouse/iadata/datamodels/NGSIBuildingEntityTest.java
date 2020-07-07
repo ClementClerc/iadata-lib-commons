@@ -15,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith( SpringRunner.class )
 public class NGSIBuildingEntityTest
@@ -70,7 +72,7 @@ public class NGSIBuildingEntityTest
 
         Entity entity = Entity.builder()
                 .id("urn:ngsi-ld:OffStreetParking:Downtown1")
-                .type("OffStreetParking")
+                .addSimpleProperty( "type", "OffStreetParking")
                 .addMember(Property.builder()
                         .name("name")
                         .value("Downtown One")
@@ -153,7 +155,7 @@ public class NGSIBuildingEntityTest
 
         Entity entity = Entity.builder()
                 .id("urn:ngsi-ld:OffStreetParking:Downtown1")
-                .type("OffStreetParking")
+                .addSimpleProperty( "type", "OffStreetParking")
                 .addMember(Property.builder()
                         .name("name")
                         .value("Downtown One")
@@ -235,7 +237,7 @@ public class NGSIBuildingEntityTest
 
         Entity entity = Entity.builder()
                 .id("urn:ngsi-ld:OffStreetParking:Downtown1")
-                .type("OffStreetParking")
+                .addSimpleProperty( "type", "OffStreetParking")
                 .addSimpleProperty( "name", "Downtown One")
                 .addMember(Property.builder()
                         .name("availableSpotNumber")
@@ -265,27 +267,6 @@ public class NGSIBuildingEntityTest
                         .addFieldURI("speed#2", "http://example.org/speed" )
                         .addFieldURI("source", "http://example.org/hasSource" )
                         .build())
-                .build();
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
-        JSONAssert.assertEquals(strNGSI, strSerializedJson, JSONCompareMode.LENIENT);
-    }
-
-    @Test
-    public void buildNGSIEntity4Test( ) throws URISyntaxException, JSONException, JsonProcessingException
-    {
-        String strNGSI = "{" +
-                " \"id\": \"urn:ngsi-ld:OffStreetParking:Downtown1\"," +
-                " \"type\": \"OffStreetParking\"," +
-                " \"name\": [\"Downtown One\"]," +
-                " \"createdAt\": \"test\"" +
-
-                "} ";
-
-        Entity entity = Entity.builder()
-                .id("urn:ngsi-ld:OffStreetParking:Downtown1")
-                .type("OffStreetParking")
-                .addSimpleProperty( "name", new String[]{"Downtown One"})
-                .addSimpleProperty( "createdAt","test")
                 .build();
         String strSerializedJson = _objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, JSONCompareMode.LENIENT);
