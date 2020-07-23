@@ -9,10 +9,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.toulouse.iadata.datamodels.models.ngsi.Property;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author cu33443
@@ -101,6 +104,56 @@ public class JsonUtils
     public static JsonNode convertToJsonNode( Object object ) throws JsonProcessingException
     {
         return _objectMapper.valueToTree( object );
+    }
+    
+    
+    
+    public static JsonNode jsonNodeChecker (JsonNode jsonNode, String strKey, Pattern pattern) throws JsonProcessingException{
+        
+        String [] path = strKey.split("[.]");
+        
+        for (String strPath : path){
+            Matcher matcher = pattern.matcher(strPath);
+            if (matcher.matches()){
+                if (matcher.group(2).equals("[") && matcher.group(4).equals("]")){
+                    int integer = Integer.parseInt(matcher.group(3));
+                    jsonNode=jsonNode.get(matcher.group(1)).get(integer);
+                }
+
+            }
+            else if (jsonNode.get(strPath) == null){
+                return null;
+            }
+            else{
+                jsonNode=jsonNode.get(strPath);
+            }
+        }
+        return jsonNode;
+    }
+     
+    public static Property jsonNodeValueChecker(Map<String,JsonNode> uplinkMessageMap , String strPropertyMapKey){
+                
+        if (uplinkMessageMap.get(strPropertyMapKey) != null ){
+            
+            if (uplinkMessageMap.get(strPropertyMapKey).isDouble()){
+                return Property.builder( ).name(strPropertyMapKey).value(uplinkMessageMap.get(strPropertyMapKey).asDouble()).build();
+            }
+            if (uplinkMessageMap.get(strPropertyMapKey).isTextual()){
+                return Property.builder( ).name(strPropertyMapKey).value(uplinkMessageMap.get(strPropertyMapKey).textValue()).build();
+            }
+            if (uplinkMessageMap.get(strPropertyMapKey).isLong()){
+                return Property.builder( ).name(strPropertyMapKey).value(uplinkMessageMap.get(strPropertyMapKey).asLong()).build();
+            }
+            if (uplinkMessageMap.get(strPropertyMapKey).isInt()){
+                return Property.builder( ).name(strPropertyMapKey).value(uplinkMessageMap.get(strPropertyMapKey).asInt()).build();
+            }
+            if (uplinkMessageMap.get(strPropertyMapKey).isFloat()){
+                return Property.builder( ).name(strPropertyMapKey).value(uplinkMessageMap.get(strPropertyMapKey).floatValue()).build();
+            }
+            
+       }
+        return null;
+       
     }
 
     /**

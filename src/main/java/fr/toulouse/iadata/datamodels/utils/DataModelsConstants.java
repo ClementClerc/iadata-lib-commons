@@ -1,7 +1,13 @@
 package fr.toulouse.iadata.datamodels.utils;
 
+import java.util.regex.Pattern;
+
 public class DataModelsConstants
 {
+    
+    public static final Pattern JSON_PATH_PATTERN = Pattern.compile("([^\\[]*)([\\[])(.)([\\]])$");
+
+    
     public static final String NGSI_PAYLOAD_SPEC_1 = "{" +
             " \"id\": \"urn:ngsi-ld:OffStreetParking:Downtown1\"," +
             " \"type\": \"OffStreetParking\"," +
