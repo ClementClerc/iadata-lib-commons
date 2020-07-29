@@ -11,13 +11,13 @@ package fr.toulouse.iadata.datamodels.exceptions;
  */
 public class MalformedKeyPathException extends AbstractEntityException {
 
-    private final String _strMessage;
+    private final String message;
 
     public MalformedKeyPathException(String strMessage,Throwable e) {
-        _strMessage = strMessage;
+        message = strMessage;
     }
         public MalformedKeyPathException(String strMessage) {
-        _strMessage = strMessage;
+        message = strMessage;
     }
     
     
@@ -25,7 +25,7 @@ public class MalformedKeyPathException extends AbstractEntityException {
 
     @Override
     public String getErrorMessage() {
-        return _strMessage;
+        return message;
     }
     
 }

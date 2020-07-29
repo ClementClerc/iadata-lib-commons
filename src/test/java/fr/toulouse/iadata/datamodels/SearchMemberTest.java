@@ -26,15 +26,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RunWith( SpringRunner.class )
 public class SearchMemberTest
 {
-    private static ObjectMapper _objectMapper;
+    private static ObjectMapper objectMapper;
 //    @Autowired
 //    private static EntityService _entityService;
 
     @BeforeClass
     public static void setUp()
     {
-        _objectMapper = new ObjectMapper();
-        _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Test

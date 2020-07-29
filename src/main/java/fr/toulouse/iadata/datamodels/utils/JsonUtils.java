@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 public class JsonUtils
 {
 
-    private static ObjectMapper _objectMapper = new ObjectMapper( );
+    private static ObjectMapper objectMapper = new ObjectMapper( );
 
     /**
      * @param strJson
@@ -34,7 +34,7 @@ public class JsonUtils
     {
         try
         {
-            return _objectMapper.readTree( strJson.getBytes( "UTF-8" ) );
+            return objectMapper.readTree( strJson.getBytes( "UTF-8" ) );
         }
         catch ( IOException ex )
         {
@@ -50,7 +50,7 @@ public class JsonUtils
      */
     public static Map< String, String > convertJsonToMap( JsonNode jsonNode )
     {
-        return _objectMapper.convertValue( jsonNode, new TypeReference< Map< String, String > >( )
+        return objectMapper.convertValue( jsonNode, new TypeReference< Map< String, String > >( )
         {
         } );
     }
@@ -72,7 +72,7 @@ public class JsonUtils
      */
     public static String convertMapToJsonString( Map< String, String > mapJson ) throws JsonProcessingException
     {
-        return _objectMapper.writeValueAsString( mapJson );
+        return objectMapper.writeValueAsString( mapJson );
     }
 
     /**
@@ -83,7 +83,7 @@ public class JsonUtils
      */
     public static String convertJsonToJsonString( JsonNode jsonNode ) throws JsonProcessingException
     {
-        return _objectMapper.writeValueAsString( jsonNode );
+        return objectMapper.writeValueAsString( jsonNode );
     }
 
     /**
@@ -93,7 +93,7 @@ public class JsonUtils
      */
     public static JsonNode convertMapToJson( Map< String, String > map ) throws JsonProcessingException
     {
-        return _objectMapper.valueToTree( map );
+        return objectMapper.valueToTree( map );
     }
 
     /**
@@ -103,7 +103,7 @@ public class JsonUtils
      */
     public static JsonNode convertToJsonNode( Object object ) throws JsonProcessingException
     {
-        return _objectMapper.valueToTree( object );
+        return objectMapper.valueToTree( object );
     }
     
     
@@ -163,7 +163,7 @@ public class JsonUtils
      */
     // public static JsonNode accumulate( List<JsonNode> listJsonNode ) throws JsonProcessingException
     // {
-    // ObjectNode childNode1 = _objectMapper.createObjectNode();
+    // ObjectNode childNode1 = objectMapper.createObjectNode();
     // for ( JsonNode jsonNode : listJsonNode )
     // {
     // childNode1.

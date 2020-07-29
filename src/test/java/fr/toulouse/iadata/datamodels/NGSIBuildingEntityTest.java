@@ -13,21 +13,18 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RunWith( SpringRunner.class )
 public class NGSIBuildingEntityTest
 {
-    private static ObjectMapper _objectMapper;
+    private static ObjectMapper objectMapper;
 
     @BeforeClass
     public static void setUp()
     {
-        _objectMapper = new ObjectMapper();
-        _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Test
@@ -105,7 +102,7 @@ public class NGSIBuildingEntityTest
                         .build())
                 .build();
 
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        String strSerializedJson = objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, JSONCompareMode.LENIENT);
     }
 
@@ -190,7 +187,7 @@ public class NGSIBuildingEntityTest
                         .build())
                 .build();
 
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        String strSerializedJson = objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, JSONCompareMode.LENIENT);
     }
 
@@ -268,7 +265,7 @@ public class NGSIBuildingEntityTest
                         .addFieldURI("source", "http://example.org/hasSource" )
                         .build())
                 .build();
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        String strSerializedJson = objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, JSONCompareMode.LENIENT);
     }
 }

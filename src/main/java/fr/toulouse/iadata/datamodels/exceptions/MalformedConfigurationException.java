@@ -5,14 +5,10 @@
  */
 package fr.toulouse.iadata.datamodels.exceptions;
 
-import fr.toulouse.iadata.datamodels.models.ngsi.AbstractProperty;
 import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
-import fr.toulouse.iadata.datamodels.models.ngsi.EntityMember;
-import fr.toulouse.iadata.datamodels.models.ngsi.Property;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  *
@@ -21,32 +17,33 @@ import lombok.experimental.Accessors;
 
 public class MalformedConfigurationException extends AbstractEntityException  {
 
-    private final String _strKey;
-    private final List<String> _customArgs;
-    private final List<String> _activatedKeys;
-    private final String _errorMessage;
-    private String _exceptionError;
+    private final String key;
+    private final List<String> customArgs;
+    private final List<String> activatedKeys;
+    private final String errorMessage;
+    private String exceptionError;
 
-    
+
+
     public MalformedConfigurationException(Entity entity, String errorMessage,String strKey, List<String> customArgs,List<String> activatedKeys,Throwable e) {
-        _strKey = strKey;
-        _customArgs = customArgs;
-        _activatedKeys = activatedKeys;
-        _errorMessage = errorMessage;
-        _exceptionError = e.getMessage();
+        key = strKey;
+        this.customArgs = customArgs;
+        this.activatedKeys = activatedKeys;
+        this.errorMessage = errorMessage;
+        this.exceptionError = e.getMessage();
     }
     
     public MalformedConfigurationException(Entity entity, String errorMessage,String strKey, List<String> customArgs,List<String> activatedKeys) {
-        _strKey = strKey;
-        _customArgs = customArgs;
-        _activatedKeys = activatedKeys;
-        _errorMessage = errorMessage;
+        key = strKey;
+        this.customArgs = customArgs;
+        this.activatedKeys = activatedKeys;
+        this.errorMessage = errorMessage;
     }
 
     @Override
     public String getErrorMessage() {
-        return "Error in Processor : " + _strKey + " : " + _errorMessage + " : CustomArgs : "
-                + _customArgs.stream().collect(Collectors.joining(",")) 
-                + " : CustomArgs : " + _activatedKeys.stream().collect(Collectors.joining(","));
+        return "Error in Processor : " + key + " : " + errorMessage + " : CustomArgs : "
+                + customArgs.stream().collect(Collectors.joining(","))
+                + " : CustomArgs : " + activatedKeys.stream().collect(Collectors.joining(","));
     }
 }

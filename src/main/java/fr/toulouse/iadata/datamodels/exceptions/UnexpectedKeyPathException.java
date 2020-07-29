@@ -12,16 +12,16 @@ package fr.toulouse.iadata.datamodels.exceptions;
 
 public class UnexpectedKeyPathException extends AbstractEntityException  {
 
-    private final String _strProcessorKey;
-    private final String _strEntityKey;
+    private final String processorKey;
+    private final String entityKey;
 
     public UnexpectedKeyPathException(String strEntityKey, String strProcessorKey) {
-        _strProcessorKey = strProcessorKey;
-        _strEntityKey = strEntityKey;
+        processorKey = strProcessorKey;
+        entityKey = strEntityKey;
     }
 
     @Override
     public String getErrorMessage() {
-        return "Unexpected key path for key : " + _strEntityKey + " in processor " + _strProcessorKey;
+        return "Unexpected key path for key : " + entityKey + " in processor " + processorKey;
     }
 }

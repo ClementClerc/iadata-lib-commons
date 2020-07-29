@@ -11,14 +11,14 @@ package fr.toulouse.iadata.datamodels.exceptions;
  */
 public class SerdeException extends AbstractEntityException {
 
-    private final String _strData;
+    private final String data;
 
     public SerdeException(String strData) {
-        _strData = strData;
+        data = strData;
     }
     
     public String getErrorMessage(){
-        return "Unable to deserialize data " + _strData;
+        return "Unable to deserialize data " + data;
     };
 
 

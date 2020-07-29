@@ -5,7 +5,6 @@
  */
 package fr.toulouse.iadata.datamodels.models.ngsi;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -19,7 +18,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper=true)
-@Accessors( prefix = {"_"})
 @NoArgsConstructor
 public class Relationship extends EntityMember
 {
@@ -28,21 +26,21 @@ public class Relationship extends EntityMember
     @Builder
     public Relationship( AbstractProperty createdAt, AbstractProperty modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, String object) throws URISyntaxException
     {
-        _createdAt = createdAt;
-        _modifiedAt = modifiedAt;
-        _name = name;
-        _datasetId = datasetId;
-        _observedAt = observedAt;
-        _type = TYPE;
-        _members = members;
-        _object = new URI(object);
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.name = name;
+        this.datasetId = datasetId;
+        this.observedAt = observedAt;
+        this.type = TYPE;
+        this.members = members;
+        this.object = new URI(object);
     }
 
-    private URI _object;
+    private URI object;
     
     @Override
     public void setType() {
-        _type = TYPE;
+        type = TYPE;
     }
 
     @Override

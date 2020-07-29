@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.*;
-import lombok.experimental.Accessors;
 
 /**
  * This class represents NGSI Entity Member, aka Property, GeoProperty, Relationship who all are described here
@@ -25,7 +24,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper=true)
-@Accessors( prefix = {"_"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,45 +41,45 @@ import lombok.experimental.Accessors;
 
 public abstract class EntityMember extends NGSIElement implements Cloneable
 { 
-    protected String _name;
+    protected String name;
     
-    protected URI _datasetId;
+    protected URI datasetId;
     
-    protected String _observedAt;
+    protected String observedAt;
 
-    protected String _type;
+    protected String type;
     
     // NESTED FIELDS
-    protected Map< String, EntityMember > _members = new HashMap<>();
+    protected Map< String, EntityMember > members = new HashMap<>();
 
     protected void setType( ){}
 
     @JsonAnySetter
     public void setMember( String name, EntityMember value) {
         value.setName( name );
-	_members.put(name, value);
+	members.put(name, value);
     }
 
     @JsonIgnore
     public void addMember( EntityMember member )
     {
-        _members.put( member.getName( ), member);
+        members.put( member.getName( ), member);
     }
 
     public EntityMember getMember( String strMemberName )
     {
-        return _members.get( strMemberName);
+        return members.get( strMemberName);
     }
 
     @JsonAnyGetter
     public Map<String,EntityMember> getMembers( ) {
-        return _members;
+        return members;
     }
     
     @JsonIgnore
     public String getName( )
     {
-        return _name;
+        return name;
     }
 
 

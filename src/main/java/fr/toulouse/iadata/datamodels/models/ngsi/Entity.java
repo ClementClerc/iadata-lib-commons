@@ -11,8 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -26,7 +24,6 @@ import java.util.Map;
 import fr.toulouse.iadata.datamodels.models.serde.ContextDeserializer;
 import fr.toulouse.iadata.datamodels.models.serde.ContextSerializer;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -35,7 +32,6 @@ import org.springframework.data.annotation.Id;
  */
 @Data
 @EqualsAndHashCode(callSuper=true)
-@Accessors( prefix = {"_"})
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
@@ -44,22 +40,22 @@ public class Entity extends NGSIElement
 
     @Id
     @JsonIgnore
-    private String _idTech;
+    private String idTech;
 
-    private URI _id;
+    private URI id;
 
-    private AbstractProperty _type;
+    private AbstractProperty type;
     
     /////////////////////////////
     // LOCATION FIELDS
-    private GeoProperty _location;
+    private GeoProperty location;
 
-    private GeoProperty _observationSpace;
+    private GeoProperty observationSpace;
     
-    private GeoProperty _operationSpace;
+    private GeoProperty operationSpace;
     
     // NESTED FIELDS
-    private Map< String, EntityMember > _members = new HashMap<>();
+    private Map< String, EntityMember > members = new HashMap<>();
     
     // CONTEXT
     @JsonProperty( "@context")
@@ -70,13 +66,13 @@ public class Entity extends NGSIElement
     @Builder
     public Entity( String idTech, String id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
     {
-        _idTech = idTech;
-        _id = new URI( id );
-        _type = type;
-        _location = location;
-        _observationSpace = observationSpace;
-        _operationSpace = operationSpace;
-        _members = members;
+        this.idTech = idTech;
+        this.id = new URI( id );
+        this.type = type;
+        this.location = location;
+        this.observationSpace = observationSpace;
+        this.operationSpace = operationSpace;
+        this.members = members;
         _contexts = contexts;
 
     }
@@ -84,34 +80,34 @@ public class Entity extends NGSIElement
     @JsonAnySetter
     public void setMember( String name, EntityMember value) {
         value.setName( name );
-	    _members.put(name, value);
+	    members.put(name, value);
     }
 
     @JsonIgnore
     public void addMember( EntityMember member )
     {
-        if ( _members == null )
+        if ( members == null )
         {
-            _members = new HashMap<>();
+            members = new HashMap<>();
         }
-        _members.put( member.getName( ), member);
+        members.put( member.getName( ), member);
     }
 
     @JsonIgnore
     public EntityMember getMember( String strMemberName )
     {
-        return _members.get( strMemberName);
+        return members.get( strMemberName);
     }
     
     @JsonAnyGetter
     public Map<String,EntityMember > getMembers( ) {
-        if ( _members == null ) { _members = new HashMap<>();}
-        return _members;
+        if ( members == null ) { members = new HashMap<>();}
+        return members;
     }
 
     public void setId(String id ) throws URISyntaxException
     {
-            _id = new URI(id);
+            this.id = new URI(id);
     }
 
     public static class EntityBuilder
@@ -151,7 +147,7 @@ public class Entity extends NGSIElement
     }
 
     public void setType(AbstractProperty type) {
-            _type = type;
+            this.type = type;
         }
     //
 //        public Entity clone() throws CloneNotSupportedException {

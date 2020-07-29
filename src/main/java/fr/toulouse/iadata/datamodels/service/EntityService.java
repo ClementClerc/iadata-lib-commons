@@ -22,9 +22,9 @@ import org.slf4j.LoggerFactory;
 @Component
 public class EntityService
 {
-    private static final Logger _logger = LoggerFactory.getLogger(EntityService.class);
+    private static final Logger logger = LoggerFactory.getLogger(EntityService.class);
 
-    private ObjectMapper _objectMapper = new ObjectMapper( );
+    private ObjectMapper objectMapper = new ObjectMapper( );
 
     public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey ) throws UnrecognizedEntityMemberException
     {
@@ -283,19 +283,19 @@ public class EntityService
 
     public String convertEntityToJsonString( Entity entity) throws JsonProcessingException
     {
-        return _objectMapper.writeValueAsString(entity);
+        return objectMapper.writeValueAsString(entity);
     }
 
     public Entity convertJsonToEntity( String strData ) throws JsonProcessingException
     {
-        return _objectMapper
+        return objectMapper
                 .readerFor(Entity.class)
                 .readValue(strData);
     }
     
     public void entityLogErrorAdder (AbstractEntityException e, Entity entity) {
         
-        _logger.debug(e.getErrorMessage());
+        logger.debug(e.getErrorMessage());
         try {
             Property property = getPropertyMemberByPath(entity,"errors");
             List<String> errors = (List<String>)property.getValue();

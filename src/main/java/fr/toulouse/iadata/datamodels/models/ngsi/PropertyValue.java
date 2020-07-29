@@ -12,38 +12,34 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.net.URI;
-import java.util.Map;
-
 /**
  * This class represents NGSI Property Value described here
  * <a href = "https://www.etsi.org/deliver/etsi_gs/CIM/001_099/009/01.01.01_60/gs_CIM009v010101p.pdf"/>
  */
 @Data
 @EqualsAndHashCode(callSuper=true)
-@Accessors( prefix = {"_"})
 @NoArgsConstructor
 public class PropertyValue extends AbstractProperty
 {
     private static final String TYPE = "PropertyValue";
     
     @JsonValue
-    private Object _value;
+    private Object value;
     
     @Override
     public void setType() {
-       _type = TYPE;
+       type = TYPE;
     }
 
     public PropertyValue( String strValue )
     {
-        _value = strValue;
+        value = strValue;
     }
 
     @Builder
     public PropertyValue(String name, Object value) {
-        _name = name;
-        _value = value;
+        this.name = name;
+        this.value = value;
     }
 
 
@@ -55,6 +51,6 @@ public class PropertyValue extends AbstractProperty
 
     @Override
     public void modifyValue(Object value) {
-        _value = value;
+        this.value = value;
     }
 }

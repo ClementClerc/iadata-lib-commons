@@ -13,7 +13,6 @@ import fr.toulouse.iadata.datamodels.utils.DataModelsConstants;
 import org.json.JSONException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,13 +24,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith( SpringRunner.class )
 public class NGSISpecsTest
 {
-    private static ObjectMapper _objectMapper;
+    private static ObjectMapper objectMapper;
 
     @BeforeClass
     public static void setUp()
     {
-        _objectMapper = new ObjectMapper();
-        _objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     }
 
@@ -39,18 +38,17 @@ public class NGSISpecsTest
     public void DeserializeNGSI1 ( ) throws JsonProcessingException, JSONException
     {
         String strNGSI = DataModelsConstants.NGSI_PAYLOAD_SPEC_1;
-        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        Entity entity = objectMapper.readValue(strNGSI, Entity.class);
+        String strSerializedJson = objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
-        
     }
     
     @Test
     public void DeserializeNGSI2 ( ) throws JsonProcessingException, JSONException
     {
         String strNGSI = DataModelsConstants.NGSI_PAYLOAD_SPEC_2;
-        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        Entity entity = objectMapper.readValue(strNGSI, Entity.class);
+        String strSerializedJson = objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
     
@@ -59,9 +57,9 @@ public class NGSISpecsTest
     public void DeserializeNGSI3 ( ) throws JsonProcessingException, JSONException
     {
         String strNGSI = DataModelsConstants.NGSI_PAYLOAD_SPEC_3;
-        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
+        Entity entity = objectMapper.readValue(strNGSI, Entity.class);
         
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        String strSerializedJson = objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
     
@@ -82,9 +80,9 @@ public class NGSISpecsTest
     public void DeserializeSimplifiedNGSI ( ) throws JsonProcessingException, JSONException
     {
         String strNGSI = DataModelsConstants.NGSI_PAYLOAD_SPEC_5;
-        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
+        Entity entity = objectMapper.readValue(strNGSI, Entity.class);
         
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        String strSerializedJson = objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
     
@@ -92,9 +90,9 @@ public class NGSISpecsTest
     public void DeserializeMultipleAttributeNGSI ( ) throws JsonProcessingException, JSONException
     {
         String strNGSI = DataModelsConstants.NGSI_PAYLOAD_SPEC_6;
-        Entity entity = _objectMapper.readValue(strNGSI, Entity.class);
+        Entity entity = objectMapper.readValue(strNGSI, Entity.class);
         
-        String strSerializedJson = _objectMapper.writeValueAsString(entity);
+        String strSerializedJson = objectMapper.writeValueAsString(entity);
         JSONAssert.assertEquals(strNGSI, strSerializedJson, true);
     }
 }

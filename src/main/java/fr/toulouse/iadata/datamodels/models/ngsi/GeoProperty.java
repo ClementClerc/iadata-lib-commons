@@ -5,12 +5,7 @@
  */
 package fr.toulouse.iadata.datamodels.models.ngsi;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.geojson.GeoJsonObject;
 
 import java.net.URI;
@@ -22,29 +17,28 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper=true)
-@Accessors( prefix = {"_"})
 @NoArgsConstructor
 public class GeoProperty extends AbstractProperty
 {
     private static final String TYPE = "GeoProperty";
 
-    GeoJsonObject _value;
+    GeoJsonObject value;
 
     @Builder
     public GeoProperty( AbstractProperty createdAt, AbstractProperty modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, GeoJsonObject value) {
-        _createdAt = createdAt;
-        _modifiedAt = modifiedAt;
-        _name = name;
-        _datasetId = datasetId;
-        _observedAt = observedAt;
-        _type = TYPE;
-        _members = members;
-        _value = value;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.name = name;
+        this.datasetId = datasetId;
+        this.observedAt = observedAt;
+        type = TYPE;
+        this.members = members;
+        this.value = value;
     }
 
     @Override
     public void setType() {
-        _type = TYPE;
+        type = TYPE;
     }
 
     @Override
@@ -55,6 +49,6 @@ public class GeoProperty extends AbstractProperty
 
     @Override
     public void modifyValue(Object value) {
-        _value = (GeoJsonObject) value;
+        this.value = (GeoJsonObject) value;
     }
 }

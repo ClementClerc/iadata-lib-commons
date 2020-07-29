@@ -6,8 +6,6 @@
 package fr.toulouse.iadata.datamodels.exceptions;
 
 import fr.toulouse.iadata.datamodels.models.ngsi.AbstractProperty;
-import fr.toulouse.iadata.datamodels.models.ngsi.Property;
-import java.util.Map;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -16,28 +14,27 @@ import lombok.experimental.Accessors;
  * @author cu32980
  */
 @Data
-@Accessors( prefix = "_")
 public class MalformedPropertyException extends AbstractEntityException  {
     
-    private AbstractProperty _property;
-    private String _strMessage;
+    private AbstractProperty property;
+    private String message;
 
     public MalformedPropertyException(String strMessage, AbstractProperty property, Throwable e )
     {
-        _property = property;
-        _strMessage = strMessage;
+        this.property = property;
+        message = strMessage;
 
     }
     
     public MalformedPropertyException( String strMessage, AbstractProperty property )
     {
-        _property = property;
-        _strMessage = strMessage;
+        this.property = property;
+        message = strMessage;
     }
 
     @Override
     public String getErrorMessage() {
-        return "error message :"+ _strMessage +" . exception occurs caused by Malformed Property : "+_property.getValue().toString(); //To change body of generated methods, choose Tools | Templates.
+        return "error message :"+ message +" . exception occurs caused by Malformed Property : "+ property.getValue().toString(); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

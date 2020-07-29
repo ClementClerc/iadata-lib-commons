@@ -5,25 +5,20 @@
  */
 package fr.toulouse.iadata.datamodels.exceptions;
 
-import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
-import fr.toulouse.iadata.datamodels.models.ngsi.EntityMember;
-import fr.toulouse.iadata.datamodels.models.ngsi.Property;
-import java.util.List;
-
 /**
  *
  * @author 
  */
 public class UnrecognizedEntityMemberException extends AbstractEntityException {
 
-    private final String _strKey;
+    private final String key;
 
     public UnrecognizedEntityMemberException(String strKey) {
-        _strKey = strKey;
+        key = strKey;
     }
     
     public String getErrorMessage(){
-        return "Unrecognized path : " + _strKey;
+        return "Unrecognized path : " + key;
     };
 
 

@@ -5,15 +5,6 @@
  */
 package fr.toulouse.iadata.datamodels.exceptions;
 
-import fr.toulouse.iadata.datamodels.models.ngsi.AbstractProperty;
-import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
-import fr.toulouse.iadata.datamodels.models.ngsi.EntityMember;
-import fr.toulouse.iadata.datamodels.models.ngsi.Property;
-import java.util.List;
-import java.util.stream.Collectors;
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 /**
  *
  * @author cu32980
@@ -21,22 +12,22 @@ import lombok.experimental.Accessors;
 
 public class UnexpectedPropertyValueException extends AbstractEntityException  {
 
-    private final String _strKey;
-    private final String _errorMessage;
+    private final String key;
+    private final String message;
 
     
     public UnexpectedPropertyValueException(String errorMessage,String strKey,Throwable e) {
-        _strKey = strKey;
-        _errorMessage = errorMessage;
+        key = strKey;
+        message = errorMessage;
     }
     
     public UnexpectedPropertyValueException(String errorMessage, String strKey) {
-        _strKey = strKey;
-        _errorMessage = errorMessage;
+        key = strKey;
+        message = errorMessage;
     }
 
     @Override
     public String getErrorMessage() {
-        return "Error in Processor : " + _strKey + " : " + _errorMessage;
+        return "Error in Processor : " + key + " : " + message;
     }
 }
