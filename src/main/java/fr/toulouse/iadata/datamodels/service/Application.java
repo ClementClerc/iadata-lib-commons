@@ -29,14 +29,6 @@ public class Application
     @Field( type= FieldType.Boolean)
     private Boolean isModified;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    
     public String getDataType( )
     {
         if ( dataType == null )
