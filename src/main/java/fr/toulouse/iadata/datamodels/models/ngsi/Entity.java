@@ -37,11 +37,7 @@ import org.springframework.data.annotation.Id;
 @JsonInclude(Include.NON_NULL)
 public class Entity extends NGSIElement
 {
-
     @Id
-    @JsonIgnore
-    private String idTech;
-
     private URI id;
 
     private AbstractProperty type;
@@ -64,9 +60,8 @@ public class Entity extends NGSIElement
     private List<Context> _contexts;
 
     @Builder
-    public Entity( String idTech, String id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
+    public Entity( String id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
     {
-        this.idTech = idTech;
         this.id = new URI( id );
         this.type = type;
         this.location = location;

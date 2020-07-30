@@ -12,7 +12,7 @@ public class Transformer
 {
     @Id
     private String id;
-    String strKey;
+    String key;
     List<String> activatedKeys;
     List<String> customArgs;
 }

@@ -28,7 +28,7 @@ public class SearchMemberTest
 {
     private static ObjectMapper objectMapper;
 //    @Autowired
-//    private static EntityService _entityService;
+//    private static EntityService entityService;
 
     @BeforeClass
     public static void setUp()
