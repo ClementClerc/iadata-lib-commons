@@ -63,6 +63,9 @@ public abstract class EntityMember extends NGSIElement implements Cloneable
     @JsonIgnore
     public void addMember( EntityMember member )
     {
+        if (members == null) {
+            members = new HashMap<>();
+        }
         members.put( member.getName( ), member);
     }
 

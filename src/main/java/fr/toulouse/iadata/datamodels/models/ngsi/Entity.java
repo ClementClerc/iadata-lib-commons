@@ -25,6 +25,7 @@ import fr.toulouse.iadata.datamodels.models.serde.ContextDeserializer;
 import fr.toulouse.iadata.datamodels.models.serde.ContextSerializer;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.util.StringUtils;
 
 /**
  * This class represents NGSI Entity described here
@@ -115,6 +116,35 @@ public class Entity extends NGSIElement
                 members = new HashMap<>();
             }
             members.put( member.getName( ), member );
+            return this;
+        }
+
+        public EntityBuilder addMemberByPath( String strPath, EntityMember member )
+        {
+            if ( members == null )
+            {
+                members = new HashMap<>();
+            }
+
+            //Case 1 : check if member is under the root of the JSON
+            if (StringUtils.countOccurrencesOf( strPath, ".") == 0 )
+            {
+                member.setName( strPath );
+                members.put( member.getName( ), member );
+            }
+            //Member is nested
+            else
+            {
+                String[] tabPath = strPath.split( "[.]");
+                EntityMember parentMember = null;
+                for ( int i =0 ; i< tabPath.length - 1; i++ )
+                {
+                    parentMember = members.get( tabPath[i] );
+                }
+                member.setName( tabPath[ tabPath.length -1 ] );
+                parentMember.addMember( member  );
+
+            }
             return this;
         }
 

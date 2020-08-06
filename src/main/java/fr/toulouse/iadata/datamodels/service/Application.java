@@ -9,6 +9,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Data
 @Document( indexName = "iadata-conf-kafka-streams-applications")
@@ -36,5 +39,10 @@ public class Application
             return "data";
         }
         return dataType;
+    }
+
+    public Map<String,String > getMapOldNewKeys( )
+    {
+        return IntStream.range( 0, oldKeyNames.size() -1 ).boxed().collect( Collectors.toMap( i -> oldKeyNames.get( i ), i -> newKeyNames.get( i ) ));
     }
 }
