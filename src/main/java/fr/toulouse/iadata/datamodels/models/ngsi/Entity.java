@@ -139,7 +139,13 @@ public class Entity extends NGSIElement
                 EntityMember parentMember = null;
                 for ( int i =0 ; i< tabPath.length - 1; i++ )
                 {
-                    parentMember = members.get( tabPath[i] );
+                    parentMember = members.get(tabPath[i]);
+                    if (parentMember == null ){
+                        parentMember = new Property().builder().name(tabPath[i]).build();
+                        members.put( tabPath[i], parentMember );
+
+                    }
+
                 }
                 member.setName( tabPath[ tabPath.length -1 ] );
                 parentMember.addMember( member  );
