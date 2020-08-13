@@ -37,6 +37,25 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>iadata-snapshots</id>
+            <name>Archiva Snapshots</name>
+            <url>http://iadata-mgr.applis.intra:8086/repository/iadata-snapshots</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>iadata-releases</id>
+            <name>Archiva Releases</name>
+            <url>http://iadata-mgr.applis.intra:8086/repository/iadata-releases</url>
+        </repository>
+    </repositories>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
