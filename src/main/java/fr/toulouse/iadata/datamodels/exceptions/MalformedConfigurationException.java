@@ -20,30 +20,48 @@ public class MalformedConfigurationException extends AbstractEntityException  {
     private final String key;
     private final List<String> customArgs;
     private final List<String> activatedKeys;
-    private final String errorMessage;
+    private final String customArgsSize;
+    private final String activatedKeySize;
+    private Throwable exception ;
+
     private String exceptionError;
 
 
 
-    public MalformedConfigurationException(Entity entity, String errorMessage,String strKey, List<String> customArgs,List<String> activatedKeys,Throwable e) {
+    public MalformedConfigurationException(Entity entity, String customArgsSize, String activatedKeySize,String strKey, List<String> customArgs,List<String> activatedKeys,Throwable e) {
         key = strKey;
         this.customArgs = customArgs;
         this.activatedKeys = activatedKeys;
-        this.errorMessage = errorMessage;
         this.exceptionError = e.getMessage();
+        this.customArgsSize = customArgsSize;
+        this.activatedKeySize = activatedKeySize;
+        this.exception = e;
     }
     
-    public MalformedConfigurationException(Entity entity, String errorMessage,String strKey, List<String> customArgs,List<String> activatedKeys) {
+    public MalformedConfigurationException(Entity entity, String customArgsSize, String activatedKeySize,String strKey, List<String> customArgs,List<String> activatedKeys) {
         key = strKey;
         this.customArgs = customArgs;
         this.activatedKeys = activatedKeys;
-        this.errorMessage = errorMessage;
+        this.customArgsSize = customArgsSize;
+        this.activatedKeySize = activatedKeySize;
     }
 
     @Override
     public String getErrorMessage() {
-        return "Error in Processor : " + key + " : " + errorMessage + " : CustomArgs : "
+        if(activatedKeys == null){
+            activatedKeys.add("null");
+        }
+        if(customArgs == null){
+            customArgs.add("null");
+        }
+
+        if ( exception != null ){
+            return "Error in Processor : " + key + "ERROR message : " +exception.getMessage() + ", expected size " + customArgsSize +" for customArgs : CustomArgs : "
+                    + customArgs.stream().collect(Collectors.joining(","))
+                    + ", expected size "+ activatedKeySize+" for activatedKeys : activatedKeys : " + activatedKeys.stream().collect(Collectors.joining(","));
+        }
+        return "Error in Processor : " + key + ", expected size " + customArgsSize +" for customArgs : CustomArgs : "
                 + customArgs.stream().collect(Collectors.joining(","))
-                + " : CustomArgs : " + activatedKeys.stream().collect(Collectors.joining(","));
+                + ", expected size "+ activatedKeySize+" for activatedKeys : activatedKeys : " + activatedKeys.stream().collect(Collectors.joining(","));
     }
 }
