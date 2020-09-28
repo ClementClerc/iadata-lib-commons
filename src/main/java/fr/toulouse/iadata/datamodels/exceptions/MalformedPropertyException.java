@@ -34,7 +34,7 @@ public class MalformedPropertyException extends AbstractEntityException  {
 
     @Override
     public String getErrorMessage() {
-        return "error message :"+ message +" . exception occurs caused by Malformed Property : "+ property.getValue().toString(); //To change body of generated methods, choose Tools | Templates.
+        return "error message : "+ message +" . exception occurs caused by Malformed Property : "+ property.getValue().toString(); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
