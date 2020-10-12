@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -42,21 +43,30 @@ public class Relationship extends EntityMember
         this.observedAt = observedAt;
         this.type = TYPE;
         this.members = members;
-        if (object instanceof ArrayList){
-            try {
-                this.object = (List<URI>) object;
-            } catch (ClassCastException e) {
-                log.error("ClassCastException expected URI List "+ e.getMessage());
-            }
-        }
-        else if( object != null ) {
-        this.object = new URI(object.toString());
-        }
+        this.object = object;
     }
 
     private Object object;
 
+    @JsonCreator
+    public Relationship(@JsonProperty("object") Object object) {
 
+       try
+       {
+           if ( object instanceof String )
+           {
+               this.object = new URI( (String)object );
+           }
+           else
+           {
+               this.object = object;
+           }
+       }
+       catch (URISyntaxException e )
+       {
+
+       }
+    }
     
     @Override
     public void setType() {
@@ -78,12 +88,32 @@ public class Relationship extends EntityMember
         {
             if ( object == null )
             {
-                object = new ArrayList<>();
+                object = new URI( strUri );
             }
-            try {
-                ((List<URI> )object).add( new URI(strUri) );
-            } catch (ClassCastException e) {
-                log.error("ClassCastException expected URI List " + e.getMessage());
+            else if( object instanceof URI )
+            {
+                List<URI> listURI = new ArrayList<>();
+                listURI.add( (URI)object );
+                try
+                {
+                    listURI.add( new URI ( strUri ) );
+                    this.object = listURI;
+                }
+                catch ( URISyntaxException e)
+                {
+                    log.error("object string " + strUri + " is not an URI", e );
+                }
+            }
+            else if ( object instanceof ArrayList )
+            {
+                try
+                {
+                    ((List<URI> )object).add( new URI(strUri) );
+                }
+                catch ( URISyntaxException e)
+                {
+                    log.error("object string " + strUri + " is not an URI", e );
+                }
             }
             return this;
         }

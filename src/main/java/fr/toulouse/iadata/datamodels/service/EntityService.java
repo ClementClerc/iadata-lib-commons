@@ -5,10 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.toulouse.iadata.datamodels.exceptions.AbstractEntityException;
 import fr.toulouse.iadata.datamodels.exceptions.UnrecognizedEntityMemberException;
-import fr.toulouse.iadata.datamodels.models.ngsi.AbstractProperty;
-import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
-import fr.toulouse.iadata.datamodels.models.ngsi.EntityMember;
-import fr.toulouse.iadata.datamodels.models.ngsi.Property;
+import fr.toulouse.iadata.datamodels.models.ngsi.*;
+
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +16,8 @@ import java.util.Map;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.management.relation.Relation;
 
 @Component
 public class EntityService
@@ -98,6 +98,24 @@ public class EntityService
             if ( member instanceof AbstractProperty )
             {
                 return (T) member;
+            }
+        }
+        return null;
+    }
+
+    public Relationship getRelationshipMemberByPath(Entity entity, String strPath ) throws UnrecognizedEntityMemberException
+
+    {
+        EntityMember member = getEntityMemberByPath( entity, strPath );
+        if( member == null)
+        {
+            throw new UnrecognizedEntityMemberException(strPath);
+        }
+        else
+        {
+            if ( member instanceof Relationship )
+            {
+                return (Relationship)member;
             }
         }
         return null;
