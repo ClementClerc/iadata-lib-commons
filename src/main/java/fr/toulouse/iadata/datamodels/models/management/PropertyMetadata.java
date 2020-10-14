@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,4 +18,12 @@ public class PropertyMetadata
     private Boolean categorical;
     private List<String> categories;
     private PropertyDataType propertyDataType;
+    private List<String> linkedPipelines = new ArrayList<>();
+
+    public void addLinkedPipelines( String pipelineName )
+    {
+        linkedPipelines.add( pipelineName );
+    }
+
+
 }

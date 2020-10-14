@@ -148,8 +148,10 @@ public class Entity extends NGSIElement
 
                 }
                 member.setName( tabPath[ tabPath.length -1 ] );
-                parentMember.addMember( member  );
-
+                if ( parentMember != null )
+                {
+                    parentMember.addMember( member  );
+                }
             }
             return this;
         }
