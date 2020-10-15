@@ -18,32 +18,30 @@ import java.util.stream.Collectors;
 public class MalformedConfigurationException extends AbstractEntityException  {
 
     private final String key;
-    private final List<String> customArgs;
-    private final List<String> activatedKeys;
-    private final String errorMessage;
-    private String exceptionError;
+    private Throwable exception ;
+
+    private String errorMessage;
 
 
 
-    public MalformedConfigurationException(Entity entity, String errorMessage,String strKey, List<String> customArgs,List<String> activatedKeys,Throwable e) {
+    public MalformedConfigurationException(Entity entity,String strKey, String errorMessage,Throwable e) {
         key = strKey;
-        this.customArgs = customArgs;
-        this.activatedKeys = activatedKeys;
         this.errorMessage = errorMessage;
-        this.exceptionError = e.getMessage();
+        this.exception = e;
     }
     
-    public MalformedConfigurationException(Entity entity, String errorMessage,String strKey, List<String> customArgs,List<String> activatedKeys) {
+    public MalformedConfigurationException(Entity entity,String strKey, String errorMessage) {
         key = strKey;
-        this.customArgs = customArgs;
-        this.activatedKeys = activatedKeys;
         this.errorMessage = errorMessage;
     }
 
     @Override
     public String getErrorMessage() {
-        return "Error in Processor : " + key + " : " + errorMessage + " : CustomArgs : "
-                + customArgs.stream().collect(Collectors.joining(","))
-                + " : CustomArgs : " + activatedKeys.stream().collect(Collectors.joining(","));
+
+
+        if ( exception != null ){
+            return  "Error in Processor : " + key + " Error : " + errorMessage + "\t|\tNested exception is : " + exception.getMessage();
+        }
+        return "Error in Processor : " + key + " Error : " + errorMessage;
     }
 }
