@@ -1,4 +1,4 @@
-package fr.toulouse.iadata.datamodels.service;
+package fr.toulouse.iadata.datamodels.models.management;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

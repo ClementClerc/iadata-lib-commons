@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +53,7 @@ public abstract class EntityMember extends NGSIElement implements Cloneable
     // NESTED FIELDS
     protected Map< String, EntityMember > members = new HashMap<>();
 
-    protected void setType( ){}
+    protected abstract void setType( );
 
     @JsonAnySetter
     public void setMember( String name, EntityMember value) {
@@ -76,6 +77,10 @@ public abstract class EntityMember extends NGSIElement implements Cloneable
 
     @JsonAnyGetter
     public Map<String,EntityMember> getMembers( ) {
+        if ( members == null )
+        {
+            members = new HashMap<>();
+        }
         return members;
     }
     

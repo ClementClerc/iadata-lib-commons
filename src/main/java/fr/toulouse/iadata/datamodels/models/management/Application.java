@@ -1,9 +1,6 @@
 package fr.toulouse.iadata.datamodels.models.management;
 
-import fr.toulouse.iadata.datamodels.service.Processor;
-import fr.toulouse.iadata.datamodels.service.Transformer;
 import lombok.Data;
-import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;

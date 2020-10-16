@@ -13,9 +13,11 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import javax.management.relation.Relation;
 
@@ -38,10 +40,7 @@ public class EntityService
         {
             EntityMember memberCopied = memberToCopy.clone();
             String strNewPath[] = strAddedKey.split("[.]");
-            String[] parentPath = Arrays.copyOf( strNewPath, strNewPath.length - 1);
-            String strNewName = strNewPath[ strNewPath.length - 1];
-            memberCopied.setName( strNewName );
-            addEntityMember( entity, parentPath, memberCopied );
+            addEntityMember( entity, strAddedKey, memberCopied );
         }
         catch ( CloneNotSupportedException e )
         {
@@ -49,41 +48,72 @@ public class EntityService
         }
 
     }
-    
-//    public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey )
-//    {
-//        String[] strKeyContainingValuePath = strKeyContainingValue.split("[.]");
-//
-//        String[] strAddedKeyPath= strAddedKey.split("[.]");
-//        if ((strKeyContainingValuePath.length == 1) || (!strKeyContainingValuePath[0].equals(strAddedKeyPath[0]))){
-//
-//            entity.getMembers().get( strKeyContainingValuePath[0]);
-//            entity.setMember( strAddedKeyPath[0],entity.getMembers( ).get( strKeyContainingValuePath[0] ));
-//            
-//            strKeyContainingValuePath[0]=strAddedKeyPath[0];
-//        }
-//            EntityMember member = entity.getMembers().get( strKeyContainingValuePath[0] );
-//            EntityMember newMember = entity.getMembers().get( strKeyContainingValuePath[0] );
-//
-//            for (int i=1;i< strKeyContainingValuePath.length; i++){
-//                if ( member.getMembers().containsKey( strKeyContainingValuePath[i]) && !strKeyContainingValuePath[i].equals(strAddedKeyPath[i])){
-//
-//                    
-//                    
-//
-//                    newMember.addMember(member.getMembers( ).get( strKeyContainingValuePath[i] ));
-//                    newMember.setName(strAddedKeyPath[i]);
-//                    newMember.getMember(strAddedKeyPath[i]).setName(strAddedKeyPath[i]);
-//
-//                    newMember=member.getMembers().get(strAddedKeyPath[i]);
-//                }else{
-//                    newMember=member.getMembers().get(strKeyContainingValuePath[i]);
-//                }
-//                member=member.getMembers().get(strKeyContainingValuePath[i]);
-//                
-//            
-//            }
-//    }
+
+    public void replaceEntityMemberName( Entity entity, String oldKeyPath, String newKeyPath ) throws UnrecognizedEntityMemberException
+    {
+        EntityMember oldEntityMember = getEntityMemberByPath(entity, oldKeyPath);
+        removeEntityMember( entity, oldKeyPath );
+        addEntityMember(entity, newKeyPath, oldEntityMember);
+    }
+
+    public void removeEntityMember( Entity entity, String keyToRemove ) throws UnrecognizedEntityMemberException
+    {
+        String [] pathToRemove = keyToRemove.split("[.]");
+        if ( pathToRemove.length == 1 )
+        {
+            entity.getMembers( ).remove( keyToRemove );
+        }
+        else
+        {
+            String name = pathToRemove[ pathToRemove.length - 1];
+            String [] parentPath = Arrays.copyOfRange( pathToRemove, 0, pathToRemove.length - 1);
+            EntityMember parentEntity = getEntityMemberByPath( entity, String.join(".", parentPath));
+            parentEntity.getMembers().remove( name );
+        }
+    }
+
+
+    public EntityMember getEntityMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException {
+        String[] keyPath = strPath.split("[.]");
+        EntityMember memberReturn = null;
+        if ((keyPath.length == 1))
+        {
+            if ( entity.getMembers() != null )
+            {
+                EntityMember entityMember = entity.getMembers().get( keyPath[0]);
+                if ( entityMember != null )
+                {
+                    return entityMember;
+                }
+            }
+            throw new UnrecognizedEntityMemberException( strPath );
+        }
+        else
+        {
+            EntityMember member = entity.getMembers().get( keyPath[0] );
+            for (int i=1;i< keyPath.length; i++){
+                if ( member != null )
+                {
+                    if ( member.getMembers() != null && member.getMembers().containsKey( keyPath[i])){
+
+                        member= member.getMembers().get( keyPath[i] );
+                    }
+                    else
+                    {
+                        member = null;
+                        break;
+                    }
+                }
+
+            }
+            memberReturn = member;
+        }
+        if (memberReturn == null)
+        {
+            throw new UnrecognizedEntityMemberException(strPath);
+        }
+        return memberReturn;
+    }
 
     public <T extends AbstractProperty> T getPropertyMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException
 
@@ -121,23 +151,7 @@ public class EntityService
         return null;
     }
 
-    public EntityMember getMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException
-
-    {
-        EntityMember member = getEntityMemberByPath( entity, strPath );
-        if( member == null)
-        {
-            throw new UnrecognizedEntityMemberException(strPath);
-        }
-        else
-        {
-            return member;
-        }
-    }
-
-
-
-    public List<String> getPaths( Entity entity )
+    public List<String> getPathLeaves(Entity entity )
     {
         Map<String,EntityMember> listMember = entity.getMembers();
         if ( listMember != null )
@@ -157,6 +171,7 @@ public class EntityService
         return null;
     }
 
+
     private List<String> fetchMemberRecursive ( EntityMember entityMember, List<String> paths,String oldKey )
     {
 
@@ -168,7 +183,8 @@ public class EntityService
                 paths.remove(oldKey);
                 if ((member.getMembers() != null) && member.getMembers().size() != 0) {
                     fetchMemberRecursive (member, paths, newkey);
-                }else {
+                }else
+                    {
                     paths.add(newkey);
                 }
             }
@@ -178,125 +194,47 @@ public class EntityService
 
 
 
-    public void replaceEntityMemberName( Entity entity, String oldKey, String newKey ) throws UnrecognizedEntityMemberException, MalformedKeyPathException
+    public void addEntityMember( Entity entity, String path, EntityMember member)
     {
-        String[] oldKeyPath = oldKey.split("[.]");
-        String[] newKeyPath= newKey.split("[.]");
-        EntityMember memberReturn = null;
-
-        if ((oldKeyPath.length == 1) || (!oldKeyPath[0].equals(newKeyPath[0]))){
-            if(entity.getMembers().get( oldKeyPath[0]) == null){
-                return;
-            }
-            entity.getMembers().get( oldKeyPath[0]).setName(newKeyPath[0] );
-            entity.getMembers().put( newKeyPath[0],entity.getMembers( ).get( oldKeyPath[0] ));
-            if (!oldKeyPath[0].equals(newKeyPath[0])) {
-                entity.getMembers().remove(oldKeyPath[0]);
-            }
-            oldKeyPath[0] = newKeyPath[0];
-        
-            if (entity.getMembers().get( oldKeyPath[0] ) != null) {
-                EntityMember member = entity.getMembers().get(oldKeyPath[0]);
-                for (int i = 1; i < oldKeyPath.length; i++) {
-                    if (member.getMembers().containsKey(oldKeyPath[i]) && !oldKeyPath[i].equals(newKeyPath[i])) {
-
-                        member.getMembers().get(oldKeyPath[i]).setName(newKeyPath[i]);
-                        member.getMembers().put(newKeyPath[i], member.getMembers().get(oldKeyPath[i]));
-                        member.getMembers().remove(oldKeyPath[i]);
-                        member = member.getMembers().get(newKeyPath[i]);
-
-                    } else if (member.getMembers().containsKey(oldKeyPath[i])) {
-                        member = member.getMembers().get(newKeyPath[i]);
-                    } else {
-                        member = null;
-//                    throw new UnrecognizedEntityMemberException(oldKey);
-                    }
-                }
-            }
-        }/*else {
-            throw new MalformedKeyPathException("Malformed keyPath for oldKey "+oldKey+" or new keyPath "+newKey);
-        }*/
-    
-        
-}
-        
-
-    public void addEntityMember( Entity entity, String[] parentPath, EntityMember member)
-    {
-        if ( parentPath.length == 0 )
+        //Case 1 : check if member is under the root of the JSON
+        if (StringUtils.countOccurrencesOf( path, ".") == 0 )
         {
-            entity.addMember( member );
+            member.setName( path );
+            entity.getMembers().put( member.getName( ), member );
         }
-        else
-        {
-            EntityMember currentMember = entity.getMember( parentPath[0]);
-            for ( int i = 1; i < parentPath.length ; i++)
+        //Member is nested
+        else {
+            String[] tabPath = path.split("[.]");
+            EntityMember childEntity = null;
+            EntityMember currentParentMember = entity.getMembers().get(tabPath[0]);
+            if ( currentParentMember == null )
             {
-                currentMember = currentMember.getMember( parentPath[i]);
+                entity.addMember( new Property().builder().name(tabPath[0]).build());
+                currentParentMember = entity.getMembers().get(tabPath[0]);
             }
-            currentMember.addMember( member );
-        }
-    }
-
-
-    private Stream<AbstractProperty> flatten ( Entity entity )
-    {
-        return entity.getMembers().values( )
-                .stream()
-                .filter( obj -> obj instanceof AbstractProperty)
-                .map( obj -> (AbstractProperty) obj)
-                .flatMap( this::flatten );
-    }
-
-     private Stream<AbstractProperty> flatten(AbstractProperty property) {
-        if (property.getMembers( ) == null || property.getMembers( ).isEmpty( ) )
-        {
-            return Stream.of(property);
-        }
-
-        return Stream.concat(Stream.of( property ),
-                property.getMembers().values().stream()
-                        .filter( member -> member instanceof AbstractProperty)
-                        .map( obj -> (AbstractProperty) obj)
-                        .flatMap( this::flatten ) );
-    }
-
-    private EntityMember getEntityMemberByPath( Entity entity, String strPath ) throws UnrecognizedEntityMemberException {
-        String[] keyPath = strPath.split("[.]");
-        EntityMember memberReturn = null;
-        if ((keyPath.length == 1))
-        {
-            if ( entity.getMembers()!= null )
+            for (int i = 1; i < tabPath.length; i++)
             {
-                return entity.getMembers().get( keyPath[0]);
-            }
-        }
-        else
-        {
-            EntityMember member = entity.getMembers().get( keyPath[0] );
-            for (int i=1;i< keyPath.length; i++){
-                if ( member != null )
+                if ( i == tabPath.length -1 )
                 {
-                    if ( member.getMembers() != null && member.getMembers().containsKey( keyPath[i])){
-
-                        member= member.getMembers().get( keyPath[i] );
-                    }
-                    else
-                    {
-                        member = null;
-                        break;
-                    }
+                    member.setName( tabPath[ tabPath.length -1 ] );
+                    currentParentMember.addMember( member );
+                    break;
                 }
-
+                else
+                {
+                    childEntity = currentParentMember.getMembers().get(tabPath[i]);
+                    if ( childEntity == null ) {
+                        childEntity = new Property().builder().name(tabPath[i]).build();
+                    }
+                    currentParentMember.addMember(childEntity);
+                    currentParentMember = childEntity;
+                }
             }
-            memberReturn = member;
         }
-        if (memberReturn == null){
-            throw new UnrecognizedEntityMemberException(strPath);
-            
-        }
-        return memberReturn;
     }
+
+
+
 
 
     public String convertEntityToJsonString( Entity entity) throws JsonProcessingException
@@ -323,8 +261,7 @@ public class EntityService
         } catch (UnrecognizedEntityMemberException ex) {
             List<String> errorList = new ArrayList();
             errorList.add(e.getErrorMessage( ) );
-            addEntityMember(entity,new String[]{},Property.builder()
-                                        .name("errors")
+            addEntityMember(entity,"errors",Property.builder()
                                         .value(errorList)
                                         .build());
         }

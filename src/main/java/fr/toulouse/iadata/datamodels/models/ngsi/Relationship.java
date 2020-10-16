@@ -82,8 +82,6 @@ public class Relationship extends EntityMember
 
     public static class RelationshipBuilder
     {
-
-        
         public RelationshipBuilder addURI( String strUri) throws URISyntaxException
         {
             if ( object == null )
