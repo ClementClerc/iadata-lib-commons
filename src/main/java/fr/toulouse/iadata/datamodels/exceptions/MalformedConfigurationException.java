@@ -36,12 +36,8 @@ public class MalformedConfigurationException extends AbstractEntityException  {
     }
 
     @Override
-    public String getErrorMessage() {
-
-
-        if ( exception != null ){
-            return  "Error in Processor : " + key + " Error : " + errorMessage + "\t|\tNested exception is : " + exception.getMessage();
-        }
-        return "Error in Processor : " + key + " Error : " + errorMessage;
+    public String getErrorMessage()
+    {
+        return "Error in processor : " + key + " : " + errorMessage;
     }
 }
