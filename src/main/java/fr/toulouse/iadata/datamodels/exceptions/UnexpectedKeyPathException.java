@@ -14,14 +14,28 @@ public class UnexpectedKeyPathException extends AbstractEntityException  {
 
     private final String processorKey;
     private final String entityKey;
+    private final String errorMessage;
 
     public UnexpectedKeyPathException(String strEntityKey, String strProcessorKey) {
         processorKey = strProcessorKey;
         entityKey = strEntityKey;
+        errorMessage = null;
+    }
+
+    public UnexpectedKeyPathException(String entityKey, String processorKey, String errorMessage ) {
+        this.processorKey = processorKey;
+        this.entityKey = entityKey;
+        this.errorMessage = errorMessage;
     }
 
     @Override
     public String getErrorMessage() {
-        return "Unexpected key path for key : " + entityKey + " in processor " + processorKey;
+        String strErrorMessage =  "Unexpected key path for key : " + entityKey + " in processor " + processorKey;
+
+        if ( errorMessage != null )
+        {
+            strErrorMessage = strErrorMessage + ". " + this.errorMessage;
+        }
+        return  strErrorMessage;
     }
 }
