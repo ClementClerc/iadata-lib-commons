@@ -15,4 +15,5 @@ public class Transformer
     String key;
     List<String> activatedKeys;
     List<String> customArgs;
+    List<String> uuidSourceKeys;
 }
