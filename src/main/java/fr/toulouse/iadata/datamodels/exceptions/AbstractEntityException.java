@@ -11,6 +11,7 @@ import fr.toulouse.iadata.datamodels.models.ngsi.Property;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.cfg.annotations.EntityBinder;
 
 import java.util.List;
 
@@ -20,22 +21,15 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public abstract class AbstractEntityException extends RuntimeException {
-
-        protected Entity entity;
-
-        public AbstractEntityException(Entity entity, String errorMessage, Throwable exception){
+public abstract class AbstractEntityException extends RuntimeException
+{
+        public AbstractEntityException(String errorMessage, Throwable exception)
+        {
                super(errorMessage, exception);
-               this.entity=entity;
         }
 
-        public AbstractEntityException(Entity entity, String errorMessage){
-                super(errorMessage);
-                this.entity=entity;
-        }
-
-        public AbstractEntityException( String errorMessage ){
+        public AbstractEntityException(String errorMessage)
+        {
                 super(errorMessage);
         }
-
 }

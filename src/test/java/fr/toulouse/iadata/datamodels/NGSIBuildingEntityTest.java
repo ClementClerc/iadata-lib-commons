@@ -13,6 +13,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 
 @RunWith( SpringRunner.class )
@@ -68,7 +69,7 @@ public class NGSIBuildingEntityTest
                 "} ";
 
         Entity entity = Entity.builder()
-                .id("urn:ngsi-ld:OffStreetParking:Downtown1")
+                .id( new URI( "urn:ngsi-ld:OffStreetParking:Downtown1"))
                 .addSimpleProperty( "type", "OffStreetParking")
                 .addMember(Property.builder()
                         .name("name")
@@ -151,7 +152,7 @@ public class NGSIBuildingEntityTest
                 "} ";
 
         Entity entity = Entity.builder()
-                .id("urn:ngsi-ld:OffStreetParking:Downtown1")
+                .id( new URI( "urn:ngsi-ld:OffStreetParking:Downtown1"))
                 .addSimpleProperty( "type", "OffStreetParking")
                 .addMember(Property.builder()
                         .name("name")
@@ -233,7 +234,7 @@ public class NGSIBuildingEntityTest
                 "} ";
 
         Entity entity = Entity.builder()
-                .id("urn:ngsi-ld:OffStreetParking:Downtown1")
+                .id(new URI("urn:ngsi-ld:OffStreetParking:Downtown1"))
                 .addSimpleProperty( "type", "OffStreetParking")
                 .addSimpleProperty( "name", "Downtown One")
                 .addMember(Property.builder()

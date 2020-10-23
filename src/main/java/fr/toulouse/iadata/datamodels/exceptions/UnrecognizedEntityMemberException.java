@@ -17,21 +17,21 @@ public class UnrecognizedEntityMemberException extends AbstractEntityException {
 
     private final String key;
 
-    public UnrecognizedEntityMemberException(Entity entity, String strKey, Throwable e, String additionnalInfos) {
-        super( entity ,"Unrecognized path : " + strKey + " | " + additionnalInfos, e);
+    public UnrecognizedEntityMemberException(String strKey, Throwable e, String additionnalInfos) {
+        super("Unrecognized path : " + strKey + " | " + additionnalInfos, e);
         key = strKey;
     }
 
-    public UnrecognizedEntityMemberException(Entity entity, String strKey, Throwable e) {
-        super( entity ,"Unrecognized path : " + strKey, e);
+    public UnrecognizedEntityMemberException( String strKey, Throwable e) {
+        super("Unrecognized path : " + strKey, e);
         key = strKey;
     }
-    public UnrecognizedEntityMemberException(Entity entity, String strKey, String additionnalInfos) {
-        super( entity ,"Unrecognized path : " + strKey + " | " + additionnalInfos);
+    public UnrecognizedEntityMemberException(String strKey, String additionnalInfos) {
+        super( "Unrecognized path : " + strKey + " | " + additionnalInfos);
         key = strKey;
     }
-    public UnrecognizedEntityMemberException(Entity entity, String strKey) {
-        super( entity ,"Unrecognized path : " + strKey);
+    public UnrecognizedEntityMemberException( String strKey) {
+        super( "Unrecognized path : " + strKey);
         key = strKey;
     }
 

@@ -19,29 +19,33 @@ public class UnexpectedPropertyValueException extends AbstractEntityException  {
     private String message;
 
     
-    public UnexpectedPropertyValueException(Entity entity, String strKey, Object propertyValue, Throwable e, String additionnalInfos) {
-        super(entity,"Error in Processor : " + strKey + " | Unexpected Property value : " + propertyValue.toString() + " | " + additionnalInfos,e);
+    public UnexpectedPropertyValueException(String strKey, Object propertyValue, Throwable e, String additionnalInfos) {
+        super("Error in Processor : " + strKey + " | Unexpected Property value : " + propertyValue.toString() + " | " + additionnalInfos,e);
         key = strKey;
     }
 
-    public UnexpectedPropertyValueException(Entity entity, String strKey, Throwable e, String additionnalInfos) {
-        super(entity,"Error in Processor : " + strKey + " | " + additionnalInfos,e);
+    public UnexpectedPropertyValueException( String strKey, Throwable e, String additionnalInfos) {
+        super("Error in Processor : " + strKey + " | " + additionnalInfos,e);
         key = strKey;
     }
     
-    public UnexpectedPropertyValueException(Entity entity,String strKey, Object propertyValue, String additionnalInfos) {
-        super(entity,"Error in Processor : " + strKey + " | Unexpected Property value : " + propertyValue.toString() +" | " + additionnalInfos);
+    public UnexpectedPropertyValueException(String strKey, Object propertyValue, String additionnalInfos) {
+        super("Error in Processor : " + strKey + " | Unexpected Property value : " + propertyValue.toString() +" | " + additionnalInfos);
         key = strKey;
     }
 
-    public UnexpectedPropertyValueException(Entity entity,String strKey, Object propertyValue) {
-        super(entity,"Error in Processor : " + strKey + " | Unexpected Property value : " + propertyValue.toString());
+    public UnexpectedPropertyValueException(String strKey, Object propertyValue) {
+        super("Error in Processor : " + strKey + " | Unexpected Property value : " + propertyValue.toString());
         key = strKey;
     }
 
-    public UnexpectedPropertyValueException( Entity entity, String strKey, String additionnalInfos) {
-        super(entity,"Error in Processor : " + strKey + " | " + additionnalInfos);
+    public UnexpectedPropertyValueException(String strKey, String additionnalInfos) {
+        super("Error in Processor : " + strKey + " | " + additionnalInfos);
         key = strKey;
+    }
+
+    public UnexpectedPropertyValueException(String additionnalInfos) {
+        super( additionnalInfos);
     }
 
 

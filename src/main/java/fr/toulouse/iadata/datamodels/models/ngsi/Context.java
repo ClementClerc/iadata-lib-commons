@@ -33,25 +33,40 @@ public class Context
     }
 
     @Builder
-    public Context( String uri, Map<String, URI> mapFieldsUri) throws URISyntaxException
+    public Context( String uri, Map<String, URI> mapFieldsUri)
     {
         if ( uri != null )
         {
-            this.uri = new URI( uri);
+            try
+            {
+                this.uri = new URI( uri);
+            }
+            catch ( URISyntaxException e )
+            {
+                throw new RuntimeException( e );
+            }
+
+
         }
         this.mapFieldsUri = mapFieldsUri;
     }
 
     public static class ContextBuilder
     {
-
-        public ContextBuilder addFieldURI( String strField, String strUri) throws URISyntaxException
+        public ContextBuilder addFieldURI( String strField, String strUri)
         {
             if ( mapFieldsUri == null )
             {
                 mapFieldsUri = new HashMap<>();
             }
-            mapFieldsUri.put( strField, new URI(strUri) );
+            try
+            {
+                mapFieldsUri.put( strField, new URI(strUri) );
+            }
+            catch ( URISyntaxException e )
+            {
+                throw new RuntimeException( e );
+            }
             return this;
         }
     }

@@ -29,7 +29,7 @@ public class EntityService
         EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue );
         if(memberToCopy == null )
         {
-            throw new UnrecognizedEntityMemberException(entity,strKeyContainingValue);
+            throw new UnrecognizedEntityMemberException(strKeyContainingValue);
         }
 
         try
@@ -82,7 +82,7 @@ public class EntityService
                     return entityMember;
                 }
             }
-            throw new UnrecognizedEntityMemberException(entity, strPath );
+            throw new UnrecognizedEntityMemberException(strPath );
         }
         else
         {
@@ -106,7 +106,7 @@ public class EntityService
         }
         if (memberReturn == null)
         {
-            throw new UnrecognizedEntityMemberException(entity,strPath);
+            throw new UnrecognizedEntityMemberException(strPath);
         }
         return memberReturn;
     }
@@ -117,7 +117,7 @@ public class EntityService
         EntityMember member = getEntityMemberByPath( entity, strPath );
         if( member == null)
         {
-            throw new UnrecognizedEntityMemberException(entity,strPath);
+            throw new UnrecognizedEntityMemberException(strPath);
         }
         else
         {
@@ -135,7 +135,7 @@ public class EntityService
         EntityMember member = getEntityMemberByPath( entity, strPath );
         if( member == null)
         {
-            throw new UnrecognizedEntityMemberException(entity,strPath);
+            throw new UnrecognizedEntityMemberException(strPath);
         }
         else
         {

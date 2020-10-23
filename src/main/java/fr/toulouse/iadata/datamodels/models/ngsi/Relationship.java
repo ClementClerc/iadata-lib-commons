@@ -34,7 +34,7 @@ public class Relationship extends EntityMember
 
 
     @Builder
-    public Relationship( AbstractProperty createdAt, AbstractProperty modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object object) throws URISyntaxException
+    public Relationship( AbstractProperty createdAt, AbstractProperty modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object object)
     {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
@@ -82,11 +82,17 @@ public class Relationship extends EntityMember
 
     public static class RelationshipBuilder
     {
-        public RelationshipBuilder addURI( String strUri) throws URISyntaxException
+        public RelationshipBuilder addURI( String strUri)
         {
             if ( object == null )
             {
-                object = new URI( strUri );
+                try {
+                    object = new URI( strUri );
+                }
+                catch ( URISyntaxException e )
+                {
+                    new RuntimeException( e );
+                }
             }
             else if( object instanceof URI )
             {

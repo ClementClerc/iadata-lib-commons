@@ -37,7 +37,6 @@ import org.springframework.util.StringUtils;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
 @Slf4j
 public class Entity extends NGSIElement
@@ -62,23 +61,18 @@ public class Entity extends NGSIElement
     @JsonProperty( "@context")
     @JsonDeserialize(using = ContextDeserializer.class)
     @JsonSerialize(using = ContextSerializer.class)
-    private List<Context> _contexts;
+    private List<Context> contexts;
 
-    @Builder
-    public Entity( String id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts)
+    @Builder(toBuilder=true)
+    public Entity( URI id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts)
     {
-        try{
-            this.id = new URI( id );
-        }catch(URISyntaxException e){
-            throw new RuntimeException(e);
-        }
-
+        this.id = id;
         this.type = type;
         this.location = location;
         this.observationSpace = observationSpace;
         this.operationSpace = operationSpace;
         this.members = members;
-        _contexts = contexts;
+        this.contexts = contexts;
 
     }
 
