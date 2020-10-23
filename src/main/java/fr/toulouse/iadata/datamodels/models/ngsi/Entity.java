@@ -21,9 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.toulouse.iadata.datamodels.exceptions.AbstractEntityException;
+import fr.toulouse.iadata.datamodels.exceptions.UnrecognizedEntityMemberException;
 import fr.toulouse.iadata.datamodels.models.serde.ContextDeserializer;
 import fr.toulouse.iadata.datamodels.models.serde.ContextSerializer;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.util.StringUtils;
 
@@ -36,6 +39,7 @@ import org.springframework.util.StringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
+@Slf4j
 public class Entity extends NGSIElement
 {
     @Id
@@ -61,9 +65,14 @@ public class Entity extends NGSIElement
     private List<Context> _contexts;
 
     @Builder
-    public Entity( String id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts) throws URISyntaxException
+    public Entity( String id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts)
     {
-        this.id = new URI( id );
+        try{
+            this.id = new URI( id );
+        }catch(URISyntaxException e){
+            throw new RuntimeException(e);
+        }
+
         this.type = type;
         this.location = location;
         this.observationSpace = observationSpace;
@@ -177,6 +186,33 @@ public class Entity extends NGSIElement
             contexts.add( context );
             return this;
         }
+
+        public EntityBuilder addError(AbstractEntityException entityException) {
+            if ( members == null )
+            {
+                members = new HashMap<>();
+            }
+
+            log.error(entityException.getMessage());
+
+            List<String> errorList = new ArrayList();
+            errorList.add(entityException.getMessage()  );
+
+            if (members.get("errors") != null){
+                members.get("errors").addMember(Property.builder()
+                        .value(errorList)
+                        .build());
+            }else{
+                members.put("errors",Property.builder()
+                        .value(errorList)
+                        .build());
+            }
+
+
+
+            return this;
+        }
+
     }
 
     public void setType(AbstractProperty type) {

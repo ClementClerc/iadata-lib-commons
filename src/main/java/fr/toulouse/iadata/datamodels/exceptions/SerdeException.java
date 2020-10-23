@@ -5,23 +5,27 @@
  */
 package fr.toulouse.iadata.datamodels.exceptions;
 
+import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
+import lombok.Data;
+
 /**
  *
  * @author 
  */
+@Data
 public class SerdeException extends AbstractEntityException {
 
-    private final String data;
+    private String data;
 
-    public SerdeException(String strData) {
+    public SerdeException(Entity entity,String strData, String additionnalInfos) {
+        super(entity, "Unable to deserialize data " + strData + " | Reason : "+ additionnalInfos);
         data = strData;
     }
-    
-    public String getErrorMessage(){
-        return "Unable to deserialize data " + data;
-    };
 
-
+    public SerdeException(Entity entity,String strData) {
+        super(entity, "Unable to deserialize data " + strData);
+        data = strData;
+    }
 }
 
 

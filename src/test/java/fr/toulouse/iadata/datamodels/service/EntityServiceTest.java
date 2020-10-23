@@ -142,11 +142,11 @@ public class EntityServiceTest
 
         entityService.entityLogErrorAdder( new SerdeException( "ERROR"), entity);
 
-        JSONAssert.assertEquals( entityService.convertEntityToJsonString( entity ), DataModelsTestConstants.NGSI_PAYLOAD_SPEC_1_ERROR_1, JSONCompareMode.STRICT);
+        JSONAssert.assertEquals(DataModelsTestConstants.NGSI_PAYLOAD_SPEC_1_ERROR_1, entityService.convertEntityToJsonString( entity ) , JSONCompareMode.STRICT);
 
         entityService.entityLogErrorAdder( new SerdeException( "ERROR2"), entity);
 
-        JSONAssert.assertEquals( entityService.convertEntityToJsonString( entity ), DataModelsTestConstants.NGSI_PAYLOAD_SPEC_1_ERROR_2, JSONCompareMode.STRICT);
+        JSONAssert.assertEquals( DataModelsTestConstants.NGSI_PAYLOAD_SPEC_1_ERROR_2, entityService.convertEntityToJsonString( entity ), JSONCompareMode.STRICT);
 
     }
 

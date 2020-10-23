@@ -1,6 +1,5 @@
 package fr.toulouse.iadata.datamodels.service;
 
-import fr.toulouse.iadata.datamodels.exceptions.MalformedKeyPathException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.toulouse.iadata.datamodels.exceptions.AbstractEntityException;
@@ -13,13 +12,10 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-
-import javax.management.relation.Relation;
 
 @Component
 public class EntityService
@@ -33,7 +29,7 @@ public class EntityService
         EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue );
         if(memberToCopy == null )
         {
-            throw new UnrecognizedEntityMemberException(strKeyContainingValue);
+            throw new UnrecognizedEntityMemberException(entity,strKeyContainingValue);
         }
 
         try
@@ -86,7 +82,7 @@ public class EntityService
                     return entityMember;
                 }
             }
-            throw new UnrecognizedEntityMemberException( strPath );
+            throw new UnrecognizedEntityMemberException(entity, strPath );
         }
         else
         {
@@ -110,7 +106,7 @@ public class EntityService
         }
         if (memberReturn == null)
         {
-            throw new UnrecognizedEntityMemberException(strPath);
+            throw new UnrecognizedEntityMemberException(entity,strPath);
         }
         return memberReturn;
     }
@@ -121,7 +117,7 @@ public class EntityService
         EntityMember member = getEntityMemberByPath( entity, strPath );
         if( member == null)
         {
-            throw new UnrecognizedEntityMemberException(strPath);
+            throw new UnrecognizedEntityMemberException(entity,strPath);
         }
         else
         {
@@ -139,7 +135,7 @@ public class EntityService
         EntityMember member = getEntityMemberByPath( entity, strPath );
         if( member == null)
         {
-            throw new UnrecognizedEntityMemberException(strPath);
+            throw new UnrecognizedEntityMemberException(entity,strPath);
         }
         else
         {
@@ -251,16 +247,16 @@ public class EntityService
     
     public void entityLogErrorAdder (AbstractEntityException e, Entity entity) {
         
-        logger.debug(e.getErrorMessage());
+        logger.debug(e.getMessage());
         try {
             Property property = getPropertyMemberByPath(entity,"errors");
             List<String> errors = (List<String>)property.getValue();
-            errors.add( e.getErrorMessage() ) ;
+            errors.add( e.getMessage() ) ;
             property.setValue(errors);
             
         } catch (UnrecognizedEntityMemberException ex) {
             List<String> errorList = new ArrayList();
-            errorList.add(e.getErrorMessage( ) );
+            errorList.add(e.getMessage( ) );
             addEntityMember(entity,"errors",Property.builder()
                                         .value(errorList)
                                         .build());
