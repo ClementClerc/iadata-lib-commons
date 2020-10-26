@@ -16,8 +16,6 @@ import lombok.Data;
 public class UnexpectedPropertyValueException extends AbstractEntityException  {
 
     private String key;
-    private String message;
-
     
     public UnexpectedPropertyValueException(String strKey, Object propertyValue, Throwable e, String additionnalInfos) {
         super("Error in Processor : " + strKey + " | Unexpected Property value : " + propertyValue.toString() + " | " + additionnalInfos,e);

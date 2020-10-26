@@ -218,7 +218,7 @@ public class DataModelsTestConstants
             "   \"errors\":{\n" +
             "      \"type\":\"Property\",\n" +
             "      \"value\":[\n" +
-            "         \"Unable to deserialize data ERROR\"\n" +
+            "         \"ERROR\"\n" +
             "      ]\n" +
             "   }\n" +
             "}";
@@ -269,8 +269,8 @@ public class DataModelsTestConstants
             "   \"errors\":{\n" +
             "      \"type\":\"Property\",\n" +
             "      \"value\":[\n" +
-            "         \"Unable to deserialize data ERROR\",\n" +
-            "         \"Unable to deserialize data ERROR2\"\n" +
+            "         \"ERROR\",\n" +
+            "         \"ERROR\"\n" +
             "      ]\n" +
             "   }\n" +
             "}";

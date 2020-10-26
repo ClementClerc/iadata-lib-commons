@@ -5,6 +5,7 @@
  */
 package fr.toulouse.iadata.datamodels.models.ngsi;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import fr.toulouse.iadata.datamodels.exceptions.MalformedEntityIdException;
 import lombok.*;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
@@ -51,7 +53,21 @@ public class Relationship extends EntityMember
     @JsonCreator
     public Relationship(@JsonProperty("object") Object object)
     {
-       this.object = object;
+        if ( object instanceof String )
+        {
+            try
+            {
+                this.object = new URI( (String)object );
+            }
+            catch ( URISyntaxException e )
+            {
+                throw new MalformedEntityIdException( (String)object, e );
+            }
+        }
+        else
+        {
+            this.object = object;
+        }
     }
     
     @Override

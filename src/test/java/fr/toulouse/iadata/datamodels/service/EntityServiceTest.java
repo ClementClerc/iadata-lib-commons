@@ -1,5 +1,6 @@
 package fr.toulouse.iadata.datamodels.service;
 
+import fr.toulouse.iadata.datamodels.exceptions.AbstractEntityException;
 import fr.toulouse.iadata.datamodels.exceptions.UnexpectedPropertyValueException;
 import fr.toulouse.iadata.datamodels.exceptions.UnrecognizedEntityMemberException;
 import fr.toulouse.iadata.datamodels.models.ngsi.*;
@@ -140,7 +141,14 @@ public class EntityServiceTest
     {
         Entity entity = entityService.convertJsonToEntity( DataModelsConstants.NGSI_PAYLOAD_SPEC_1 );
 
-        entityService.entityLogErrorAdder( new UnexpectedPropertyValueException( "ERROR" ), entity );
+        try
+        {
+            throw new UnexpectedPropertyValueException( "ERROR" );
+        }
+        catch ( AbstractEntityException e )
+        {
+            entityService.entityLogErrorAdder( e, entity);
+        }
 
         JSONAssert.assertEquals(DataModelsTestConstants.NGSI_PAYLOAD_SPEC_1_ERROR_1, entityService.convertEntityToJsonString( entity ) , JSONCompareMode.STRICT);
 
