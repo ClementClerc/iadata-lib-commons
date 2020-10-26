@@ -49,23 +49,9 @@ public class Relationship extends EntityMember
     private Object object;
 
     @JsonCreator
-    public Relationship(@JsonProperty("object") Object object) {
-
-       try
-       {
-           if ( object instanceof String )
-           {
-               this.object = new URI( (String)object );
-           }
-           else
-           {
-               this.object = object;
-           }
-       }
-       catch (URISyntaxException e )
-       {
-
-       }
+    public Relationship(@JsonProperty("object") Object object)
+    {
+       this.object = object;
     }
     
     @Override
@@ -82,42 +68,22 @@ public class Relationship extends EntityMember
 
     public static class RelationshipBuilder
     {
-        public RelationshipBuilder addURI( String strUri)
+        public RelationshipBuilder addURI( URI uri)
         {
             if ( object == null )
             {
-                try {
-                    object = new URI( strUri );
-                }
-                catch ( URISyntaxException e )
-                {
-                    new RuntimeException( e );
-                }
+                object = uri;
             }
             else if( object instanceof URI )
             {
                 List<URI> listURI = new ArrayList<>();
                 listURI.add( (URI)object );
-                try
-                {
-                    listURI.add( new URI ( strUri ) );
-                    this.object = listURI;
-                }
-                catch ( URISyntaxException e)
-                {
-                    log.error("object string " + strUri + " is not an URI", e );
-                }
+                listURI.add( uri );
+                this.object = listURI;
             }
             else if ( object instanceof ArrayList )
             {
-                try
-                {
-                    ((List<URI> )object).add( new URI(strUri) );
-                }
-                catch ( URISyntaxException e)
-                {
-                    log.error("object string " + strUri + " is not an URI", e );
-                }
+                ((List<URI> )object).add( uri );
             }
             return this;
         }

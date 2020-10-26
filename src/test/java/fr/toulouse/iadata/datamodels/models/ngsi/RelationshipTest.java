@@ -71,16 +71,16 @@ public class RelationshipTest
     public void testBuildRelationship( ) throws Exception
     {
         Relationship relationship = Relationship.builder()
-                .addURI( "urn:ngsi-ld:Streetlight:4eb57872-e300-413e-93df-20c067fd0942")
+                .addURI( new URI( "urn:ngsi-ld:Streetlight:4eb57872-e300-413e-93df-20c067fd0942") )
                 .name( "refStreetlight")
                 .build();
 
         JSONAssert.assertEquals( objectMapper.writeValueAsString( relationship ), RELATIONSHIP_1, JSONCompareMode.STRICT );
 
         Relationship relationship2 = Relationship.builder()
-                .addURI( "urn:ngsi-ld:CountingArea:8973f076-6a0b-4236-9764-97175469773f")
-                .addURI( "urn:ngsi-ld:CountingArea:18ed7f1b-a099-487a-baeb-f6be8daee57c")
-                .addURI( "urn:ngsi-ld:CountingArea:8b6ac472-e736-45b6-8b64-a7d443f240cb")
+                .addURI( new URI( "urn:ngsi-ld:CountingArea:8973f076-6a0b-4236-9764-97175469773f"))
+                .addURI( new URI( "urn:ngsi-ld:CountingArea:18ed7f1b-a099-487a-baeb-f6be8daee57c"))
+                .addURI( new URI( "urn:ngsi-ld:CountingArea:8b6ac472-e736-45b6-8b64-a7d443f240cb"))
                 .name( "refStreetlight")
                 .build();
 
