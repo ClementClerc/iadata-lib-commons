@@ -30,6 +30,9 @@ public class Application
     private String dataType;
     @Field( type= FieldType.Boolean)
     private Boolean isModified;
+    private String referent;
+    private String libelle;
+    private String frequence;
 
     public String getDataType( )
     {
