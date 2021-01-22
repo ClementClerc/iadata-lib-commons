@@ -139,14 +139,22 @@ public class Entity extends NGSIElement
             else
             {
                 String[] tabPath = strPath.split( "[.]");
-                EntityMember parentMember = null;
-                for ( int i =0 ; i< tabPath.length - 1; i++ )
-                {
-                    parentMember = members.get(tabPath[i]);
-                    if (parentMember == null ){
-                        parentMember = new Property().builder().name(tabPath[i]).build();
-                        members.put( tabPath[i], parentMember );
+                EntityMember parentMember = members.get(tabPath[0]);
+                if ( parentMember == null){
+                    parentMember = new Property().builder().name(tabPath[0]).build();
+                    members.put(tabPath[0],parentMember);
+                    parentMember = members.get(tabPath[0]);
+                }
 
+                for ( int i = 1 ; i< tabPath.length - 1; i++ )
+                {
+                    boolean bMemberExisting = parentMember.getMembers().containsKey(tabPath[i]);
+                    if ( bMemberExisting == false ){
+                        EntityMember newMember = new Property().builder().name(tabPath[i]).build();
+                        parentMember.addMember(newMember);
+                        parentMember = parentMember.getMember(tabPath[i]);
+                    }else{
+                        parentMember = parentMember.getMember(tabPath[i]);
                     }
 
                 }
