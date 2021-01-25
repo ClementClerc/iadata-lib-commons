@@ -21,6 +21,9 @@ public class Application
     private String name;
     private String direction;
     private String entityType;
+    private String updateDelay;
+    private String libelle;
+    private String referent;
     private List<String> oldKeyNames = new ArrayList<>();
     private List<String> newKeyNames = new ArrayList<>();
     @Field( type= FieldType.Nested )
@@ -30,9 +33,19 @@ public class Application
     private String dataType;
     @Field( type= FieldType.Boolean)
     private Boolean isModified;
-    private String referent;
-    private String libelle;
     private String frequence;
+
+    public String getIndexName( )
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append( "iadata-");
+        stringBuilder.append( dataType );
+        stringBuilder.append( "-");
+        stringBuilder.append( direction );
+        stringBuilder.append( "-");
+        stringBuilder.append( name );
+        return stringBuilder.toString();
+    }
 
     public String getDataType( )
     {
@@ -47,4 +60,6 @@ public class Application
     {
         return IntStream.range( 0, oldKeyNames.size() ).boxed().collect( Collectors.toMap( i -> oldKeyNames.get( i ), i -> newKeyNames.get( i ) ));
     }
+
+
 }
