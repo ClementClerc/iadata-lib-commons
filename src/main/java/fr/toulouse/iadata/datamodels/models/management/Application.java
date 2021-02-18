@@ -47,6 +47,16 @@ public class Application
         return stringBuilder.toString();
     }
 
+    public String getInIndexName( )
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append( "data-");
+        stringBuilder.append( direction );
+        stringBuilder.append( "-");
+        stringBuilder.append( name );
+        return stringBuilder.toString();
+    }
+
     public String getDataType( )
     {
         if ( dataType == null )
