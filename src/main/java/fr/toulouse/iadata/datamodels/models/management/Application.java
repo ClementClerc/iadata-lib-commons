@@ -56,14 +56,15 @@ public class Application
         stringBuilder.append( name );
         return stringBuilder.toString();
     }
-
-    public String getDLQIndexName( )
-    {
+    
+    public String getDLQIndexName() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append( "dlq-iadata-");
-        stringBuilder.append( direction );
-        stringBuilder.append( "-");
-        stringBuilder.append( name );
+        stringBuilder.append("dlq-iadata-");
+        stringBuilder.append(dataType);
+        stringBuilder.append("-");
+        stringBuilder.append(direction);
+        stringBuilder.append("-");
+        stringBuilder.append(name);
         return stringBuilder.toString();
     }
 
