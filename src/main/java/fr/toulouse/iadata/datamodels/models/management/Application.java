@@ -14,8 +14,7 @@ import java.util.stream.IntStream;
 
 @Data
 @Document( indexName = "iadata-conf-kafka-streams-applications")
-public class Application
-{
+public class Application {
     @Id
     private String id;
     private String name;
@@ -24,36 +23,33 @@ public class Application
     private String updateDelay;
     private String libelle;
     private String referent;
-    private List<String> oldKeyNames = new ArrayList<>();
-    private List<String> newKeyNames = new ArrayList<>();
-    @Field( type= FieldType.Nested )
+    private List<Key> listKeys;
+    @Field(type = FieldType.Nested)
     private List<Processor> processors = new ArrayList<>();
-    @Field( type= FieldType.Nested )
+    @Field(type = FieldType.Nested)
     private Transformer transformer;
     private String dataType;
-    @Field( type= FieldType.Boolean)
+    @Field(type = FieldType.Boolean)
     private Boolean isModified;
     private String frequence;
 
-    public String getIndexName( )
-    {
+    public String getIndexName() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append( "iadata-");
-        stringBuilder.append( dataType );
-        stringBuilder.append( "-");
-        stringBuilder.append( direction );
-        stringBuilder.append( "-");
-        stringBuilder.append( name );
+        stringBuilder.append("iadata-");
+        stringBuilder.append(dataType);
+        stringBuilder.append("-");
+        stringBuilder.append(direction);
+        stringBuilder.append("-");
+        stringBuilder.append(name);
         return stringBuilder.toString();
     }
 
-    public String getInIndexName( )
-    {
+    public String getInIndexName() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append( "data-");
-        stringBuilder.append( direction );
-        stringBuilder.append( "-");
-        stringBuilder.append( name );
+        stringBuilder.append("data-");
+        stringBuilder.append(direction);
+        stringBuilder.append("-");
+        stringBuilder.append(name);
         return stringBuilder.toString();
     }
     
@@ -68,19 +64,25 @@ public class Application
         return stringBuilder.toString();
     }
 
-    public String getDataType( )
-    {
-        if ( dataType == null )
-        {
+    public String getDataType() {
+        if (dataType == null) {
             return "data";
         }
         return dataType;
     }
 
-    public Map<String,String > getMapOldNewKeys( )
-    {
-        return IntStream.range( 0, oldKeyNames.size() ).boxed().collect( Collectors.toMap( i -> oldKeyNames.get( i ), i -> newKeyNames.get( i ) ));
+    public List<String> getOldKeyNames() {
+        return listKeys.stream().map(key -> key.getOldKey()).collect(Collectors.toList());
     }
 
+    public List<String> getNewKeyNames() {
+        return listKeys.stream().map(key -> key.getNewKey()).collect(Collectors.toList());
+    }
 
+    public Map<String,String > getMapOldNewKeys( )
+    {
+        List<String> oldKeyNames = getOldKeyNames();
+        List<String> newKeyNames = getNewKeyNames();
+        return IntStream.range(0, listKeys.size()).boxed().collect(Collectors.toMap(i -> oldKeyNames.get(i), i -> newKeyNames.get(i)));
+    }
 }
