@@ -11,9 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
 import fr.toulouse.iadata.datamodels.utils.DataModelsConstants;
 import org.json.JSONException;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,12 +20,11 @@ import org.springframework.test.context.junit4.SpringRunner;
  *
  * @author cu32980
  */
-@RunWith( SpringRunner.class )
 public class NGSISpecsTest
 {
     private static ObjectMapper objectMapper;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp()
     {
         objectMapper = new ObjectMapper();

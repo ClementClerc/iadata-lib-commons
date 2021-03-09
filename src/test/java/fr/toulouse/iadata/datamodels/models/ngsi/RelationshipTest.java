@@ -3,8 +3,7 @@ package fr.toulouse.iadata.datamodels.models.ngsi;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.toulouse.iadata.datamodels.service.EntityService;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import java.net.URI;
 import java.util.ArrayList;
 
 @SpringBootTest( classes = {EntityService.class})
-@RunWith( SpringRunner.class )
 public class RelationshipTest
 {
     @Autowired

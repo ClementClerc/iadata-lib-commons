@@ -6,9 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.toulouse.iadata.datamodels.models.ngsi.*;
 import org.geojson.Point;
 import org.json.JSONException;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,12 +15,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@RunWith( SpringRunner.class )
 public class NGSIBuildingEntityTest
 {
     private static ObjectMapper objectMapper;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp()
     {
         objectMapper = new ObjectMapper();
