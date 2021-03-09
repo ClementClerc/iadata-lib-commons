@@ -14,7 +14,8 @@ import java.util.stream.IntStream;
 
 @Data
 @Document( indexName = "iadata-conf-kafka-streams-applications")
-public class Application {
+public class Application
+{
     @Id
     private String id;
     private String name;
@@ -32,10 +33,22 @@ public class Application {
     @Field(type = FieldType.Boolean)
     private Boolean isModified;
     private String frequence;
+    //private List<Application> listLinkedApplications;
 
     public String getIndexName() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("iadata-");
+        stringBuilder.append(dataType);
+        stringBuilder.append("-");
+        stringBuilder.append(direction);
+        stringBuilder.append("-");
+        stringBuilder.append(name);
+        return stringBuilder.toString();
+    }
+
+    public String getDatasetIndexName() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("iadata-dataset-");
         stringBuilder.append(dataType);
         stringBuilder.append("-");
         stringBuilder.append(direction);
@@ -52,7 +65,7 @@ public class Application {
         stringBuilder.append(name);
         return stringBuilder.toString();
     }
-    
+
     public String getDLQIndexName() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("dlq-iadata-");
