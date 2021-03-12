@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ public class Application
     private String updateDelay;
     private String libelle;
     private String referent;
-    private List<Key> listKeys;
+    private List<Key> listKeys = new ArrayList<>();
     @Field(type = FieldType.Nested)
     private List<Processor> processors = new ArrayList<>();
     @Field(type = FieldType.Nested)
@@ -88,6 +89,7 @@ public class Application
         return listKeys.stream().map(key -> key.getOldKey()).collect(Collectors.toList());
     }
 
+
     public List<String> getNewKeyNames() {
         return listKeys.stream().map(key -> key.getNewKey()).collect(Collectors.toList());
     }
@@ -96,6 +98,9 @@ public class Application
     {
         List<String> oldKeyNames = getOldKeyNames();
         List<String> newKeyNames = getNewKeyNames();
-        return IntStream.range(0, listKeys.size()).boxed().collect(Collectors.toMap(i -> oldKeyNames.get(i), i -> newKeyNames.get(i)));
+        if (getOldKeyNames() != null &&  getNewKeyNames() != null){
+            return IntStream.range(0, listKeys.size()).boxed().collect(Collectors.toMap(i -> oldKeyNames.get(i), i -> newKeyNames.get(i)));
+        }
+        return new HashMap<>();
     }
 }
