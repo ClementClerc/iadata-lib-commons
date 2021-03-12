@@ -50,6 +50,8 @@ public class Entity extends NGSIElement
     // LOCATION FIELDS
     private GeoProperty location;
 
+    private GeoProperty locationBarycenter;
+
     private GeoProperty observationSpace;
     
     private GeoProperty operationSpace;
@@ -64,7 +66,7 @@ public class Entity extends NGSIElement
     private List<Context> contexts;
 
     @Builder(toBuilder=true)
-    public Entity( URI id, AbstractProperty type, GeoProperty location, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts)
+    public Entity( URI id, AbstractProperty type, GeoProperty location, GeoProperty locationBarycenter, GeoProperty observationSpace, GeoProperty operationSpace, Map<String, EntityMember > members, List<Context> contexts)
     {
         this.id = id;
         this.type = type;
