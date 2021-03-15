@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import fr.toulouse.iadata.datamodels.exceptions.AbstractEntityException;
-import fr.toulouse.iadata.datamodels.exceptions.UnrecognizedEntityMemberException;
 import fr.toulouse.iadata.datamodels.models.serde.ContextDeserializer;
 import fr.toulouse.iadata.datamodels.models.serde.ContextSerializer;
 import lombok.*;

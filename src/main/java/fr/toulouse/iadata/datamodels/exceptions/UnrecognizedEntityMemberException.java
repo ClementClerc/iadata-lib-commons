@@ -5,7 +5,6 @@
  */
 package fr.toulouse.iadata.datamodels.exceptions;
 
-import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
 import lombok.Data;
 
 /**

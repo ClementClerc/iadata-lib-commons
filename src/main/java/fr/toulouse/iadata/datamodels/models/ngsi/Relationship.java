@@ -5,21 +5,16 @@
  */
 package fr.toulouse.iadata.datamodels.models.ngsi;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import fr.toulouse.iadata.datamodels.exceptions.MalformedEntityIdException;
 import lombok.*;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 /**

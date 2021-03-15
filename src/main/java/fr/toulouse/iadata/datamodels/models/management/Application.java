@@ -34,7 +34,8 @@ public class Application
     @Field(type = FieldType.Boolean)
     private Boolean isModified;
     private String frequence;
-    //private List<Application> listLinkedApplications;
+    @Field(type = FieldType.Nested)
+    private List<LinkedPipeline> listLinkedPipelines;
 
     public String getIndexName() {
         StringBuilder stringBuilder = new StringBuilder();

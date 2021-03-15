@@ -5,15 +5,8 @@
  */
 package fr.toulouse.iadata.datamodels.exceptions;
 
-import fr.toulouse.iadata.datamodels.models.ngsi.Entity;
-import fr.toulouse.iadata.datamodels.models.ngsi.EntityMember;
-import fr.toulouse.iadata.datamodels.models.ngsi.Property;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.cfg.annotations.EntityBinder;
-
-import java.util.List;
 
 /**
  *
