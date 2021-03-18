@@ -7,8 +7,11 @@ import java.util.Map;
 @Data
 public class LinkedPipeline
 {
+    private String appId;
     private String appName;
     private String groupAppName;
+    private String entityType;
     private LinkedPipelineType linkedPipelineType;
-    private Map<Object,Object> linkedParams;
+    private String baseActivatedKey;
+    private String linkedActivatedKey;
 }

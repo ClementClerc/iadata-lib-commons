@@ -8,6 +8,7 @@ package fr.toulouse.iadata.datamodels.models.ngsi;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +29,10 @@ import lombok.extern.log4j.Log4j2;
 public class Relationship extends EntityMember
 {
     private static final String TYPE = "Relationship";
-
+    private Entity linkedEntity;
 
     @Builder
-    public Relationship( AbstractProperty createdAt, AbstractProperty modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object object)
+    public Relationship( AbstractProperty createdAt, AbstractProperty modifiedAt, String name, URI datasetId, String observedAt, Map<String, EntityMember> members, Object object, Entity linkedEntity )
     {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
@@ -41,6 +42,8 @@ public class Relationship extends EntityMember
         this.type = TYPE;
         this.members = members;
         this.object = object;
+        this.linkedEntity = linkedEntity;
+
     }
 
     private Object object;
@@ -79,6 +82,24 @@ public class Relationship extends EntityMember
 
     public static class RelationshipBuilder
     {
+        public Relationship.RelationshipBuilder addMember(EntityMember member) {
+            if (members == null) {
+                members = new HashMap<>();
+            }
+            if ( member != null )
+            {
+                members.put( member.getName(), member);
+            }
+            return this;
+        }
+
+        public Relationship.RelationshipBuilder linkedEntity(Entity entity)
+        {
+            this.linkedEntity = entity;
+
+            return this;
+        }
+
         public RelationshipBuilder addURI( URI uri)
         {
             if ( object == null )
