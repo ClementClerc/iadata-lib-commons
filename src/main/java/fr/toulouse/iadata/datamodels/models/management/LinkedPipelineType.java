@@ -5,6 +5,7 @@ import java.util.Arrays;
 public enum LinkedPipelineType
 {
     GEO_NEAREST("geo_nearest"),
+    MOST_RECENT("most_recent"),
     EXACT_MATCH("exact_match");
 
     private String key;
