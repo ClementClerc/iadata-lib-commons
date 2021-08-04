@@ -6,8 +6,8 @@ public enum LinkedPipelineType
 {
     GEO_NEAREST("geo_nearest"),
     MOST_RECENT("most_recent"),
-    EXACT_MATCH("exact_match");
-
+    EXACT_MATCH("exact_match"),
+    DATE_MATCHER("date_matcher");
     private String key;
 
     private String getKey( )

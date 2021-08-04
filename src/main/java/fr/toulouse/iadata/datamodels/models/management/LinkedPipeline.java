@@ -2,6 +2,7 @@ package fr.toulouse.iadata.datamodels.models.management;
 
 import lombok.Data;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -14,4 +15,5 @@ public class LinkedPipeline
     private LinkedPipelineType linkedPipelineType;
     private String baseActivatedKey;
     private String linkedActivatedKey;
+    private List<String> customArgs;
 }
