@@ -74,6 +74,7 @@ public class Entity extends NGSIElement
         this.operationSpace = operationSpace;
         this.members = members;
         this.contexts = contexts;
+        this.locationBarycenter=locationBarycenter;
 
     }
 

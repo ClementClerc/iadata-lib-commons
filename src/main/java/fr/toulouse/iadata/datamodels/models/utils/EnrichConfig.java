@@ -23,7 +23,7 @@ public class EnrichConfig
     public String getTopicIn( )
     {
         StringBuilder stringBuilderTopicIn = new StringBuilder();
-        stringBuilderTopicIn.append("enrich-thematique-")
+        stringBuilderTopicIn.append("enrich-")
                 .append( getTopicSuffix() );
         return stringBuilderTopicIn.toString();
     }
@@ -31,7 +31,7 @@ public class EnrichConfig
     public String getTopicOut( )
     {
         StringBuilder stringBuilderTopicIn = new StringBuilder();
-        stringBuilderTopicIn.append("iadata-enrich-thematique-")
+        stringBuilderTopicIn.append("iadata-enrich-")
                 .append( getTopicSuffix() );
         return stringBuilderTopicIn.toString();
     }
@@ -39,7 +39,9 @@ public class EnrichConfig
     private String getTopicSuffix( )
     {
         StringBuilder stringBuilderTopicSuffix = new StringBuilder();
-        stringBuilderTopicSuffix.append( datasetEnrichName );
+        stringBuilderTopicSuffix.append( getThematique( ) )
+            .append( "-")
+            .append( datasetEnrichName );
 
         return stringBuilderTopicSuffix.toString();
     }
@@ -58,5 +60,10 @@ public class EnrichConfig
         stringBuilderTopicIn.append("iadata-group-enrich-")
                 .append( getTopicSuffix() );
         return stringBuilderTopicIn.toString();
+    }
+
+    private String getThematique( )
+    {
+        return "thematique";
     }
 }
