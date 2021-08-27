@@ -13,7 +13,8 @@ public class EnrichConfig
     private String applicationName;
     private Application application;
     private List<LinkedPipeline> linkedPipelines;
-    public String datasetEnrichName;
+    private String datasetEnrichName;
+    private String category;
 
     public void fill( Application application )
     {
@@ -39,7 +40,7 @@ public class EnrichConfig
     private String getTopicSuffix( )
     {
         StringBuilder stringBuilderTopicSuffix = new StringBuilder();
-        stringBuilderTopicSuffix.append( getThematique( ) )
+        stringBuilderTopicSuffix.append( getCategory() )
             .append( "-")
             .append( datasetEnrichName );
 
@@ -62,7 +63,7 @@ public class EnrichConfig
         return stringBuilderTopicIn.toString();
     }
 
-    private String getThematique( )
+    private String getCategory( )
     {
         return "thematique";
     }

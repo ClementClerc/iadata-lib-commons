@@ -8,6 +8,7 @@ import java.util.Map;
 @Data
 public class LinkedPipeline
 {
+    private Application application;
     private String appId;
     private String appName;
     private String groupAppName;
@@ -16,4 +17,27 @@ public class LinkedPipeline
     private String baseActivatedKey;
     private String linkedActivatedKey;
     private List<String> customArgs;
+
+    public String getAppName( )
+    {
+        if ( application != null )
+        { return application.getName( ); }
+        return appName;
+    }
+
+    public String getGroupAppName( )
+    {
+        if ( application != null )
+        { return application.getDirection(); }
+        return groupAppName;
+    }
+
+    public String getEntityType( )
+    {
+        if ( application != null )
+        { return application.getEntityType(); }
+        return entityType;
+    }
+
+
 }
