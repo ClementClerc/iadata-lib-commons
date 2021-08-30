@@ -65,6 +65,6 @@ public class EnrichConfig
 
     private String getCategory( )
     {
-        return "thematique";
+        return category;
     }
 }
