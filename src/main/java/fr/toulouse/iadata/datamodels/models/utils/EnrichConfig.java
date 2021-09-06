@@ -63,7 +63,7 @@ public class EnrichConfig
         return stringBuilderTopicIn.toString();
     }
 
-    private String getCategory( )
+    public String getCategory( )
     {
         return category;
     }
