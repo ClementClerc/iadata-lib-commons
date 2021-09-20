@@ -21,6 +21,7 @@ public class Application
     private String id;
     private String name;
     private String direction;
+    private String category;
     private String entityType;
     private String updateDelay;
     private String libelle;
