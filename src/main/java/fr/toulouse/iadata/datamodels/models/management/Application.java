@@ -24,6 +24,7 @@ public class Application
     private String entityType;
     private String updateDelay;
     private String libelle;
+    private String infos;
     private String referent;
     private List<Key> listKeys = new ArrayList<>();
     @Field(type = FieldType.Nested)
