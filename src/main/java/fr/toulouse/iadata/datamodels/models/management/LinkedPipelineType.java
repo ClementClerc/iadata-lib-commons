@@ -7,6 +7,7 @@ public enum LinkedPipelineType
     GEO_NEAREST("geo_nearest"),
     MOST_RECENT("most_recent"),
     EXACT_MATCH("exact_match"),
+    INSIDE_GEOSHAPE( "inside_geoshape"),
     DATE_MATCHER("date_matcher");
     private String key;
 
