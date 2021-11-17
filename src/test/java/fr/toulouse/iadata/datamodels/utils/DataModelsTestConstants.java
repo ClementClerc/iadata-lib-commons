@@ -215,7 +215,7 @@ public class DataModelsTestConstants
             "      \"type\":\"Property\",\n" +
             "      \"value\":200\n" +
             "   },\n" +
-            "   \"errors\":{\n" +
+            "   \"kafkaStreamErrors\":{\n" +
             "      \"type\":\"Property\",\n" +
             "      \"value\":[\n" +
             "         \"ERROR\"\n" +
@@ -266,7 +266,7 @@ public class DataModelsTestConstants
             "      \"type\":\"Property\",\n" +
             "      \"value\":200\n" +
             "   },\n" +
-            "   \"errors\":{\n" +
+            "   \"kafkaStreamErrors\":{\n" +
             "      \"type\":\"Property\",\n" +
             "      \"value\":[\n" +
             "         \"ERROR\",\n" +
