@@ -24,6 +24,7 @@ import java.util.Map;
 import fr.toulouse.iadata.datamodels.exceptions.AbstractEntityException;
 import fr.toulouse.iadata.datamodels.models.serde.ContextDeserializer;
 import fr.toulouse.iadata.datamodels.models.serde.ContextSerializer;
+import fr.toulouse.iadata.datamodels.utils.EntityConstants;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
@@ -202,12 +203,12 @@ public class Entity extends NGSIElement
             List<String> errorList = new ArrayList();
             errorList.add(entityException.getMessage()  );
 
-            if (members.get("errors") != null){
-                members.get("errors").addMember(Property.builder()
+            if (members.get(EntityConstants.KAFKA_STREAM_ERRORS) != null){
+                members.get(EntityConstants.KAFKA_STREAM_ERRORS).addMember(Property.builder()
                         .value(errorList)
                         .build());
             }else{
-                members.put("errors",Property.builder()
+                members.put(EntityConstants.KAFKA_STREAM_ERRORS,Property.builder()
                         .value(errorList)
                         .build());
             }

@@ -7,6 +7,8 @@ import fr.toulouse.iadata.datamodels.exceptions.UnrecognizedEntityMemberExceptio
 import fr.toulouse.iadata.datamodels.models.ngsi.*;
 
 import java.util.ArrayList;
+
+import fr.toulouse.iadata.datamodels.utils.EntityConstants;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -249,7 +251,7 @@ public class EntityService
         
         logger.debug(e.getMessage());
         try {
-            Property property = getPropertyMemberByPath(entity,"errors");
+            Property property = getPropertyMemberByPath(entity,EntityConstants.KAFKA_STREAM_ERRORS);
             List<String> errors = (List<String>)property.getValue();
             errors.add( e.getMessage() ) ;
             property.setValue(errors);
@@ -257,11 +259,27 @@ public class EntityService
         } catch (UnrecognizedEntityMemberException ex) {
             List<String> errorList = new ArrayList();
             errorList.add(e.getMessage( ) );
-            addEntityMember(entity,"errors",Property.builder()
+            addEntityMember(entity,EntityConstants.KAFKA_STREAM_ERRORS,Property.builder()
                                         .value(errorList)
                                         .build());
         }
         
+    }
+
+    public void entityLogFilteredAdder(AbstractEntityException e, Entity entity){
+        try {
+            Property property = getPropertyMemberByPath(entity, EntityConstants.KAFKA_STREAM_FILTERED);
+            List<String> errors = (List<String>)property.getValue();
+            errors.add( e.getMessage() ) ;
+            property.setValue(errors);
+
+        } catch (UnrecognizedEntityMemberException ex) {
+            List<String> errorList = new ArrayList();
+            errorList.add(e.getMessage( ) );
+            addEntityMember(entity,EntityConstants.KAFKA_STREAM_FILTERED,Property.builder()
+                    .value(errorList)
+                    .build());
+        }
     }
     
     
