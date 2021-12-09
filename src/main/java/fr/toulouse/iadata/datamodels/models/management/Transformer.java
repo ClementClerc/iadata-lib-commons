@@ -14,4 +14,5 @@ public class Transformer
     List<String> activatedKeys;
     List<String> customArgs;
     List<String> uuidSourceKeys;
+    TransformerKeyMode transformerKeyMode = TransformerKeyMode.STRICT;
 }
