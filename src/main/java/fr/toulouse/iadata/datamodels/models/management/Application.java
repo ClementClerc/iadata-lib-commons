@@ -35,6 +35,7 @@ public class Application
     private String dataType;
     @Field(type = FieldType.Boolean)
     private Boolean isModified;
+    private Boolean isSensible = false;
     private String frequence;
     @Field(type = FieldType.Nested)
     private List<LinkedPipeline> listLinkedPipelines = new ArrayList<>();
