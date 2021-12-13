@@ -40,6 +40,14 @@ public class Application
     @Field(type = FieldType.Nested)
     private List<LinkedPipeline> listLinkedPipelines = new ArrayList<>();
 
+    public String getDesignation() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(direction);
+        stringBuilder.append("-");
+        stringBuilder.append(name);
+        return stringBuilder.toString();
+    }
+
     public String getIndexName() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("iadata-");

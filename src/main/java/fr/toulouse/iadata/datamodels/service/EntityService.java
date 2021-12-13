@@ -249,7 +249,7 @@ public class EntityService
     
     public void entityLogErrorAdder (AbstractEntityException e, Entity entity) {
         
-        logger.debug(e.getMessage());
+        logger.error( e.getMessage());
         try {
             Property property = getPropertyMemberByPath(entity,EntityConstants.KAFKA_STREAM_ERRORS);
             List<String> errors = (List<String>)property.getValue();
@@ -266,7 +266,9 @@ public class EntityService
         
     }
 
-    public void entityLogFilteredAdder(AbstractEntityException e, Entity entity){
+    public void entityLogFilteredAdder(AbstractEntityException e, Entity entity)
+    {
+        logger.debug( e.getMessage());
         try {
             Property property = getPropertyMemberByPath(entity, EntityConstants.KAFKA_STREAM_FILTERED);
             List<String> errors = (List<String>)property.getValue();
