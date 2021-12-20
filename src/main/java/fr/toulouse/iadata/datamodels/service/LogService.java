@@ -17,7 +17,14 @@ public class LogService
     {
         try
         {
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString( object );
+            if ( object != null )
+            {
+                return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString( object );
+            }
+            else
+            {
+                return "NULL";
+            }
         }
         catch ( JsonProcessingException e )
         {
