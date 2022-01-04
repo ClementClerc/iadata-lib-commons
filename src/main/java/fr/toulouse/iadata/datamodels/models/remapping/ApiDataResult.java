@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import lombok.Data;
 import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -25,6 +26,7 @@ import java.util.List;
  * @author Théophile Orliac
  */
 @Value
+@Slf4j
 public class ApiDataResult {
 
     int pageNumber;
@@ -46,6 +48,7 @@ public class ApiDataResult {
      * @param sp the SearchPage used for instantiation
      */
     public ApiDataResult(SearchPage sp) {
+        log.debug("[APIDATARESULT] build ApiDataResult object" );
         pageNumber = sp.getNumber();
         size = sp.getSize();
         totalPages = sp.getTotalPages();
@@ -66,6 +69,7 @@ public class ApiDataResult {
      * @return the JsonNode of the ApiDataResult
      */
     public static JsonNode fromSearchPage(SearchPage sp, boolean removeFragment, boolean removeEmptyAggregations) {
+        log.debug("[APIDATARESULT] transform searchPage" );
         ApiDataResult res = new ApiDataResult(sp);
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -88,6 +92,7 @@ public class ApiDataResult {
 /**
  * Custom serializer for aggregations
  */
+@Slf4j
 class AggregationsSerializer extends StdSerializer<AggregationsShell> {
     public AggregationsSerializer() {
         this(null);
@@ -99,8 +104,13 @@ class AggregationsSerializer extends StdSerializer<AggregationsShell> {
 
     @Override
     public void serialize(AggregationsShell agrShell, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        log.debug("[APIDATARESULT] Serialize aggregation" );
+
         Aggregations agrs = agrShell.getAggregations();
-        if(agrs==null) return ;
+        if(agrs==null) {
+            log.debug("[APIDATARESULT] aggregation is null" );
+            return;
+        }
         jsonGenerator.writeStartObject();
         for (Aggregation agr : agrs) {
             jsonGenerator.writeObjectFieldStart(agr.getName());

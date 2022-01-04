@@ -9,6 +9,8 @@ import fr.toulouse.iadata.datamodels.models.ngsi.*;
 import java.util.ArrayList;
 
 import fr.toulouse.iadata.datamodels.utils.EntityConstants;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -20,17 +22,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 @Component
+@Slf4j
 public class EntityService
 {
     private static final Logger logger = LoggerFactory.getLogger(EntityService.class);
 
     private ObjectMapper objectMapper = new ObjectMapper( );
 
+    @Autowired
+    private LogService logService;
+
     public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey ) throws UnrecognizedEntityMemberException
     {
+        log.debug("[ENTITYSERVICE] copy entity member");
         EntityMember memberToCopy = getEntityMemberByPath( entity, strKeyContainingValue );
         if(memberToCopy == null )
         {
+            String message = "member "+strKeyContainingValue+" not found in Entity";
+            log.debug("[ENTITYSERVICE] {}",message);
             throw new UnrecognizedEntityMemberException(strKeyContainingValue);
         }
 
@@ -42,7 +51,7 @@ public class EntityService
         }
         catch ( CloneNotSupportedException e )
         {
-
+            log.error("[ENTITYSERVICE] unable to clone member {}",memberToCopy.getName());
         }
 
     }
@@ -56,6 +65,8 @@ public class EntityService
 
     public void removeEntityMember( Entity entity, String keyToRemove ) throws UnrecognizedEntityMemberException
     {
+        String message = "remove EntityMember with key : "+keyToRemove;
+        log.debug("[ENTITYSERVICE] {}",message);
         String [] pathToRemove = keyToRemove.split("[.]");
         if ( pathToRemove.length == 1 )
         {
@@ -81,9 +92,15 @@ public class EntityService
                 EntityMember entityMember = entity.getMembers().get( keyPath[0]);
                 if ( entityMember != null )
                 {
+                    String message = "Found EntityMember for key : "+keyPath[0];
+                    log.debug("[ENTITYSERVICE] {}",message);
+                    log.trace("[ENTITYSERVICE] {}",logService.getPrettyPrint(entity));
                     return entityMember;
                 }
             }
+            String message = "key : "+keyPath[0]+" not found in entity";
+            log.debug("[ENTITYMEMBER] {}",message);
+            log.trace("[ENTITYMEMBER] {}",logService.getPrettyPrint(entity));
             throw new UnrecognizedEntityMemberException(strPath );
         }
         else
@@ -93,7 +110,8 @@ public class EntityService
                 if ( member != null )
                 {
                     if ( member.getMembers() != null && member.getMembers().containsKey( keyPath[i])){
-
+                        String message = "Found EntityMember for key : "+keyPath[i];
+                        log.debug("[ENTITYMEMBER] {}",message);
                         member= member.getMembers().get( keyPath[i] );
                     }
                     else
@@ -108,6 +126,9 @@ public class EntityService
         }
         if (memberReturn == null)
         {
+            String message = "key : "+strPath+" not found in entity";
+            log.debug("[ENTITYSERVICE] {}",message);
+            log.trace("[ENTITYSERVICE] {}",logService.getPrettyPrint(entity));
             throw new UnrecognizedEntityMemberException(strPath);
         }
         return memberReturn;
@@ -132,7 +153,6 @@ public class EntityService
     }
 
     public Relationship getRelationshipMemberByPath(Entity entity, String strPath ) throws UnrecognizedEntityMemberException
-
     {
         EntityMember member = getEntityMemberByPath( entity, strPath );
         if( member == null)
@@ -194,6 +214,7 @@ public class EntityService
 
     public void addEntityMember( Entity entity, String path, EntityMember member)
     {
+        log.debug("[ENTITYSERVICE] add member to entity with key : {}", path );
         //Case 1 : check if member is under the root of the JSON
         if (StringUtils.countOccurrencesOf( path, ".") == 0 )
         {
@@ -237,11 +258,15 @@ public class EntityService
 
     public String convertEntityToJsonString( Entity entity) throws JsonProcessingException
     {
+        log.debug("[ENTITYSERVICE] convert entity to json" );
+
         return objectMapper.writeValueAsString(entity);
     }
 
     public Entity convertJsonToEntity( String strData ) throws JsonProcessingException
     {
+        log.debug("[ENTITYSERVICE] convert json to entity" );
+
         return objectMapper
                 .readerFor(Entity.class)
                 .readValue(strData);

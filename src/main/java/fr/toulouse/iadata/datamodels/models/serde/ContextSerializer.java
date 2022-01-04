@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import fr.toulouse.iadata.datamodels.models.ngsi.Context;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,11 +21,14 @@ import static net.bytebuddy.implementation.FixedValue.value;
  * Serializer for NGSI Context obj
  * This serializer handles multiples types of contexts; array of simple strings, array of JSON objects, simple string and JSON object.
  */
+@Slf4j
 public class ContextSerializer extends JsonSerializer<List<Context> >
 {
     @Override
     public void serialize(List<Context> listContext, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException
     {
+        log.debug("[CONTEXT] serialize context from entity");
+
         if ( listContext.size() > 1 )
         {
             jsonGenerator.writeStartArray();

@@ -12,6 +12,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.toulouse.iadata.datamodels.models.ngsi.Context;
+import fr.toulouse.iadata.datamodels.service.LogService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URI;
@@ -26,12 +29,17 @@ import java.util.Map;
  * Deserializer for NGSI Context obj
  * This deserializer handles multiples types of contexts; array of simple strings, array of JSON objects, simple string and JSON object.
  */
+@Slf4j
 public class ContextDeserializer extends JsonDeserializer<List<Context> >
 {
+
+    @Autowired
+    private LogService logService;
 
     @Override
     public List<Context> deserialize(JsonParser jsonParser, DeserializationContext dc) throws IOException, JsonProcessingException
     {
+        log.debug("[CONTEXT] deserialize context from entity");
         
         List<Context> listContext = new ArrayList<>();
         JsonNode node = jsonParser.getCodec().readTree( jsonParser );
@@ -50,6 +58,10 @@ public class ContextDeserializer extends JsonDeserializer<List<Context> >
                     }
                     catch ( URISyntaxException e )
                     {
+
+                        String message = "Object in Context is not an URI: "+jsonNode.textValue();
+                        log.debug("[ENTITYMEMBER] {}",message);
+                        log.trace("[ENTITYMEMBER] {}",logService.getPrettyPrint(e.getStackTrace()));
                     }
 
 
@@ -67,6 +79,9 @@ public class ContextDeserializer extends JsonDeserializer<List<Context> >
                         }
                         catch ( URISyntaxException e )
                         {
+                            String message = "Objects in Context are not all URI: "+jsonNode.textValue();
+                            log.debug("[ENTITYMEMBER] {}",message);
+                            log.trace("[ENTITYMEMBER] {}",logService.getPrettyPrint(e.getStackTrace()));
                         }
                     }
                     context.setMapFieldsUri( mapFieldsContext );
