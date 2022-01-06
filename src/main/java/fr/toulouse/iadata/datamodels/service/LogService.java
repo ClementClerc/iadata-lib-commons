@@ -28,8 +28,13 @@ public class LogService
         }
         catch ( JsonProcessingException e )
         {
-            log.error( "Unable to write object value as string", e);
+            log.error( "[LOG] Unable to write object value as string", e);
             return "[error while writing object as string]";
         }
+    }
+
+    public void setObjectMapper( ObjectMapper objectMapper )
+    {
+        this.objectMapper = objectMapper;
     }
 }

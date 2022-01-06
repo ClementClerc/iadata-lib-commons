@@ -57,7 +57,7 @@ public class ApiDataResult {
         List<SearchHit> tempList = sp.getSearchHits().getSearchHits();
         searchHits.addAll(tempList);
         aggregations = new AggregationsShell();
-        aggregations.setAggregations(sp.getSearchHits().getAggregations());
+        aggregations.setAggregations( (Aggregations)sp.getSearchHits().getAggregations().aggregations());
     }
 
     /**
