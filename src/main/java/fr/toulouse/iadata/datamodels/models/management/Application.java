@@ -39,6 +39,7 @@ public class Application
     private String frequence;
     @Field(type = FieldType.Nested)
     private List<LinkedPipeline> listLinkedPipelines = new ArrayList<>();
+    private List<String> extraOutputPipelines = new ArrayList<>();
 
     public String getDesignation() {
         StringBuilder stringBuilder = new StringBuilder();
