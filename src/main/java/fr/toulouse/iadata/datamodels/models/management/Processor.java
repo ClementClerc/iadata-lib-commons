@@ -14,5 +14,6 @@ public class Processor
     String key;
     List<String> customArgs = new ArrayList<>() ;
     List<String> activatedKeys = new ArrayList<>();
+    List<String> additionalCustomArgs = new ArrayList<>();
     int order;
 }
