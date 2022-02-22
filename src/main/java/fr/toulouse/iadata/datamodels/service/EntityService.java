@@ -3,9 +3,11 @@ package fr.toulouse.iadata.datamodels.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.toulouse.iadata.datamodels.exceptions.AbstractEntityException;
+import fr.toulouse.iadata.datamodels.exceptions.MalformedEntityIdException;
 import fr.toulouse.iadata.datamodels.exceptions.UnrecognizedEntityMemberException;
 import fr.toulouse.iadata.datamodels.models.ngsi.*;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import fr.toulouse.iadata.datamodels.utils.EntityConstants;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +33,18 @@ public class EntityService
 {
     @Autowired( required = false )
     private ObjectMapper objectMapper = new ObjectMapper();
-    
+
+
+    public void addEntityId(Entity entity, String idValue) throws MalformedEntityIdException{
+        try {
+            entity.setId(idValue);
+        } catch (URISyntaxException e) {
+            String errorMessage = String.format("[ENTITYSERVICE] unable set entity Id with value {} is not a valid URI",idValue);
+            log.error(errorMessage);
+            throw new MalformedEntityIdException(errorMessage,e);
+        }
+    }
+
     public void copyEntityMemberFromExisting( Entity entity, String strKeyContainingValue, String strAddedKey ) throws UnrecognizedEntityMemberException
     {
         log.debug("[ENTITYSERVICE] copy entity member from key {} to {}", strKeyContainingValue, strAddedKey);

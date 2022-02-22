@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LogService
 {
-    @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     public String getPrettyPrint( Object object )
     {
