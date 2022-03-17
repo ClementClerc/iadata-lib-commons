@@ -89,6 +89,19 @@ public abstract class EntityMember extends NGSIElement implements Cloneable
         return name;
     }
 
+    @JsonIgnore
+    public PropertyValue getRawDataFieldName( )
+    {
+        EntityMember originalFieldName = members.get( "rawDataFieldName");
+        if ( originalFieldName!= null ){
+            return (PropertyValue)originalFieldName;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
 
     @Override
     public EntityMember clone( ) throws CloneNotSupportedException

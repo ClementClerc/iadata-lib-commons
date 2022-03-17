@@ -8,24 +8,15 @@ import fr.toulouse.iadata.datamodels.exceptions.UnrecognizedEntityMemberExceptio
 import fr.toulouse.iadata.datamodels.models.ngsi.*;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.util.*;
 
+import fr.toulouse.iadata.datamodels.models.utils.EntityFormat;
 import fr.toulouse.iadata.datamodels.utils.EntityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-
-import javax.annotation.PostConstruct;
 
 @Component
 @Slf4j
@@ -296,10 +287,6 @@ public class EntityService
         }
     }
 
-
-
-
-
     public String convertEntityToJsonString( Entity entity) throws JsonProcessingException
     {
         log.debug("[ENTITYSERVICE] convert entity to json" );
@@ -389,5 +376,93 @@ public class EntityService
             log.error( "[LOG] Unable to write object value as string", e);
             return "[error while writing object as string]";
         }
+    }
+
+    public Entity convert(Entity entity, EntityFormat entityFormat )
+    {
+        switch ( entityFormat )
+        {
+            case NGSI: break;
+            case NGSI_SIMPLE:
+                Map<String, Object > mapProperties = new HashMap<>();
+                for (EntityMember entityMember : entity.getMembers().values() )
+                {
+                    if ( entityMember instanceof Property )
+                    {
+                        String key = entityMember.getName();
+                        Object value = ((Property) entityMember).getValue();
+                        if ( value instanceof String || value instanceof Integer || value instanceof Double || value instanceof Float )
+                        {
+                            mapProperties.put( key, value);
+                        }
+
+
+                    }
+                }
+
+                for ( String key : mapProperties.keySet() )
+                {
+                    removeEntityMember( entity, key );
+                }
+
+                for ( Map.Entry<String,Object> entry : mapProperties.entrySet() )
+                {
+                    addEntityMember( entity, entry.getKey(), PropertyValue.builder()
+                            .name( entry.getKey())
+                            .value( entry.getValue() )
+                            .build() );
+                }
+                break;
+            case NGSI_SIMPLE_RDFN:
+                List<String> listCfKeysToDelete = new ArrayList<>();
+                Map<String, Object > mapNewProperties = new HashMap<>();
+                for (EntityMember entityMember : entity.getMembers().values() )
+                {
+                    if ( entityMember instanceof Property )
+                    {
+                        String key = entityMember.getName();
+                        Object value = ((Property) entityMember).getValue();
+                        PropertyValue originFieldNameEntityMember = entityMember.getRawDataFieldName();
+                        if ( value instanceof String || value instanceof Integer || value instanceof Double || value instanceof Float )
+                        {
+                            listCfKeysToDelete.add( key );
+                            boolean hasOriginalFieldName = false;
+                            if ( originFieldNameEntityMember != null )
+                            {
+                                if ( originFieldNameEntityMember.getValue() != null && originFieldNameEntityMember.getValue() instanceof String )
+                                {
+                                    mapNewProperties.put( (String)originFieldNameEntityMember.getValue(), value);
+                                    hasOriginalFieldName = true;
+                                }
+                            }
+                            if ( !hasOriginalFieldName)
+                            {
+                                mapNewProperties.put( key, value);
+                            }
+
+                        }
+
+
+                    }
+                }
+
+                for ( String key : listCfKeysToDelete )
+                {
+                    removeEntityMember( entity, key );
+                }
+
+                for ( Map.Entry<String,Object> entry : mapNewProperties.entrySet() )
+                {
+                    addEntityMember( entity, entry.getKey(), PropertyValue.builder()
+                            .name( entry.getKey())
+                            .value( entry.getValue() )
+                            .build() );
+                }
+                break;
+
+        }
+
+
+        return entity;
     }
 }
