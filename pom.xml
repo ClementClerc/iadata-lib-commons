@@ -7,6 +7,10 @@
     <packaging>jar</packaging>
     <name>iadata-lib-commons</name>
     <description>IADATA project for data models</description>
+    <scm>
+        <developerConnection>scm:git:https://github.com/ToulouseMetropole/iadata-lib-commons.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 	<parent>
         <groupId>fr.toulouse.iadata</groupId>
         <artifactId>iadata-parent</artifactId>
