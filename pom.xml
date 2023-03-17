@@ -5,7 +5,7 @@
     <artifactId>iadata-lib-commons</artifactId>
     <packaging>jar</packaging>
     <name>iadata-lib-commons</name>
-	<version>1.1.9-SNAPSHOT</version>
+	<version>1.1.10-SNAPSHOT</version>
     <description>IADATA project for data models</description>
     <scm>
         <developerConnection>scm:git:https://github.com/ClementClerc/iadata-lib-commons.git</developerConnection>
